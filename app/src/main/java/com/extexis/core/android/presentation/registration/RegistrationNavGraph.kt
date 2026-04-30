@@ -7,6 +7,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.extexis.core.android.navigation.AppNavState
+import com.extexis.core.android.presentation.otp.OtpPurpose
+import com.extexis.core.android.presentation.otp.OtpRoute
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.serialization.Serializable
 
@@ -26,7 +28,9 @@ fun NavGraphBuilder.registrationNavGraph(appNavState: AppNavState) {
                 when (event) {
                     RegistrationNavigationEvent.Back -> navController.navigateUp()
                     RegistrationNavigationEvent.ToLogin -> navController.navigateUp()
-                    RegistrationNavigationEvent.ToHome -> { /* navigate to home */ }
+                    is RegistrationNavigationEvent.ToOtpVerification -> {
+                        navController.navigate(OtpRoute(email = event.email, purpose = OtpPurpose.Registration.name))
+                    }
                 }
             }
         }

@@ -6,23 +6,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import com.extexis.core.android.presentation.forgotpassword.ForgotPasswordRoute
 import com.extexis.core.android.presentation.forgotpassword.forgotPasswordNavGraph
+import com.extexis.core.android.presentation.login.LoginRoute
 import com.extexis.core.android.presentation.login.loginNavGraph
 import com.extexis.core.android.presentation.otp.otpNavGraph
 import com.extexis.core.android.presentation.registration.registrationNavGraph
 import com.extexis.core.android.presentation.splash.OnBoardingState
 import com.extexis.core.android.presentation.splash.SplashScreenRoute
 import com.extexis.core.android.presentation.splash.splashScreenNavGraph
-
-object Routes {
-    const val SPLASH = "splash"
-    const val ONBOARDING = "onboarding"
-    const val GOAL_SETUP = "goalSetup"
-    const val DASHBOARD = "dashboard"
-    const val CHALLENGE = "challenge"
-    const val MILESTONE = "milestone"
-    const val SHARE_CARD = "shareCard"
-    const val GOALS = "goals"
-}
 
 @Composable
 fun AppNavigation(
@@ -31,10 +21,10 @@ fun AppNavigation(
     modifier: Modifier = Modifier,
 ) {
     val startDestination = when(onboardingState) {
-        OnBoardingState.OnBoarded -> Routes.DASHBOARD
+        OnBoardingState.OnBoarded -> LoginRoute
         OnBoardingState.FirstLaunch -> SplashScreenRoute
     }
-//
+
 //    LaunchedEffect(authState) {
 //        when(authState) {
 //            AuthState.Authenticated -> {

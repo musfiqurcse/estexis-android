@@ -1,7 +1,7 @@
 package com.extexis.core.android.presentation.registration
 
 data class RegistrationState(
-    val email: String = "",
+    val email: String = "info.anikdey003@gmail.com",
     val password: String = "",
     val confirmPassword: String = "",
     val firstName: String = "",

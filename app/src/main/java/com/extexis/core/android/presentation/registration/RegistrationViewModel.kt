@@ -67,23 +67,23 @@ class RegistrationViewModel : ViewModel() {
         val lastNameError = if (current.lastName.isBlank()) "Last name is required" else null
         val phoneNumberError = if (current.phoneNumber.isBlank()) "Phone number is required" else null
 
-        if (listOf(emailError, passwordError, confirmPasswordError, firstNameError, lastNameError, phoneNumberError).any { it != null }) {
-            _state.update {
-                it.copy(
-                    emailError = emailError,
-                    passwordError = passwordError,
-                    confirmPasswordError = confirmPasswordError,
-                    firstNameError = firstNameError,
-                    lastNameError = lastNameError,
-                    phoneNumberError = phoneNumberError,
-                )
-            }
-            return
-        }
+//        if (listOf(emailError, passwordError, confirmPasswordError, firstNameError, lastNameError, phoneNumberError).any { it != null }) {
+//            _state.update {
+//                it.copy(
+//                    emailError = emailError,
+//                    passwordError = passwordError,
+//                    confirmPasswordError = confirmPasswordError,
+//                    firstNameError = firstNameError,
+//                    lastNameError = lastNameError,
+//                    phoneNumberError = phoneNumberError,
+//                )
+//            }
+//            return
+//        }
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            _navigationEvent.send(RegistrationNavigationEvent.ToHome)
+            _navigationEvent.send(RegistrationNavigationEvent.ToOtpVerification(email = current.email))
             _state.update { it.copy(isLoading = false) }
         }
     }

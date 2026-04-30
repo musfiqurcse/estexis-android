@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -148,7 +149,7 @@ fun AppTextField(
                 unfocusedContainerColor = colors.background,
                 disabledContainerColor = colors.surface,
                 focusedBorderColor = colors.secondary,
-                unfocusedBorderColor = colors.border,
+                unfocusedBorderColor = Color.Transparent,
                 errorBorderColor = colors.error,
                 focusedTextColor = colors.onBackground,
                 unfocusedTextColor = colors.onBackground,

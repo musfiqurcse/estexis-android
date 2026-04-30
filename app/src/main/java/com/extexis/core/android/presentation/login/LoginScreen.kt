@@ -21,7 +21,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.extexis.core.android.R
 import com.extexis.core.android.gds.ActionButton
 import com.extexis.core.android.gds.AppButton
 import com.extexis.core.android.gds.AppIconButton
@@ -52,13 +54,13 @@ fun LoginScreen(
         AppIconButton(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
             onClick = { event(LoginUiEvent.BackClicked) },
-            contentDescription = "Back",
+            contentDescription = stringResource(R.string.back),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x6))
 
         Text(
-            text = "Log in",
+            text = stringResource(R.string.login_screen_title_log_in),
             style = AppTheme.typography.Hero,
             color = colors.onBackground,
         )
@@ -66,7 +68,7 @@ fun LoginScreen(
         Spacer(Modifier.height(dimensions.spaces.x2))
 
         Text(
-            text = "Enter your email and password to securely access your account and manage your service.",
+            text = stringResource(R.string.login_screen_message),
             style = AppTextStyles.Body,
             color = colors.tertiary,
         )
@@ -76,7 +78,7 @@ fun LoginScreen(
         AppTextField(
             value = state.email,
             onValueChange = { event(LoginUiEvent.EmailChanged(it)) },
-            placeholder = "Email address",
+            placeholder = stringResource(R.string.login_screen_placeholder_email_address),
             leadingIcon = Icons.Default.Email,
             isError = state.emailError != null,
             errorMessage = state.emailError,
@@ -87,7 +89,7 @@ fun LoginScreen(
         AppTextField(
             value = state.password,
             onValueChange = { event(LoginUiEvent.PasswordChanged(it)) },
-            placeholder = "Password",
+            placeholder = stringResource(R.string.login_screen_placeholder_password),
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.passwordError != null,
@@ -101,7 +103,7 @@ fun LoginScreen(
             horizontalArrangement = Arrangement.End,
         ) {
             ActionButton(
-                text = "Forgot Password?",
+                text = stringResource(R.string.login_screen_cta_forgot_password),
                 onClick = { event(LoginUiEvent.ForgotPasswordClicked) },
             )
         }
@@ -109,7 +111,7 @@ fun LoginScreen(
         Spacer(Modifier.height(dimensions.spaces.x8))
 
         AppButton(
-            text = "Login",
+            text = stringResource(R.string.login_screen_cta_login),
             onClick = { event(LoginUiEvent.LoginClicked) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !state.isLoading,
@@ -123,12 +125,12 @@ fun LoginScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Don't have an account? ",
+                text = stringResource(R.string.login_screen_don_t_have_an_account),
                 style = AppTextStyles.Body,
                 color = colors.tertiary,
             )
             ActionButton(
-                text = "Sign up now",
+                text = stringResource(R.string.login_screen_cta_sign_up_now),
                 onClick = { event(LoginUiEvent.SignUpClicked) },
                 style = AppTextStyles.BodyMedium,
             )

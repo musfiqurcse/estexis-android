@@ -17,5 +17,5 @@ sealed class RegistrationUiEvent {
 sealed class RegistrationNavigationEvent {
     object Back : RegistrationNavigationEvent()
     object ToLogin : RegistrationNavigationEvent()
-    object ToHome : RegistrationNavigationEvent()
+    data class ToOtpVerification(val email: String) : RegistrationNavigationEvent()
 }
