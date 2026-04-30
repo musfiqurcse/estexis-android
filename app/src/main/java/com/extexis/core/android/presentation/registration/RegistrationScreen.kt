@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -25,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.extexis.core.android.R
 import com.extexis.core.android.gds.ActionButton
 import com.extexis.core.android.gds.AppButton
 import com.extexis.core.android.gds.AppIconButton
@@ -46,11 +47,11 @@ fun RegistrationScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colors.surface)
+            .background(colors.onPrimary)
             .statusBarsPadding()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = dimensions.spaces.x6)
-            .imePadding(),
+            .imePadding()
+            .padding(horizontal = dimensions.spaces.x4)
     ) {
         Spacer(Modifier.height(dimensions.spaces.x4))
 
@@ -63,7 +64,7 @@ fun RegistrationScreen(
         Spacer(Modifier.height(dimensions.spaces.x6))
 
         Text(
-            text = "Create an account",
+            text = stringResource(R.string.registration_screen_create_an_account),
             style = AppTheme.typography.Hero,
             color = colors.onBackground,
         )
@@ -71,7 +72,7 @@ fun RegistrationScreen(
         Spacer(Modifier.height(dimensions.spaces.x2))
 
         Text(
-            text = "Welcome! Please enter your details.",
+            text = stringResource(R.string.registration_screen_welcome_please_enter_your_details),
             style = AppTextStyles.Body,
             color = colors.tertiary,
         )
@@ -79,11 +80,37 @@ fun RegistrationScreen(
         Spacer(Modifier.height(dimensions.spaces.x6))
 
         AppTextField(
+            value = state.firstName,
+            onValueChange = { event(RegistrationUiEvent.FirstNameChanged(it)) },
+            label = stringResource(R.string.registration_screen_label_first_name),
+            isRequired = true,
+            placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_first_name),
+            leadingIcon = Icons.Default.Person,
+            isError = state.firstNameError != null,
+            errorMessage = state.firstNameError,
+        )
+
+        Spacer(Modifier.height(dimensions.spaces.x4))
+
+        AppTextField(
+            value = state.lastName,
+            onValueChange = { event(RegistrationUiEvent.LastNameChanged(it)) },
+            label = stringResource(R.string.registration_screen_label_last_name),
+            isRequired = true,
+            placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_last_name),
+            leadingIcon = Icons.Default.Person,
+            isError = state.lastNameError != null,
+            errorMessage = state.lastNameError,
+        )
+
+        Spacer(Modifier.height(dimensions.spaces.x4))
+
+        AppTextField(
             value = state.email,
             onValueChange = { event(RegistrationUiEvent.EmailChanged(it)) },
-            label = "Email",
+            label = stringResource(R.string.registration_screen_label_email),
             isRequired = true,
-            placeholder = "Enter your email",
+            placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_email),
             leadingIcon = Icons.Default.Email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = state.emailError != null,
@@ -93,11 +120,25 @@ fun RegistrationScreen(
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
+            value = state.phoneNumber,
+            onValueChange = { event(RegistrationUiEvent.PhoneNumberChanged(it)) },
+            label = stringResource(R.string.registration_screen_label_phone_number),
+            isRequired = true,
+            placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_phone_number),
+            leadingIcon = Icons.Default.Phone,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+            isError = state.phoneNumberError != null,
+            errorMessage = state.phoneNumberError,
+        )
+
+        Spacer(Modifier.height(dimensions.spaces.x4))
+
+        AppTextField(
             value = state.password,
             onValueChange = { event(RegistrationUiEvent.PasswordChanged(it)) },
-            label = "Password",
+            label = stringResource(R.string.registration_screen_label_password),
             isRequired = true,
-            placeholder = "Enter your password",
+            placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_password),
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.passwordError != null,
@@ -109,77 +150,19 @@ fun RegistrationScreen(
         AppTextField(
             value = state.confirmPassword,
             onValueChange = { event(RegistrationUiEvent.ConfirmPasswordChanged(it)) },
-            label = "Confirm password",
+            label = stringResource(R.string.registration_screen_label_confirm_password),
             isRequired = true,
-            placeholder = "Re-enter your password",
+            placeholder = stringResource(R.string.registration_screen_placeholder_re_enter_your_password),
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.confirmPasswordError != null,
             errorMessage = state.confirmPasswordError,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
-
-        AppTextField(
-            value = state.firstName,
-            onValueChange = { event(RegistrationUiEvent.FirstNameChanged(it)) },
-            label = "First name",
-            isRequired = true,
-            placeholder = "Enter your first name",
-            leadingIcon = Icons.Default.Person,
-            isError = state.firstNameError != null,
-            errorMessage = state.firstNameError,
-        )
-
-        Spacer(Modifier.height(dimensions.spaces.x4))
-
-        AppTextField(
-            value = state.lastName,
-            onValueChange = { event(RegistrationUiEvent.LastNameChanged(it)) },
-            label = "Last name",
-            isRequired = true,
-            placeholder = "Enter your last name",
-            leadingIcon = Icons.Default.Person,
-            isError = state.lastNameError != null,
-            errorMessage = state.lastNameError,
-        )
-
-        Spacer(Modifier.height(dimensions.spaces.x4))
-
-        AppTextField(
-            value = state.phoneNumber,
-            onValueChange = { event(RegistrationUiEvent.PhoneNumberChanged(it)) },
-            label = "Phone number",
-            isRequired = true,
-            placeholder = "Enter your phone number",
-            leadingIcon = Icons.Default.Phone,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            isError = state.phoneNumberError != null,
-            errorMessage = state.phoneNumberError,
-        )
-
-        Spacer(Modifier.height(dimensions.spaces.x4))
-
-        AppTextField(
-            value = state.company,
-            onValueChange = { event(RegistrationUiEvent.CompanyChanged(it)) },
-            label = "Company",
-            placeholder = "Enter your company name",
-        )
-
-        Spacer(Modifier.height(dimensions.spaces.x4))
-
-        AppTextField(
-            value = state.contactPersonName,
-            onValueChange = { event(RegistrationUiEvent.ContactPersonNameChanged(it)) },
-            label = "Contact person name",
-            placeholder = "Enter your contact person name",
-        )
-
         Spacer(Modifier.height(dimensions.spaces.x8))
 
         AppButton(
-            text = "Sign Up",
+            text = stringResource(R.string.registration_screen_cta_sign_up),
             onClick = { event(RegistrationUiEvent.SignUpClicked) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !state.isLoading,
@@ -193,12 +176,12 @@ fun RegistrationScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Already have an account? ",
+                text = stringResource(R.string.registration_screen_already_have_an_account),
                 style = AppTextStyles.Body,
                 color = colors.tertiary,
             )
             ActionButton(
-                text = "Login",
+                text = stringResource(R.string.registration_screen_cta_login),
                 onClick = { event(RegistrationUiEvent.LoginClicked) },
                 style = AppTextStyles.BodyMedium,
             )

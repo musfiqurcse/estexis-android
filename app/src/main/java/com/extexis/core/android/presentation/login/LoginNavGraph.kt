@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.extexis.core.android.navigation.AppNavState
 import com.extexis.core.android.presentation.forgotpassword.ForgotPasswordRoute
+import com.extexis.core.android.presentation.home.HomeRoute
 import com.extexis.core.android.presentation.registration.RegistrationRoute
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.serialization.Serializable
@@ -20,14 +21,19 @@ fun NavGraphBuilder.loginNavGraph(appNavState: AppNavState) {
     composable<LoginRoute> {
 
         val navController = appNavState.navHostController
-        val viewModel = hiltViewModel<LoginViewModel>()
+        val viewModel: LoginViewModel = hiltViewModel()
         val state by viewModel.state.collectAsState()
 
         LaunchedEffect(Unit) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
                     LoginNavigationEvent.Back -> navController.navigateUp()
-                    LoginNavigationEvent.ToHome -> { /* navigate to home */ }
+                    LoginNavigationEvent.ToHome -> {
+                        navController.navigate(HomeRoute) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
                     LoginNavigationEvent.ToForgotPassword -> { navController.navigate(ForgotPasswordRoute) }
                     LoginNavigationEvent.ToSignUp -> { navController.navigate(RegistrationRoute) }
                 }

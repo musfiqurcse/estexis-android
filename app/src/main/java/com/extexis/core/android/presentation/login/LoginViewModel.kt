@@ -43,10 +43,10 @@ class LoginViewModel : ViewModel() {
         val emailError = if (current.email.isBlank()) "Email is required" else null
         val passwordError = if (current.password.isBlank()) "Password is required" else null
 
-        if (emailError != null || passwordError != null) {
-            _state.update { it.copy(emailError = emailError, passwordError = passwordError) }
-            return
-        }
+//        if (emailError != null || passwordError != null) {
+//            _state.update { it.copy(emailError = emailError, passwordError = passwordError) }
+//            return
+//        }
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }

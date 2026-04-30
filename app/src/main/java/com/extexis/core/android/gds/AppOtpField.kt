@@ -53,12 +53,12 @@ fun AppOtpField(
 
                     Box(
                         modifier = Modifier
-                            .size(width = dimensions.sizes.x11, height = dimensions.sizes.x14)
+                            .size(width = dimensions.sizes.x12, height = dimensions.sizes.x14)
                             .background(colors.background, RoundedCornerShape(dimensions.radius.large))
                             .border(
                                 width = if (isFocused) dimensions.borders.low else dimensions.borders.veryLow,
                                 color = borderColor,
-                                shape = RoundedCornerShape(dimensions.radius.large),
+                                shape = RoundedCornerShape(dimensions.radius.xlarge),
                             ),
                         contentAlignment = Alignment.Center,
                     ) {

@@ -18,8 +18,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.extexis.core.android.R
 import com.extexis.core.android.gds.AppButton
 import com.extexis.core.android.gds.AppIconButton
 import com.extexis.core.android.gds.AppTextField
@@ -38,10 +40,10 @@ fun ForgotPasswordScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colors.surface)
+            .background(colors.onPrimary)
             .statusBarsPadding()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = dimensions.spaces.x6)
+            .padding(horizontal = dimensions.spaces.x4)
             .imePadding(),
     ) {
         Spacer(Modifier.height(dimensions.spaces.x4))
@@ -55,7 +57,7 @@ fun ForgotPasswordScreen(
         Spacer(Modifier.height(dimensions.spaces.x6))
 
         Text(
-            text = "Forgot password?",
+            text = stringResource(R.string.forgot_password_screen_title),
             style = AppTheme.typography.Hero,
             color = colors.onBackground,
         )
@@ -63,7 +65,7 @@ fun ForgotPasswordScreen(
         Spacer(Modifier.height(dimensions.spaces.x2))
 
         Text(
-            text = "Enter your registered email and we'll send you a verification code to reset your password.",
+            text = stringResource(R.string.forgot_password_screen_message),
             style = AppTextStyles.Body,
             color = colors.tertiary,
         )
@@ -73,9 +75,9 @@ fun ForgotPasswordScreen(
         AppTextField(
             value = state.email,
             onValueChange = { event(ForgotPasswordUiEvent.EmailChanged(it)) },
-            label = "Email",
+            label = stringResource(R.string.forgot_password_screen_label_email),
             isRequired = true,
-            placeholder = "Enter your email",
+            placeholder = stringResource(R.string.forgot_password_screen_placeholder),
             leadingIcon = Icons.Default.Email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = state.emailError != null,
@@ -85,7 +87,7 @@ fun ForgotPasswordScreen(
         Spacer(Modifier.height(dimensions.spaces.x8))
 
         AppButton(
-            text = "Send Code",
+            text = stringResource(R.string.forgot_password_screen_cta_send_code),
             onClick = { event(ForgotPasswordUiEvent.SubmitClicked) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !state.isLoading,

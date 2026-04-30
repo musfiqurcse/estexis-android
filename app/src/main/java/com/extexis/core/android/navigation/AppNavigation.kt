@@ -8,6 +8,7 @@ import com.extexis.core.android.presentation.forgotpassword.ForgotPasswordRoute
 import com.extexis.core.android.presentation.forgotpassword.forgotPasswordNavGraph
 import com.extexis.core.android.presentation.login.LoginRoute
 import com.extexis.core.android.presentation.login.loginNavGraph
+import com.extexis.core.android.presentation.home.homeNavGraph
 import com.extexis.core.android.presentation.otp.otpNavGraph
 import com.extexis.core.android.presentation.registration.registrationNavGraph
 import com.extexis.core.android.presentation.splash.OnBoardingState
@@ -49,6 +50,7 @@ fun AppNavigation(
         registrationNavGraph(appNavState=appNavState)
         forgotPasswordNavGraph(appNavState=appNavState)
         otpNavGraph(appNavState=appNavState)
+        homeNavGraph(appNavState=appNavState)
 
     }
 }

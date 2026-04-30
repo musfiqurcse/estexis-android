@@ -43,10 +43,10 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colors.surface)
+            .background(colors.onPrimary)
             .statusBarsPadding()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = dimensions.spaces.x6)
+            .padding(horizontal = dimensions.spaces.x4)
             .imePadding(),
     ) {
         Spacer(Modifier.height(dimensions.spaces.x4))
