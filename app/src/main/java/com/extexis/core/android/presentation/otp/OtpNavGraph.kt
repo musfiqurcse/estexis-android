@@ -1,4 +1,4 @@
-package com.extexis.core.android.presentation.login
+package com.extexis.core.android.presentation.otp
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -7,34 +7,31 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.extexis.core.android.navigation.AppNavState
-import com.extexis.core.android.presentation.forgotpassword.ForgotPasswordRoute
-import com.extexis.core.android.presentation.registration.RegistrationRoute
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object LoginRoute
+data class OtpRoute(val email: String, val purpose: String)
 
-fun NavGraphBuilder.loginNavGraph(appNavState: AppNavState) {
+fun NavGraphBuilder.otpNavGraph(appNavState: AppNavState) {
 
-    composable<LoginRoute> {
+    composable<OtpRoute> {
 
         val navController = appNavState.navHostController
-        val viewModel = hiltViewModel<LoginViewModel>()
+        val viewModel = hiltViewModel<OtpViewModel>()
         val state by viewModel.state.collectAsState()
 
         LaunchedEffect(Unit) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
-                    LoginNavigationEvent.Back -> navController.navigateUp()
-                    LoginNavigationEvent.ToHome -> { /* navigate to home */ }
-                    LoginNavigationEvent.ToForgotPassword -> { navController.navigate(ForgotPasswordRoute) }
-                    LoginNavigationEvent.ToSignUp -> { navController.navigate(RegistrationRoute) }
+                    OtpNavigationEvent.Back -> navController.navigateUp()
+                    OtpNavigationEvent.ToHome -> { /* navigate to home */ }
+                    OtpNavigationEvent.ToLogin -> navController.navigateUp()
                 }
             }
         }
 
-        LoginScreen(
+        OtpScreen(
             state = state,
             event = viewModel::onEvent,
         )

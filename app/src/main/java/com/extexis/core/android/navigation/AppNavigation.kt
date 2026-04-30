@@ -4,7 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
+import com.extexis.core.android.presentation.forgotpassword.ForgotPasswordRoute
+import com.extexis.core.android.presentation.forgotpassword.forgotPasswordNavGraph
 import com.extexis.core.android.presentation.login.loginNavGraph
+import com.extexis.core.android.presentation.otp.otpNavGraph
 import com.extexis.core.android.presentation.registration.registrationNavGraph
 import com.extexis.core.android.presentation.splash.OnBoardingState
 import com.extexis.core.android.presentation.splash.SplashScreenRoute
@@ -54,6 +57,8 @@ fun AppNavigation(
         splashScreenNavGraph(appNavState=appNavState)
         loginNavGraph(appNavState=appNavState)
         registrationNavGraph(appNavState=appNavState)
+        forgotPasswordNavGraph(appNavState=appNavState)
+        otpNavGraph(appNavState=appNavState)
 
     }
 }
