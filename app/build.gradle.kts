@@ -25,8 +25,28 @@ android {
     }
 
     buildTypes {
-        release {
+
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            isDebuggable = true
             isMinifyEnabled = false
+            isShrinkResources = false
+            resValue("string", "app_name", "Travel Planner (Debug)")
+            buildConfigField("String", "API_BASE_URL", "\"https://api.travelhug.ai/api/\"")
+        }
+
+        create("stage") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".stage"
+            versionNameSuffix = "-stage"
+            buildConfigField("String", "API_BASE_URL", "\"demo url/\"")
+        }
+
+        release {
+            //signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            buildConfigField("String", "API_BASE_URL", "\"demo url/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,6 +59,8 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+        resValues = true
     }
 }
 
@@ -57,6 +79,22 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.material.icons.extended)
+
+    implementation(libs.datastore.preferences)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.coil.compose)
+    // HTTP fetcher (needed for loading network images!)
+    implementation(libs.coil.network.okhttp)
+
+    ksp(libs.moshi.codegen)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.moshi.adapters)
+    implementation(libs.okhttp.logging)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
