@@ -34,7 +34,8 @@ import com.extexis.core.android.ui.theme.ExtexisAndroidTheme
 
 @Composable
 fun LoginScreen(
-    state: LoginState,
+    state: LoginScreenUiState,
+    formState: LoginFormState,
     event: (LoginUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -76,24 +77,24 @@ fun LoginScreen(
         Spacer(Modifier.height(dimensions.spaces.x8))
 
         AppTextField(
-            value = state.email,
+            value = formState.email,
             onValueChange = { event(LoginUiEvent.EmailChanged(it)) },
             placeholder = stringResource(R.string.login_screen_placeholder_email_address),
             leadingIcon = Icons.Default.Email,
             isError = state.emailError != null,
-            errorMessage = state.emailError,
+            errorMessage = state.emailError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
-            value = state.password,
+            value = formState.password,
             onValueChange = { event(LoginUiEvent.PasswordChanged(it)) },
             placeholder = stringResource(R.string.login_screen_placeholder_password),
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.passwordError != null,
-            errorMessage = state.passwordError,
+            errorMessage = state.passwordError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x2))
@@ -145,7 +146,8 @@ fun LoginScreen(
 private fun LoginScreenPreview() {
     ExtexisAndroidTheme {
         LoginScreen(
-            state = LoginState(),
+            state = LoginScreenUiState(),
+            formState = LoginFormState(),
             event = {},
         )
     }

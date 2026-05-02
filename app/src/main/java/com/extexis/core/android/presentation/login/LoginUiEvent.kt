@@ -14,4 +14,5 @@ sealed class LoginNavigationEvent {
     object ToHome : LoginNavigationEvent()
     object ToForgotPassword : LoginNavigationEvent()
     object ToSignUp : LoginNavigationEvent()
+    data class VerifyEmail(val email: String) : LoginNavigationEvent()
 }

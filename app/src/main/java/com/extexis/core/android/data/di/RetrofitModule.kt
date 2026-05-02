@@ -1,12 +1,12 @@
 package com.extexis.core.android.data.di
 
 import android.content.Context
-import com.travelhugai.travelplanner.data.qualifiers.AcceptHeaderInterceptorQualifier
-import com.travelhugai.travelplanner.data.qualifiers.AppBaseUrlQualifier
-import com.travelhugai.travelplanner.data.qualifiers.AuthorizationHeaderInterceptor
-import com.travelhugai.travelplanner.data.qualifiers.LoggingInterceptor
-import com.travelhugai.travelplanner.data.qualifiers.OkHttpNoAuthorizationHeader
-import com.travelhugai.travelplanner.data.qualifiers.RetrofitNoAuthorizationHeader
+import com.extexis.core.android.data.qualifiers.AcceptHeaderInterceptorQualifier
+import com.extexis.core.android.data.qualifiers.AppBaseUrlQualifier
+import com.extexis.core.android.data.qualifiers.AuthorizationHeaderInterceptor
+import com.extexis.core.android.data.qualifiers.LoggingInterceptor
+import com.extexis.core.android.data.qualifiers.OkHttpNoAuthorizationHeader
+import com.extexis.core.android.data.qualifiers.RetrofitNoAuthorizationHeader
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

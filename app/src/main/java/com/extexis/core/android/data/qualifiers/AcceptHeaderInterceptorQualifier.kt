@@ -1,4 +1,4 @@
-package com.travelhugai.travelplanner.data.qualifiers
+package com.extexis.core.android.data.qualifiers
 
 import javax.inject.Qualifier
 

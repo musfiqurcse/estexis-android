@@ -3,7 +3,7 @@ package com.extexis.core.android.data.di
 import com.extexis.core.android.data.api.AuthenticationApi
 import com.extexis.core.android.data.api.OtpVerificationApi
 import com.extexis.core.android.data.api.UserApi
-import com.travelhugai.travelplanner.data.qualifiers.RetrofitNoAuthorizationHeader
+import com.extexis.core.android.data.qualifiers.RetrofitNoAuthorizationHeader
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

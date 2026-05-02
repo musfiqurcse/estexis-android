@@ -6,8 +6,9 @@ import com.extexis.core.android.core.preference.RefreshTokenPreference
 import com.extexis.core.android.data.api.AuthenticationApi
 import com.extexis.core.android.data.interceptors.AuthorizationTokenInterceptor
 import com.extexis.core.android.domain.repositories.SessionRepository
-import com.travelhugai.travelplanner.data.qualifiers.AuthorizationHeaderInterceptor
-import com.travelhugai.travelplanner.data.qualifiers.LoggingInterceptor
+import com.extexis.core.android.data.qualifiers.AcceptHeaderInterceptorQualifier
+import com.extexis.core.android.data.qualifiers.AuthorizationHeaderInterceptor
+import com.extexis.core.android.data.qualifiers.LoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -25,6 +26,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 abstract class InterceptorsModule {
 
     companion object {
+
+        @Provides
+        @Reusable
+        @AcceptHeaderInterceptorQualifier
+        fun provideAcceptHeaderInterceptor(): Interceptor {
+            return Interceptor { chain ->
+                chain.proceed(
+                    chain.request().newBuilder()
+                        .addHeader("Accept", "application/json")
+                        .build()
+                )
+            }
+        }
 
         @Provides
         @Reusable

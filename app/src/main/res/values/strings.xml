@@ -45,4 +45,14 @@
     <string name="registration_screen_cta_sign_up">Sign Up</string>
     <string name="registration_screen_already_have_an_account">"Already have an account? "</string>
     <string name="registration_screen_cta_login">Login</string>
+
+
+    <string name="full_name_is_empty">Full name is empty</string>
+    <string name="invalid_otp">Invalid otp</string>
+    <string name="email_is_empty">Email is empty</string>
+    <string name="not_a_valid_email">Invalid email</string>
+    <string name="password_is_invalid">Invalid password</string>
+    <string name="password_does_not_match">Password does not match</string>
+
+
 </resources>

@@ -36,12 +36,14 @@ fun NavGraphBuilder.loginNavGraph(appNavState: AppNavState) {
                     }
                     LoginNavigationEvent.ToForgotPassword -> { navController.navigate(ForgotPasswordRoute) }
                     LoginNavigationEvent.ToSignUp -> { navController.navigate(RegistrationRoute) }
+                    is LoginNavigationEvent.VerifyEmail -> {}
                 }
             }
         }
 
         LoginScreen(
             state = state,
+            formState = viewModel.formState,
             event = viewModel::onEvent,
         )
     }
