@@ -4,6 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.extexis.core.android.presentation.common.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -12,8 +14,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OtpViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
+@HiltViewModel
+class OtpViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : BaseViewModel() {
 
     private val route = savedStateHandle.toRoute<OtpRoute>()
 

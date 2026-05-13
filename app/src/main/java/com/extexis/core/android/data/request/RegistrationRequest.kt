@@ -9,8 +9,8 @@ data class RegistrationRequest(
     val lastName: String,
     @param:Json(name = "email")
     val email: String,
-    @param:Json(name = "username")
-    val username: String? = null,
+    @param:Json(name = "phone_number")
+    val phoneNumber: String,
     @param:Json(name = "password")
     val password: String,
     @param:Json(name = "confirm_password")

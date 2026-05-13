@@ -11,6 +11,7 @@ interface RegistrationUseCase {
         firstName: String,
         lastName: String,
         email: String,
+        phoneNumber: String,
         password: String,
         confirmPassword: String
     ): ApiResult<Boolean>
@@ -25,6 +26,7 @@ class RegistrationUseCaseImpl @Inject constructor(
         firstName: String,
         lastName: String,
         email: String,
+        phoneNumber: String,
         password: String,
         confirmPassword: String
     ): ApiResult<Boolean> {
@@ -33,6 +35,7 @@ class RegistrationUseCaseImpl @Inject constructor(
                 firstName = firstName,
                 lastName = lastName,
                 email = email,
+                phoneNumber = phoneNumber,
                 password = password,
                 confirmPassword = confirmPassword
             )

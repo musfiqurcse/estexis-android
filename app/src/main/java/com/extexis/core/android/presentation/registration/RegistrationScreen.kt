@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,6 +40,8 @@ import com.extexis.core.android.ui.theme.ExtexisAndroidTheme
 @Composable
 fun RegistrationScreen(
     state: RegistrationState,
+    formState: RegistrationFormState,
+    hostState: SnackbarHostState,
     event: (RegistrationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -48,10 +51,10 @@ fun RegistrationScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(colors.onPrimary)
-            .statusBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .imePadding()
             .padding(horizontal = dimensions.spaces.x4)
+            .statusBarsPadding()
+            .imePadding()
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(Modifier.height(dimensions.spaces.x4))
 
@@ -80,33 +83,33 @@ fun RegistrationScreen(
         Spacer(Modifier.height(dimensions.spaces.x6))
 
         AppTextField(
-            value = state.firstName,
+            value = formState.firstName,
             onValueChange = { event(RegistrationUiEvent.FirstNameChanged(it)) },
             label = stringResource(R.string.registration_screen_label_first_name),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_first_name),
             leadingIcon = Icons.Default.Person,
             isError = state.firstNameError != null,
-            errorMessage = state.firstNameError,
+            errorMessage = state.firstNameError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
-            value = state.lastName,
+            value = formState.lastName,
             onValueChange = { event(RegistrationUiEvent.LastNameChanged(it)) },
             label = stringResource(R.string.registration_screen_label_last_name),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_last_name),
             leadingIcon = Icons.Default.Person,
             isError = state.lastNameError != null,
-            errorMessage = state.lastNameError,
+            errorMessage = state.lastNameError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
-            value = state.email,
+            value = formState.email,
             onValueChange = { event(RegistrationUiEvent.EmailChanged(it)) },
             label = stringResource(R.string.registration_screen_label_email),
             isRequired = true,
@@ -114,13 +117,13 @@ fun RegistrationScreen(
             leadingIcon = Icons.Default.Email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = state.emailError != null,
-            errorMessage = state.emailError,
+            errorMessage = state.emailError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
-            value = state.phoneNumber,
+            value = formState.phoneNumber,
             onValueChange = { event(RegistrationUiEvent.PhoneNumberChanged(it)) },
             label = stringResource(R.string.registration_screen_label_phone_number),
             isRequired = true,
@@ -128,13 +131,13 @@ fun RegistrationScreen(
             leadingIcon = Icons.Default.Phone,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             isError = state.phoneNumberError != null,
-            errorMessage = state.phoneNumberError,
+            errorMessage = state.phoneNumberError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
-            value = state.password,
+            value = formState.password,
             onValueChange = { event(RegistrationUiEvent.PasswordChanged(it)) },
             label = stringResource(R.string.registration_screen_label_password),
             isRequired = true,
@@ -142,13 +145,13 @@ fun RegistrationScreen(
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.passwordError != null,
-            errorMessage = state.passwordError,
+            errorMessage = state.passwordError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
         AppTextField(
-            value = state.confirmPassword,
+            value = formState.confirmPassword,
             onValueChange = { event(RegistrationUiEvent.ConfirmPasswordChanged(it)) },
             label = stringResource(R.string.registration_screen_label_confirm_password),
             isRequired = true,
@@ -156,7 +159,7 @@ fun RegistrationScreen(
             leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.confirmPasswordError != null,
-            errorMessage = state.confirmPasswordError,
+            errorMessage = state.confirmPasswordError?.asString(),
         )
 
         Spacer(Modifier.height(dimensions.spaces.x8))
@@ -197,6 +200,8 @@ private fun RegistrationScreenPreview() {
     ExtexisAndroidTheme {
         RegistrationScreen(
             state = RegistrationState(),
+            formState = RegistrationFormState(),
+            hostState = SnackbarHostState(),
             event = {},
         )
     }

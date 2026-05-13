@@ -7,8 +7,6 @@ sealed class RegistrationUiEvent {
     data class FirstNameChanged(val firstName: String) : RegistrationUiEvent()
     data class LastNameChanged(val lastName: String) : RegistrationUiEvent()
     data class PhoneNumberChanged(val phoneNumber: String) : RegistrationUiEvent()
-    data class CompanyChanged(val company: String) : RegistrationUiEvent()
-    data class ContactPersonNameChanged(val contactPersonName: String) : RegistrationUiEvent()
     object SignUpClicked : RegistrationUiEvent()
     object LoginClicked : RegistrationUiEvent()
     object BackClicked : RegistrationUiEvent()
