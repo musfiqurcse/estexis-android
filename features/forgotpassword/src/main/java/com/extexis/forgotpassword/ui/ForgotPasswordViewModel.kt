@@ -2,14 +2,21 @@ package com.extexis.forgotpassword.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.extexis.core.network.ApiResult
+import com.extexis.forgotpassword.domain.SendOtpForForgotPasswordUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ForgotPasswordViewModel : ViewModel() {
+@HiltViewModel
+class ForgotPasswordViewModel @Inject constructor(
+    private val sendOtpUseCase: SendOtpForForgotPasswordUseCase,
+) : ViewModel() {
 
     private val _state = MutableStateFlow(ForgotPasswordState())
     val state: StateFlow<ForgotPasswordState> = _state
@@ -39,8 +46,17 @@ class ForgotPasswordViewModel : ViewModel() {
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            _navigationEvent.send(ForgotPasswordNavigationEvent.ToOtp(email = current.email))
-            _state.update { it.copy(isLoading = false) }
+            when (val result = sendOtpUseCase.sendOtp(current.email)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _navigationEvent.send(ForgotPasswordNavigationEvent.ToOtp(email = current.email))
+                }
+                is ApiResult.Error -> {
+                    _state.update {
+                        it.copy(isLoading = false, emailError = result.message.ifBlank { "Something went wrong" })
+                    }
+                }
+            }
         }
     }
 }

@@ -1,0 +1,11 @@
+package com.extexis.core.network
+
+sealed class ApiResult<out T> {
+    data class Success<T>(val data: T) : ApiResult<T>()
+    data class Error(
+        val statusCode: Int = -1,
+        val code: String = "",
+        val message: String,
+        val details: Map<String, Any>? = null,
+    ) : ApiResult<Nothing>()
+}

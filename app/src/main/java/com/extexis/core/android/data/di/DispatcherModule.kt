@@ -1,8 +1,8 @@
 package com.extexis.core.android.data.di
 
-import com.extexis.core.android.data.qualifiers.dispachers.DefaultDispatcher
-import com.extexis.core.android.data.qualifiers.dispachers.IoDispatcher
-import com.extexis.core.android.data.qualifiers.dispachers.MainDispatcher
+import com.extexis.core.network.qualifiers.DefaultDispatcher
+import com.extexis.core.network.qualifiers.IoDispatcher
+import com.extexis.core.network.qualifiers.MainDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

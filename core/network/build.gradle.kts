@@ -1,23 +1,56 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm")
-    alias(libs.plugins.kotlin.serialization)
+    id("com.android.library")
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
-kotlin { jvmToolchain(11) }
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+android {
+    namespace = "com.extexis.core.network"
+    compileSdk = 36
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://grihoo-prod.up.railway.app/api/\"")
+            buildConfigField("Boolean", "IS_DEBUG", "true")
+        }
+
+        create("stage") {
+            initWith(getByName("debug"))
+            buildConfigField("String", "BASE_URL", "\"https://grihoo-prod.up.railway.app/api/\"")
+            buildConfigField("Boolean", "IS_DEBUG", "true")
+        }
+
+        release {
+            buildConfigField("String", "BASE_URL", "\"https://grihoo-prod.up.railway.app/api/\"")
+            buildConfigField("Boolean", "IS_DEBUG", "false")
+        }
+    }
 }
 
 dependencies {
-    implementation(project(":core:common"))
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.moshi.kotlin)
+    implementation(libs.moshi.adapters)
+    ksp(libs.moshi.codegen)
 
     testImplementation(libs.junit)
     testImplementation(libs.okhttp.mockserver)

@@ -6,8 +6,8 @@ import com.extexis.core.android.data.request.DeleteAccountRequest
 import com.extexis.core.android.data.response.ApiChangePasswordResponse
 import com.extexis.core.android.data.response.ApiDeleteAccountResponse
 import com.extexis.core.android.data.response.ApiLogOutResponse
-import com.extexis.core.android.data.util.ApiResult
-import com.extexis.core.android.data.util.executeSafeApiCall
+import com.extexis.core.network.ApiResult
+import com.extexis.core.network.executeSafeApiCall
 import javax.inject.Inject
 
 interface UserRemoteSource {

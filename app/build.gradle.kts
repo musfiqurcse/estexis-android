@@ -68,6 +68,8 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:presentation"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:network"))
+    implementation(project(":core:datastore"))
     implementation(project(":features:registration"))
     implementation(project(":features:login"))
     implementation(project(":features:otp"))

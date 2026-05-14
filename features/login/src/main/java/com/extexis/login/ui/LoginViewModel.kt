@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.extexis.core.network.ApiResult
 import com.extexis.core.ui.util.validation.ValidateEmailUseCase
 import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
+import com.extexis.login.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    //private val loginUseCase: LoginUseCase,
+    private val loginUseCase: LoginUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
 ) : ViewModel() {
@@ -33,20 +35,13 @@ class LoginViewModel @Inject constructor(
 
     fun onEvent(event: LoginUiEvent) {
         when (event) {
-            is LoginUiEvent.EmailChanged -> {
-                formState = formState.copy(email = event.email)
-            }
-            is LoginUiEvent.PasswordChanged -> {
-                formState = formState.copy(password = event.password)
-            }
+            is LoginUiEvent.EmailChanged -> formState = formState.copy(email = event.email)
+            is LoginUiEvent.PasswordChanged -> formState = formState.copy(password = event.password)
             LoginUiEvent.LoginClicked -> login()
-
             LoginUiEvent.ForgotPasswordClicked ->
                 viewModelScope.launch { _navigationEvent.send(LoginNavigationEvent.ToForgotPassword) }
-
             LoginUiEvent.SignUpClicked ->
                 viewModelScope.launch { _navigationEvent.send(LoginNavigationEvent.ToSignUp) }
-
             LoginUiEvent.BackClicked ->
                 viewModelScope.launch { _navigationEvent.send(LoginNavigationEvent.Back) }
         }
@@ -54,22 +49,16 @@ class LoginViewModel @Inject constructor(
 
     private fun login() {
         viewModelScope.launch {
-            if (isValidInput()) {
-                _state.update { it.copy(isLoading = true) }
-//                val result = loginUseCase.login(
-//                    email = formState.email,
-//                    password = formState.password,
-//                )
-//                when (result) {
-//                    is ApiResult.Success -> {
-//                        _navigationEvent.send(LoginNavigationEvent.ToHome)
-//                    }
-//                    is ApiResult.Error -> {
-//                        _state.update { it.copy(isLoading = false, isError = true) }
-//                    }
-//                }
-                _navigationEvent.send(LoginNavigationEvent.ToHome)
-                _state.update { it.copy(isLoading = false) }
+            if (!isValidInput()) return@launch
+            _state.update { it.copy(isLoading = true) }
+            when (val result = loginUseCase.login(formState.email, formState.password)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _navigationEvent.send(LoginNavigationEvent.ToHome)
+                }
+                is ApiResult.Error -> {
+                    _state.update { it.copy(isLoading = false, isError = true) }
+                }
             }
         }
     }
@@ -81,18 +70,14 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun isValidEmail(): Boolean {
-        val validationResult = validateEmailUseCase.validate(formState.email)
-        _state.update {
-            it.copy(emailError = validationResult.errorMessage)
-        }
-        return validationResult.isSuccessful
+        val result = validateEmailUseCase.validate(formState.email)
+        _state.update { it.copy(emailError = result.errorMessage) }
+        return result.isSuccessful
     }
 
     private fun isValidPassword(): Boolean {
-        val validationResult = validatePasswordUseCase.validatePassword(formState.password)
-        _state.update {
-            it.copy(passwordError = validationResult.errorMessage)
-        }
-        return validationResult.isSuccessful
+        val result = validatePasswordUseCase.validatePassword(formState.password)
+        _state.update { it.copy(passwordError = result.errorMessage) }
+        return result.isSuccessful
     }
 }

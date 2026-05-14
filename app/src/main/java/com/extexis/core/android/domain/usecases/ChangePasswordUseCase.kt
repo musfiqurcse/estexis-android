@@ -1,7 +1,7 @@
 package com.extexis.core.android.domain.usecases
 
 import com.extexis.core.android.data.request.ChangePasswordRequest
-import com.extexis.core.android.data.util.ApiResult
+import com.extexis.core.network.ApiResult
 import com.extexis.core.android.domain.repositories.UserRepository
 import javax.inject.Inject
 

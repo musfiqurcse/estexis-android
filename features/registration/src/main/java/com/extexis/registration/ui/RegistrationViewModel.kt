@@ -4,12 +4,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.extexis.core.network.ApiResult
 import com.extexis.core.presentation.BaseViewModel
-import com.extexis.registration.R
 import com.extexis.core.presentation.UiMessageEvent
 import com.extexis.core.ui.util.validation.ValidateEmailUseCase
 import com.extexis.core.ui.util.validation.ValidateNonEmptyFieldUseCase
 import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
+import com.extexis.registration.R
+import com.extexis.registration.domain.RegistrationParams
+import com.extexis.registration.domain.RegistrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    //private val registrationUseCase: RegistrationUseCase,
+    private val registrationUseCase: RegistrationUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
     private val validateNonEmptyFieldUseCase: ValidateNonEmptyFieldUseCase,
@@ -74,45 +77,34 @@ class RegistrationViewModel @Inject constructor(
     private fun initiateRegistration() {
         viewModelScope.launch {
             if (isValidInput()) {
-                _uiState.update {
-                    it.copy(isLoading = true, isError = false)
+                _uiState.update { it.copy(isLoading = true, isError = false) }
+                val result = registrationUseCase.register(
+                    RegistrationParams(
+                        firstName = formState.firstName,
+                        lastName = formState.lastName,
+                        email = formState.email,
+                        phoneNumber = formState.phoneNumber,
+                        password = formState.password,
+                        confirmPassword = formState.confirmPassword,
+                    )
+                )
+                when (result) {
+                    is ApiResult.Success -> {
+                        _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                        _navigationEvent.send(RegistrationNavigationEvent.ToOtpVerification(formState.email))
+                    }
+
+                    is ApiResult.Error -> {
+                        sendMessage(
+                            UiMessageEvent.ToastMessage(
+                                RegistrationErrorMapper.toUiMessage(
+                                    RegistrationErrorCode.from(result.code)
+                                )
+                            )
+                        )
+                        _uiState.update { it.copy(isLoading = false, isError = true) }
+                    }
                 }
-//                val result = registrationUseCase.register(
-//                    firstName = formState.firstName,
-//                    lastName = formState.lastName,
-//                    email = formState.email,
-//                    phoneNumber = formState.phoneNumber,
-//                    password = formState.password,
-//                    confirmPassword = formState.confirmPassword
-//                )
-//                when (result) {
-//                    is ApiResult.Success -> {
-//                        _uiState.update {
-//                            it.copy(isLoading = false, isSuccess = true)
-//                        }
-//                        viewModelScope.launch {
-//                            _navigationEvent.send(RegistrationNavigationEvent.ToOtpVerification(formState.email))
-//                        }
-//                    }
-//
-//                    is ApiResult.Error -> {
-//                        sendMessage(
-//                            UiMessageEvent.ToastMessage(
-//                                RegistrationErrorMapper.toUiMessage(
-//                                    RegistrationErrorCode.from(
-//                                        result.code
-//                                    )
-//                                )
-//                            )
-//                        )
-//                        _uiState.update {
-//                            it.copy(
-//                                isLoading = false,
-//                                isError = true,
-//                            )
-//                        }
-//                    }
-//                }
             }
         }
     }

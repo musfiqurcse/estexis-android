@@ -1,6 +1,6 @@
 package com.extexis.core.android.data.api
 
-import com.extexis.core.android.data.Config
+import com.extexis.core.network.NetworkConfig
 import com.extexis.core.android.data.request.ChangePasswordRequest
 import com.extexis.core.android.data.request.DeleteAccountRequest
 import com.extexis.core.android.data.response.ApiChangePasswordResponse
@@ -14,16 +14,16 @@ import retrofit2.http.Query
 
 interface UserApi {
 
-    @POST(Config.LOG_OUT)
+    @POST(NetworkConfig.LOG_OUT)
     suspend fun loginOut(
         @Query("refresh_token") refreshToken: String,
         @Query("logout_all") fromAllDevices: Boolean = false
     ): Response<ApiLogOutResponse>
 
-    @POST(Config.CHANGE_PASSWORD)
+    @POST(NetworkConfig.CHANGE_PASSWORD)
     suspend fun changePassword(@Body request: ChangePasswordRequest): Response<ApiChangePasswordResponse>
 
-    @HTTP(method = "DELETE", path = Config.DELETE_ACCOUNT, hasBody = true)
+    @HTTP(method = "DELETE", path = NetworkConfig.DELETE_ACCOUNT, hasBody = true)
     suspend fun deleteAccount(@Body request: DeleteAccountRequest): Response<ApiDeleteAccountResponse>
 
 }

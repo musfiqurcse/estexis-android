@@ -1,11 +1,12 @@
 package com.extexis.core.android.domain.repositories
 
-import com.extexis.core.android.core.preference.AccessTokenPreference
-import com.extexis.core.android.core.preference.RefreshTokenPreference
+import com.extexis.core.datastore.AccessTokenPreference
+import com.extexis.core.datastore.RefreshTokenPreference
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.runBlocking
+import com.extexis.core.network.SessionManager
 import javax.inject.Inject
 
 sealed class AuthState {
@@ -15,10 +16,8 @@ sealed class AuthState {
     data object NotAuthenticated : AuthState()
 }
 
-interface SessionRepository {
+interface SessionRepository : SessionManager {
     val authState: StateFlow<AuthState>
-
-    suspend fun signOut()
 }
 
 class SessionRepositoryImpl @Inject constructor(

@@ -5,7 +5,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.extexis.core.navigation.OtpPurpose
 import com.extexis.core.navigation.OtpRoute
+import com.extexis.core.network.ApiResult
 import com.extexis.core.presentation.BaseViewModel
+import com.extexis.core.presentation.UiMessageEvent
+import com.extexis.otp.domain.ResendOtpUseCase
+import com.extexis.otp.domain.UpdatePasswordUseCase
+import com.extexis.otp.domain.VerifyEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -18,7 +23,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OtpViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : BaseViewModel() {
+class OtpViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val verifyEmailUseCase: VerifyEmailUseCase,
+    private val updatePasswordUseCase: UpdatePasswordUseCase,
+    private val resendOtpUseCase: ResendOtpUseCase,
+) : BaseViewModel() {
 
     private val route = savedStateHandle.toRoute<OtpRoute>()
 
@@ -53,10 +63,7 @@ class OtpViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : Bas
             OtpUiEvent.VerifyClicked -> verify()
 
             OtpUiEvent.ResendClicked -> {
-                if (_state.value.canResend) {
-                    _state.update { it.copy(otp = "", otpError = null) }
-                    startResendTimer()
-                }
+                if (_state.value.canResend) resend()
             }
 
             OtpUiEvent.BackClicked ->
@@ -94,12 +101,54 @@ class OtpViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : Bas
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val destination = when (current.purpose) {
-                OtpPurpose.Registration -> OtpNavigationEvent.ToHome
-                OtpPurpose.ForgotPassword -> OtpNavigationEvent.ToLogin
+            when (current.purpose) {
+                OtpPurpose.Registration -> {
+                    when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
+                        is ApiResult.Success -> {
+                            _state.update { it.copy(isLoading = false) }
+                            _navigationEvent.send(OtpNavigationEvent.ToHome)
+                        }
+                        is ApiResult.Error -> {
+                            _state.update { it.copy(isLoading = false) }
+                            sendMessage(
+                                UiMessageEvent.ToastMessage(
+                                    OtpErrorMapper.toUiMessage(OtpErrorCode.from(result.code))
+                                )
+                            )
+                        }
+                    }
+                }
+                OtpPurpose.ForgotPassword -> {
+                    when (val result = updatePasswordUseCase.updatePassword(
+                        current.email, current.otp, current.newPassword, current.confirmPassword
+                    )) {
+                        is ApiResult.Success -> {
+                            _state.update { it.copy(isLoading = false) }
+                            _navigationEvent.send(OtpNavigationEvent.ToLogin)
+                        }
+                        is ApiResult.Error -> {
+                            _state.update { it.copy(isLoading = false) }
+                            sendMessage(
+                                UiMessageEvent.ToastMessage(
+                                    OtpErrorMapper.toUiMessage(OtpErrorCode.from(result.code))
+                                )
+                            )
+                        }
+                    }
+                }
             }
-            _navigationEvent.send(destination)
-            _state.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun resend() {
+        val current = _state.value
+        viewModelScope.launch {
+            when (current.purpose) {
+                OtpPurpose.Registration -> resendOtpUseCase.resendForVerification(current.email)
+                OtpPurpose.ForgotPassword -> resendOtpUseCase.resendForForgotPassword(current.email)
+            }
+            _state.update { it.copy(otp = "", otpError = null) }
+            startResendTimer()
         }
     }
 

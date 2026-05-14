@@ -1,9 +1,9 @@
 package com.extexis.core.android.domain.usecases
 
-import com.extexis.core.android.core.preference.AccessTokenPreference
-import com.extexis.core.android.core.preference.RefreshTokenPreference
+import com.extexis.core.datastore.AccessTokenPreference
+import com.extexis.core.datastore.RefreshTokenPreference
 import com.extexis.core.android.data.request.DeleteAccountRequest
-import com.extexis.core.android.data.util.ApiResult
+import com.extexis.core.network.ApiResult
 import com.extexis.core.android.domain.repositories.UserRepository
 import javax.inject.Inject
 

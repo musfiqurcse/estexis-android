@@ -1,7 +1,7 @@
 package com.extexis.core.android.core.di
 
 import android.content.Context
-import com.extexis.core.android.core.preference.LocalePreferences
+import com.extexis.core.datastore.LocalePreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,0 +1,23 @@
+package com.extexis.otp.domain
+
+import com.extexis.core.network.ApiResult
+import com.extexis.otp.data.repository.OtpRepository
+import javax.inject.Inject
+
+interface ResendOtpUseCase {
+    suspend fun resendForVerification(email: String): ApiResult<Boolean>
+    suspend fun resendForForgotPassword(email: String): ApiResult<Boolean>
+}
+
+class ResendOtpUseCaseImpl @Inject constructor(
+    private val repository: OtpRepository,
+) : ResendOtpUseCase {
+
+    override suspend fun resendForVerification(email: String): ApiResult<Boolean> {
+        return repository.resendOtp(email)
+    }
+
+    override suspend fun resendForForgotPassword(email: String): ApiResult<Boolean> {
+        return repository.resendOtpForForgotPassword(email)
+    }
+}
