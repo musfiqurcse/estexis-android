@@ -27,3 +27,21 @@ dependencyResolutionManagement {
 
 rootProject.name = "Extexis-Android"
 include(":app")
+
+include(":features:registration")
+include(":features:home")
+include(":features:login")
+include(":features:otp")
+include(":features:splash")
+include(":features:forgotpassword")
+
+include(":core:domain")
+include(":core:data")
+include(":core:network")
+include(":core:database")
+include(":core:datastore")
+include(":core:ui")
+include(":core:presentation")
+include(":core:navigation")
+include(":core:common")
+include(":core:testing")

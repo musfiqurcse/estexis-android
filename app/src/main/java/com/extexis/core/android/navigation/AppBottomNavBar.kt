@@ -31,8 +31,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import com.extexis.core.android.ui.theme.AppTheme
-import com.extexis.core.android.ui.theme.ExtexisAndroidTheme
+import com.extexis.core.ui.theme.AppTheme
+import com.extexis.core.ui.theme.ExtexisAndroidTheme
 
 enum class HomeTab(val icon: ImageVector, val label: String) {
     Dashboard(Icons.Default.GridView, "Dashboard"),

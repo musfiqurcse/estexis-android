@@ -1,4 +1,4 @@
-package com.travelhugai.travelplanner.util
+package com.extexis.core.android.util
 
 import android.net.Uri
 import android.os.Bundle

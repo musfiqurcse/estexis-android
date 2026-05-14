@@ -17,10 +17,7 @@ import androidx.navigation.compose.composable
 import com.extexis.core.android.navigation.AppBottomNavBar
 import com.extexis.core.android.navigation.AppNavState
 import com.extexis.core.android.navigation.HomeTab
-import kotlinx.serialization.Serializable
-
-@Serializable
-data object HomeRoute
+import com.extexis.core.navigation.HomeRoute
 
 fun NavGraphBuilder.homeNavGraph(appNavState: AppNavState) {
     composable<HomeRoute> {

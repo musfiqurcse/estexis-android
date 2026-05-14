@@ -1,8 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Extexis-Android</string>
-    <string name="welcome_to">Welcome to</string>
-    <string name="smart_way_to_find_your_dream_property">Smart Way to Find Your Dream Property</string>
-    <string name="get_started">Get Started</string>
     <string name="back">Back</string>
     <string name="login_screen_title_log_in">Log in</string>
     <string name="login_screen_message">Enter your email and password to securely access your account and manage your service.</string>
@@ -28,46 +26,4 @@
     <string name="otp_screen_cta_resend">Resend</string>
     <string name="otp_screen_didn_t_receive_the_code">"Didn't receive the code? "</string>
     <string name="otp_screen_resend_code_in_s">"Resend code in %1$ds  "</string>
-    <string name="registration_screen_create_an_account">Create an account</string>
-    <string name="registration_screen_welcome_please_enter_your_details">Welcome! Please enter your details.</string>
-    <string name="registration_screen_label_first_name">First name</string>
-    <string name="registration_screen_placeholder_enter_your_first_name">Enter your first name</string>
-    <string name="registration_screen_label_last_name">Last name</string>
-    <string name="registration_screen_placeholder_enter_your_last_name">Enter your last name</string>
-    <string name="registration_screen_label_email">Email</string>
-    <string name="registration_screen_placeholder_enter_your_email">Enter your email</string>
-    <string name="registration_screen_label_phone_number">Phone number</string>
-    <string name="registration_screen_placeholder_enter_your_phone_number">Enter your phone number</string>
-    <string name="registration_screen_label_password">Password</string>
-    <string name="registration_screen_placeholder_enter_your_password">Enter your password</string>
-    <string name="registration_screen_label_confirm_password">Confirm password</string>
-    <string name="registration_screen_placeholder_re_enter_your_password">Re-enter your password</string>
-    <string name="registration_screen_cta_sign_up">Sign Up</string>
-    <string name="registration_screen_already_have_an_account">"Already have an account? "</string>
-    <string name="registration_screen_cta_login">Login</string>
-
-
-    <string name="full_name_is_empty">Full name is empty</string>
-    <string name="invalid_otp">Invalid otp</string>
-    <string name="email_is_empty">Email is empty</string>
-    <string name="not_a_valid_email">Invalid email</string>
-    <string name="password_is_invalid">Invalid password</string>
-    <string name="password_does_not_match">Password does not match</string>
-
-    <string name="registration_screen_first_name_is_empty">First name is empty.</string>
-    <string name="registration_screen_last_name_is_empty">Last name is empty.</string>
-
-    <string name="error_message_no_internet">No internet connection</string>
-    <string name="error_message_something_went_wrong">Something went wrong</string>
-    <string name="error_message_email_already_exists">Email already registered.</string>
-    <string name="error_message_email_not_registered">This email is not associated with any account.</string>
-    <string name="error_message_too_many_attempts">Too many attempts. Please try again later.</string>
-    <string name="error_message_account_locked">Your account is temporarily locked.</string>
-    <string name="error_message_account_not_verified">Email not verified.</string>
-    <string name="error_message_invalid_credentials">Invalid credentials.</string>
-    <string name="error_message_device_registered">This device is linked to an existing account. Please log in.</string>
-    <string name="error_message_invalid_otp">Invalid otp.</string>
-    <string name="error_message_invalid_phone_number">Invalid phone number.</string>
-
-
 </resources>

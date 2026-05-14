@@ -65,6 +65,15 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
+    implementation(project(":core:presentation"))
+    implementation(project(":core:navigation"))
+    implementation(project(":features:registration"))
+    implementation(project(":features:login"))
+    implementation(project(":features:otp"))
+    implementation(project(":features:forgotpassword"))
+    implementation(project(":features:splash"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
