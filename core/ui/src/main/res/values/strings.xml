@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="full_name_is_empty">Full name is empty</string>
+    <string name="invalid_otp">Invalid otp</string>
+    <string name="email_is_empty">Email is empty</string>
+    <string name="not_a_valid_email">Invalid email</string>
+    <string name="password_is_invalid">Invalid password</string>
+    <string name="password_does_not_match">Password does not match</string>
+    <string name="error_message_no_internet">No internet connection</string>
+    <string name="error_message_something_went_wrong">Something went wrong</string>
+    <string name="error_message_email_already_exists">Email already registered.</string>
+    <string name="error_message_email_not_registered">This email is not associated with any account.</string>
+    <string name="error_message_too_many_attempts">Too many attempts. Please try again later.</string>
+    <string name="error_message_account_locked">Your account is temporarily locked.</string>
+    <string name="error_message_account_not_verified">Email not verified.</string>
+    <string name="error_message_invalid_credentials">Invalid credentials.</string>
+    <string name="error_message_device_registered">This device is linked to an existing account. Please log in.</string>
+    <string name="error_message_invalid_otp">Invalid otp.</string>
+    <string name="error_message_invalid_phone_number">Invalid phone number.</string>
+</resources>

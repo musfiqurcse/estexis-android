@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="registration_screen_create_an_account">Create an account</string>
+    <string name="registration_screen_welcome_please_enter_your_details">Welcome! Please enter your details.</string>
+    <string name="registration_screen_label_first_name">First name</string>
+    <string name="registration_screen_placeholder_enter_your_first_name">Enter your first name</string>
+    <string name="registration_screen_label_last_name">Last name</string>
+    <string name="registration_screen_placeholder_enter_your_last_name">Enter your last name</string>
+    <string name="registration_screen_label_email">Email</string>
+    <string name="registration_screen_placeholder_enter_your_email">Enter your email</string>
+    <string name="registration_screen_label_phone_number">Phone number</string>
+    <string name="registration_screen_placeholder_enter_your_phone_number">Enter your phone number</string>
+    <string name="registration_screen_label_password">Password</string>
+    <string name="registration_screen_placeholder_enter_your_password">Enter your password</string>
+    <string name="registration_screen_label_confirm_password">Confirm password</string>
+    <string name="registration_screen_placeholder_re_enter_your_password">Re-enter your password</string>
+    <string name="registration_screen_cta_sign_up">Sign Up</string>
+    <string name="registration_screen_already_have_an_account">"Already have an account? "</string>
+    <string name="registration_screen_cta_login">Login</string>
+    <string name="registration_screen_first_name_is_empty">First name is empty.</string>
+    <string name="registration_screen_last_name_is_empty">Last name is empty.</string>
+</resources>

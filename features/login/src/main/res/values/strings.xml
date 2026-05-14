@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back">Back</string>
+    <string name="login_screen_title_log_in">Log in</string>
+    <string name="login_screen_message">Enter your email and password to securely access your account and manage your service.</string>
+    <string name="login_screen_placeholder_email_address">Email address</string>
+    <string name="login_screen_placeholder_password">Password</string>
+    <string name="login_screen_cta_forgot_password">Forgot Password?</string>
+    <string name="login_screen_cta_login">Login</string>
+    <string name="login_screen_cta_sign_up_now">Sign up now</string>
+    <string name="login_screen_don_t_have_an_account">"Don\'t have an account? "</string>
+</resources>

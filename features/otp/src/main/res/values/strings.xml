@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="otp_screen_title_verification_code">Verification code</string>
+    <string name="otp_screen_message_otp_sent">"Enter the 6-digit verification code we sent to "</string>
+    <string name="otp_screen_label_new_password">New password</string>
+    <string name="otp_screen_placeholder_enter_your_new_password">Enter your new password</string>
+    <string name="otp_screen_confirm_new_password">Confirm new password</string>
+    <string name="otp_screen_placeholder_re_enter_your_new_password">Re-enter your new password</string>
+    <string name="otp_screen_cta_reset_password">Reset Password</string>
+    <string name="otp_screen_cta_verify">Verify</string>
+    <string name="otp_screen_cta_resend">Resend</string>
+    <string name="otp_screen_didn_t_receive_the_code">"Didn\'t receive the code? "</string>
+    <string name="otp_screen_resend_code_in_s">"Resend code in %1$ds  "</string>
+</resources>
