@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import com.extexis.registration.R
 import com.extexis.core.ui.gds.ActionButton
 import com.extexis.core.ui.gds.AppButton
 import com.extexis.core.ui.gds.AppIconButton
@@ -36,12 +34,12 @@ import com.extexis.core.ui.gds.AppTextField
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
+import com.extexis.registration.R
 
 @Composable
 fun RegistrationScreen(
     state: RegistrationState,
     formState: RegistrationFormState,
-    hostState: SnackbarHostState,
     event: (RegistrationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -201,7 +199,7 @@ private fun RegistrationScreenPreview() {
         RegistrationScreen(
             state = RegistrationState(),
             formState = RegistrationFormState(),
-            hostState = SnackbarHostState(),
+            // hostState = SnackbarHostState(),
             event = {},
         )
     }

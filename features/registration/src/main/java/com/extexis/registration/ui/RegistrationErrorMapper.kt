@@ -3,7 +3,6 @@ package com.extexis.registration.ui
 import com.extexis.core.ui.R
 import com.extexis.core.ui.util.UiText
 
-
 enum class RegistrationErrorCode(val raw: String) {
     VALIDATION_FAILED("VALIDATION_FAILED"),
     USER_EMAIL_EXISTS("USER_EMAIL_EXISTS"),

@@ -148,7 +148,9 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun isValidPhoneNumber(): Boolean {
-        val validationResult = validateNonEmptyFieldUseCase.isEmpty(formState.phoneNumber, com.extexis.core.ui.R.string.error_message_invalid_phone_number)
+        val validationResult = validateNonEmptyFieldUseCase.isEmpty(
+            formState.phoneNumber,
+            R.string.error_message_invalid_phone_number)
         _uiState.update {
             it.copy(phoneNumberError = validationResult.errorMessage)
         }
@@ -173,5 +175,4 @@ class RegistrationViewModel @Inject constructor(
         }
         return validationResult.isSuccessful
     }
-
 }

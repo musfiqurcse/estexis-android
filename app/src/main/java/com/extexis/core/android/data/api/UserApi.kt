@@ -1,11 +1,11 @@
 package com.extexis.core.android.data.api
 
-import com.extexis.core.network.NetworkConfig
 import com.extexis.core.android.data.request.ChangePasswordRequest
 import com.extexis.core.android.data.request.DeleteAccountRequest
 import com.extexis.core.android.data.response.ApiChangePasswordResponse
 import com.extexis.core.android.data.response.ApiDeleteAccountResponse
 import com.extexis.core.android.data.response.ApiLogOutResponse
+import com.extexis.core.network.NetworkConfig
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.HTTP
@@ -25,5 +25,4 @@ interface UserApi {
 
     @HTTP(method = "DELETE", path = NetworkConfig.DELETE_ACCOUNT, hasBody = true)
     suspend fun deleteAccount(@Body request: DeleteAccountRequest): Response<ApiDeleteAccountResponse>
-
 }

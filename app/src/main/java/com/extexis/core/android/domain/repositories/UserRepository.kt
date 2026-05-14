@@ -19,7 +19,6 @@ interface UserRepository {
     suspend fun changePassword(request: ChangePasswordRequest): ApiResult<ApiChangePasswordResponse>
 
     suspend fun deleteAccount(request: DeleteAccountRequest): ApiResult<ApiDeleteAccountResponse>
-
 }
 
 class UserRepositoryImpl @Inject constructor(
@@ -40,5 +39,4 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun deleteAccount(request: DeleteAccountRequest): ApiResult<ApiDeleteAccountResponse> {
         return userRemoteSource.deleteAccount(request = request)
     }
-
 }

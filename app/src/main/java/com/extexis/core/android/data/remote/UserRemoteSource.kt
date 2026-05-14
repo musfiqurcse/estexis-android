@@ -20,7 +20,6 @@ interface UserRemoteSource {
     suspend fun changePassword(request: ChangePasswordRequest): ApiResult<ApiChangePasswordResponse>
 
     suspend fun deleteAccount(request: DeleteAccountRequest): ApiResult<ApiDeleteAccountResponse>
-
 }
 
 class UserRemoteSourceImpl @Inject constructor(

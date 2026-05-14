@@ -12,10 +12,3 @@ data class RegistrationRequest(
     @field:Json(name = "phone_number") val phoneNumber: String,
     @field:Json(name = "confirm_password") val confirmPassword: String,
 )
-
-//"role": "buyer",
-//"account_type": "personal",
-//"country_code": "st",
-//"company_name": "string",
-//"contact_person_name": "string",
-//"invitation_token": "string"

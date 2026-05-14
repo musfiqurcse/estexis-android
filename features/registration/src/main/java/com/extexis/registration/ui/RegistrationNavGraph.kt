@@ -70,7 +70,7 @@ fun NavGraphBuilder.registrationNavGraph(navController: NavHostController) {
             state = state,
             formState = viewModel.formState,
             event = viewModel::onEvent,
-            hostState = hostState,
+            // hostState = hostState,
         )
     }
 }

@@ -2,11 +2,11 @@ package com.extexis.core.android.domain.repositories
 
 import com.extexis.core.datastore.AccessTokenPreference
 import com.extexis.core.datastore.RefreshTokenPreference
+import com.extexis.core.network.SessionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.runBlocking
-import com.extexis.core.network.SessionManager
 import javax.inject.Inject
 
 sealed class AuthState {
@@ -44,5 +44,4 @@ class SessionRepositoryImpl @Inject constructor(
         refreshTokenPreference.delete()
         _authState.value = AuthState.NotAuthenticated
     }
-
 }

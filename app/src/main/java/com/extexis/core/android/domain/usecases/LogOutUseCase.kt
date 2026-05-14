@@ -1,15 +1,14 @@
 package com.extexis.core.android.domain.usecases
 
+import com.extexis.core.android.domain.repositories.UserRepository
 import com.extexis.core.datastore.AccessTokenPreference
 import com.extexis.core.datastore.RefreshTokenPreference
 import com.extexis.core.network.ApiResult
-import com.extexis.core.android.domain.repositories.UserRepository
 import javax.inject.Inject
 
 interface LogOutUseCase {
 
     suspend fun logOut(): ApiResult<Boolean>
-
 }
 
 class LogOutUseCaseImpl @Inject constructor(
@@ -20,7 +19,7 @@ class LogOutUseCaseImpl @Inject constructor(
 
     override suspend fun logOut(): ApiResult<Boolean> {
 
-        return when(val result = userRepository.logOut(
+        return when (val result = userRepository.logOut(
             refreshToken = refreshTokenPreference.get(), fromAllDevices = true
         )) {
             is ApiResult.Success -> {
@@ -31,5 +30,4 @@ class LogOutUseCaseImpl @Inject constructor(
             is ApiResult.Error -> result
         }
     }
-
 }

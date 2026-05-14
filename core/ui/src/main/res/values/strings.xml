@@ -16,5 +16,5 @@
     <string name="error_message_invalid_credentials">Invalid credentials.</string>
     <string name="error_message_device_registered">This device is linked to an existing account. Please log in.</string>
     <string name="error_message_invalid_otp">Invalid otp.</string>
-    <string name="error_message_invalid_phone_number">Invalid phone number.</string>
+
 </resources>

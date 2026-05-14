@@ -1,3 +1,3 @@
 package com.extexis.core.android.core
 
-const val otpTimer = 120
+const val OtpTimer = 120

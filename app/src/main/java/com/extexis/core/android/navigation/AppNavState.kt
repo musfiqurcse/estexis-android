@@ -16,6 +16,4 @@ fun rememberAppNavState(
 @Stable
 class AppNavState(
     val navHostController: NavHostController,
-) {
-
-}
+)

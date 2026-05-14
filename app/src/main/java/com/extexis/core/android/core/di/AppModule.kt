@@ -26,5 +26,4 @@ class AppModule {
     ): LocalePreferences {
         return LocalePreferences(context)
     }
-
 }
