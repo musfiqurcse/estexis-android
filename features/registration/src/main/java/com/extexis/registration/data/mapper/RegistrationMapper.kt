@@ -10,4 +10,7 @@ fun RegistrationParams.toRequest() = RegistrationRequest(
     phoneNumber = phoneNumber,
     password = password,
     confirmPassword = confirmPassword,
+    role = role,
+    accountType = accountType,
+    countryCode = countryCode
 )
