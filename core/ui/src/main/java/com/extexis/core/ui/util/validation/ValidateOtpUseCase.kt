@@ -12,7 +12,7 @@ interface ValidateOtpUseCase {
 class ValidateOtpUseCaseImpl @Inject constructor() : ValidateOtpUseCase {
 
     override fun validate(otp: String): ValidationResult {
-        if (otp.isBlank() || otp.length<6) {
+        if (otp.isBlank() || otp.length < 6) {
             return ValidationResult(
                 isSuccessful = false,
                 errorMessage = UiText.StringResource(resId = R.string.invalid_otp),

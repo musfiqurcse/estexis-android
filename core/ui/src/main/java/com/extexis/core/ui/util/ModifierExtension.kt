@@ -40,7 +40,6 @@ fun Modifier.addBorder(color: Color) = this.border(
     shape = RoundedCornerShape(AppTheme.dimensions.radius.medium)
 )
 
-
 fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
     clickable(
         indication = null,
@@ -49,7 +48,6 @@ fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
         onClick()
     }
 }
-
 
 @Composable
 fun Modifier.addStatusBarPadding() = this.padding(WindowInsets.statusBars.asPaddingValues())

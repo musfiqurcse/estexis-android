@@ -39,7 +39,7 @@ fun NavGraphBuilder.registrationNavGraph(navController: NavHostController) {
                         navController.navigate(
                             OtpRoute(
                                 email = event.email,
-                                purpose = OtpPurpose.Registration,
+                                purpose = OtpPurpose.REGISTRATION,
                             )
                         )
                     }

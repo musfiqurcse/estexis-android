@@ -30,20 +30,14 @@ import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 
-enum class AppButtonVariant {
-    Primary,
-    Secondary,
-    Outlined,
-}
-
-private const val alphaValue = 0.38f
+private const val ALPHA_VALUE = 0.38f
 
 @Composable
 fun AppButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    variant: AppButtonVariant = AppButtonVariant.Primary,
+    variant: AppButtonVariant = AppButtonVariant.PRIMARY,
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
     enabled: Boolean = true,
@@ -52,9 +46,9 @@ fun AppButton(
     val shape = RoundedCornerShape(AppTheme.dimensions.radius.pill)
 
     when (variant) {
-        AppButtonVariant.Outlined -> {
+        AppButtonVariant.OUTLINED -> {
             val contentColor =
-                if (enabled) colors.action else colors.action.copy(alpha = alphaValue)
+                if (enabled) colors.action else colors.action.copy(alpha = ALPHA_VALUE)
             OutlinedButton(
                 onClick = onClick,
                 modifier = modifier.height(AppTheme.dimensions.sizes.x13),
@@ -64,11 +58,11 @@ fun AppButton(
                     containerColor = Color.Transparent,
                     contentColor = contentColor,
                     disabledContainerColor = Color.Transparent,
-                    disabledContentColor = colors.action.copy(alpha = alphaValue),
+                    disabledContentColor = colors.action.copy(alpha = ALPHA_VALUE),
                 ),
                 border = BorderStroke(
                     width = AppTheme.dimensions.borders.low,
-                    color = if (enabled) colors.action else colors.action.copy(alpha = alphaValue),
+                    color = if (enabled) colors.action else colors.action.copy(alpha = ALPHA_VALUE),
                 ),
                 contentPadding = PaddingValues(
                     horizontal = AppTheme.dimensions.spaces.x7,
@@ -86,12 +80,12 @@ fun AppButton(
 
         else -> {
             val bgColor = when (variant) {
-                AppButtonVariant.Primary -> colors.secondary
-                AppButtonVariant.Secondary -> colors.primaryContainer
+                AppButtonVariant.PRIMARY -> colors.secondary
+                AppButtonVariant.SECONDARY -> colors.primaryContainer
             }
             val contentColor = when (variant) {
-                AppButtonVariant.Primary -> colors.white
-                AppButtonVariant.Secondary -> colors.onBackground
+                AppButtonVariant.PRIMARY -> colors.white
+                AppButtonVariant.SECONDARY -> colors.onBackground
             }
             Button(
                 onClick = onClick,
@@ -101,8 +95,8 @@ fun AppButton(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = bgColor,
                     contentColor = contentColor,
-                    disabledContainerColor = bgColor.copy(alpha = alphaValue),
-                    disabledContentColor = contentColor.copy(alpha = alphaValue),
+                    disabledContainerColor = bgColor.copy(alpha = ALPHA_VALUE),
+                    disabledContentColor = contentColor.copy(alpha = ALPHA_VALUE),
                 ),
                 contentPadding = PaddingValues(
                     horizontal = AppTheme.dimensions.spaces.x7,
@@ -164,6 +158,12 @@ private fun ButtonContent(
     }
 }
 
+enum class AppButtonVariant {
+    PRIMARY,
+    SECONDARY,
+    OUTLINED,
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun AppButtonPreview() {
@@ -184,12 +184,12 @@ private fun AppButtonPreview() {
             AppButton(
                 text = "Back",
                 onClick = {},
-                variant = AppButtonVariant.Secondary,
+                variant = AppButtonVariant.SECONDARY,
             )
             AppButton(
                 text = "Re-Generate",
                 onClick = {},
-                variant = AppButtonVariant.Outlined,
+                variant = AppButtonVariant.OUTLINED,
                 leadingIcon = Icons.Default.AutoAwesome,
             )
             AppButton(

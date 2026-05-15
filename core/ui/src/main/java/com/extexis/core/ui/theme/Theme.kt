@@ -9,14 +9,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import com.extexis.core.ui.R
-
 
 val DMSans = FontFamily(
     Font(R.font.dm_sans_regular, FontWeight.Normal),
@@ -56,7 +55,6 @@ object AppTheme {
     val typography: AppTextStyles
         @Composable get() = LocalSleepTypography.current
 }
-
 
 @Composable
 fun ExtexisAndroidTheme(

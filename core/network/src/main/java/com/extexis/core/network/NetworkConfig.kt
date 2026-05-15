@@ -9,8 +9,6 @@ object NetworkConfig {
     const val REGISTER = "v1/auth/register"
     const val VERIFY_EMAIL = "v1/auth/verify-email"
 
-
-
     const val REFRESH_TOKEN = "v1/auth/refresh"
 
     const val SEND_OTP = "v1/auth/resend-verification"

@@ -1,8 +1,8 @@
 package com.extexis.otp.data.api
 
-import com.extexis.core.network.responses.ApiReSendOtpResponse
 import com.extexis.core.network.NetworkConfig
 import com.extexis.core.network.ReSendOtpRequest
+import com.extexis.core.network.responses.ApiReSendOtpResponse
 import com.extexis.otp.data.request.EmailVerificationRequest
 import com.extexis.otp.data.request.UpdatePasswordRequest
 import com.extexis.otp.data.response.ApiEmailVerificationResponse

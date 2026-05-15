@@ -1,7 +1,6 @@
 package com.extexis.core.common.util
 
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -28,7 +27,6 @@ fun formatDateString(input: String): String {
         outputFormat.format(date) // Output: 10 October 2025
     } ?: ""
 }
-
 
 fun todayStartInMillis(): Long {
     val cal = Calendar.getInstance()

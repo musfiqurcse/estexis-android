@@ -26,12 +26,13 @@ suspend fun <T> executeSafeApiCall(apiCall: suspend () -> Response<T>): ApiResul
             code = "NO_INTERNET",
             message = "No internet connection."
         )
-    } catch (e: Exception) {
-        ApiResult.Error(
-            code = "UNKNOWN",
-            message = e.message ?: ""
-        )
     }
+//    catch (e: Exception) {
+//        ApiResult.Error(
+//            code = "UNKNOWN",
+//            message = e.message ?: ""
+//        )
+//    }
 }
 
 private fun parseErrorBody(statusCode: Int, errorBody: String?): ApiResult.Error {

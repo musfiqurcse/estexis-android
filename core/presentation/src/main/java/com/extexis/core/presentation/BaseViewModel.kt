@@ -12,5 +12,4 @@ abstract class BaseViewModel : ViewModel() {
     protected suspend fun sendMessage(messageEvent: UiMessageEvent) {
         _uiMessageEvent.emit(messageEvent)
     }
-
 }

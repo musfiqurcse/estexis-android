@@ -76,7 +76,7 @@ class OtpViewModel @Inject constructor(
 
         val otpError = if (current.otp.length < 6) "Please enter the complete 6-digit code" else null
 
-        if (current.purpose == OtpPurpose.ForgotPassword) {
+        if (current.purpose == OtpPurpose.FORGOT_PASSWORD) {
             val newPasswordError = if (current.newPassword.isBlank()) "Password is required" else null
             val confirmPasswordError = when {
                 current.confirmPassword.isBlank() -> "Please confirm your password"
@@ -102,7 +102,7 @@ class OtpViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             when (current.purpose) {
-                OtpPurpose.Registration -> {
+                OtpPurpose.REGISTRATION -> {
                     when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
                         is ApiResult.Success -> {
                             _state.update { it.copy(isLoading = false) }
@@ -118,7 +118,7 @@ class OtpViewModel @Inject constructor(
                         }
                     }
                 }
-                OtpPurpose.ForgotPassword -> {
+                OtpPurpose.FORGOT_PASSWORD -> {
                     when (val result = updatePasswordUseCase.updatePassword(
                         current.email, current.otp, current.newPassword, current.confirmPassword
                     )) {
@@ -144,8 +144,8 @@ class OtpViewModel @Inject constructor(
         val current = _state.value
         viewModelScope.launch {
             when (current.purpose) {
-                OtpPurpose.Registration -> resendOtpUseCase.resendForVerification(current.email)
-                OtpPurpose.ForgotPassword -> resendOtpUseCase.resendForForgotPassword(current.email)
+                OtpPurpose.REGISTRATION -> resendOtpUseCase.resendForVerification(current.email)
+                OtpPurpose.FORGOT_PASSWORD -> resendOtpUseCase.resendForForgotPassword(current.email)
             }
             _state.update { it.copy(otp = "", otpError = null) }
             startResendTimer()

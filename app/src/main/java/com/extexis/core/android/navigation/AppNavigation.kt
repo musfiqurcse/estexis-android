@@ -1,7 +1,6 @@
 package com.extexis.core.android.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import com.extexis.core.android.presentation.home.homeNavGraph
@@ -18,7 +17,6 @@ import com.extexis.splash.ui.splashScreenNavGraph
 fun AppNavigation(
     appNavState: AppNavState,
     onboardingState: OnBoardingState,
-    modifier: Modifier = Modifier,
 ) {
     val startDestination = when (onboardingState) {
         OnBoardingState.OnBoarded -> LoginRoute
@@ -48,7 +46,7 @@ fun AppNavigation(
         registrationNavGraph(navController)
         forgotPasswordNavGraph(navController)
         otpNavGraph(navController)
-        homeNavGraph(appNavState)
+        homeNavGraph()
     }
 }
 

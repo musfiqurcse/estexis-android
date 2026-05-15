@@ -15,11 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.extexis.core.android.navigation.AppBottomNavBar
-import com.extexis.core.android.navigation.AppNavState
 import com.extexis.core.android.navigation.HomeTab
 import com.extexis.core.navigation.HomeRoute
 
-fun NavGraphBuilder.homeNavGraph(appNavState: AppNavState) {
+fun NavGraphBuilder.homeNavGraph() {
     composable<HomeRoute> {
         HomeScreen()
     }
@@ -27,7 +26,7 @@ fun NavGraphBuilder.homeNavGraph(appNavState: AppNavState) {
 
 @Composable
 private fun HomeScreen() {
-    var selectedTab by rememberSaveable { mutableStateOf(HomeTab.Dashboard) }
+    var selectedTab by rememberSaveable { mutableStateOf(HomeTab.DASHBOARD) }
 
     Scaffold(
         containerColor = Color.Transparent,
@@ -45,11 +44,11 @@ private fun HomeScreen() {
                 .padding(innerPadding),
         ) {
             when (selectedTab) {
-                HomeTab.Dashboard -> DashboardScreen()
-                HomeTab.Listings -> ListingsScreen()
-                HomeTab.Add -> AddListingScreen()
-                HomeTab.Messages -> MessagesScreen()
-                HomeTab.Menu -> MenuScreen()
+                HomeTab.DASHBOARD -> DashboardScreen()
+                HomeTab.LISTINGS -> ListingsScreen()
+                HomeTab.ADD -> AddListingScreen()
+                HomeTab.MESSAGES -> MessagesScreen()
+                HomeTab.MENU -> MenuScreen()
             }
         }
     }

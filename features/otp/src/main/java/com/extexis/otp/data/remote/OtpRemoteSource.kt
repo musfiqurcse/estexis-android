@@ -1,9 +1,9 @@
 package com.extexis.otp.data.remote
 
-import com.extexis.core.network.responses.ApiReSendOtpResponse
 import com.extexis.core.network.ApiResult
 import com.extexis.core.network.ReSendOtpRequest
 import com.extexis.core.network.executeSafeApiCall
+import com.extexis.core.network.responses.ApiReSendOtpResponse
 import com.extexis.otp.data.api.OtpApi
 import com.extexis.otp.data.request.EmailVerificationRequest
 import com.extexis.otp.data.request.UpdatePasswordRequest

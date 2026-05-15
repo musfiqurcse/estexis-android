@@ -5,7 +5,7 @@ import com.extexis.core.navigation.OtpPurpose
 data class OtpState(
     val otp: String = "",
     val email: String = "",
-    val purpose: OtpPurpose = OtpPurpose.Registration,
+    val purpose: OtpPurpose = OtpPurpose.REGISTRATION,
     val isLoading: Boolean = false,
     val otpError: String? = null,
     val resendTimer: Int = 60,

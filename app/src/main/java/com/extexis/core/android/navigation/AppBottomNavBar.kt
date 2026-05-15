@@ -11,12 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.ChatBubbleOutline
-import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -28,18 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
-
-enum class HomeTab(val icon: ImageVector, val label: String) {
-    Dashboard(Icons.Default.GridView, "Dashboard"),
-    Listings(Icons.Default.Home, "Listings"),
-    Add(Icons.Default.Add, "Add"),
-    Messages(Icons.Default.ChatBubbleOutline, "Messages"),
-    Menu(Icons.Default.BarChart, "Menu"),
-}
 
 private val NavBarContainerColor = Color(0xFF4D4D4F)
 
@@ -72,31 +57,48 @@ fun AppBottomNavBar(
         ) {
             HomeTab.entries.forEach { tab ->
 
-                val isLast = tab == HomeTab.entries.last()
-
-                val circleColor = if (tab == HomeTab.Add) colors.primary else colors.onTertiary
-
-                Box(
-                    modifier = Modifier
-                        .padding(end =
-                            if (isLast) AppTheme.dimensions.spaces.x0
-                            else AppTheme.dimensions.spaces.x3
-                        )
-                        .size(dimensions.sizes.x13)
-                        .clip(CircleShape)
-                        .background(circleColor),
-                    contentAlignment = Alignment.Center,
+                BottomNavItem(
+                    tab = tab,
+                    isLast = tab == HomeTab.entries.last(),
+                    selectedTab = selectedTab
                 ) {
-                    IconButton(onClick = { onTabSelected(tab) }) {
-                        Icon(
-                            imageVector = tab.icon,
-                            contentDescription = tab.label,
-                            tint = if (tab == selectedTab) colors.success else colors.white,
-                            modifier = Modifier.size(dimensions.sizes.x7),
-                        )
-                    }
+                    onTabSelected(tab)
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BottomNavItem(
+    tab: HomeTab,
+    isLast: Boolean,
+    selectedTab: HomeTab,
+    onTabSelected: (HomeTab) -> Unit,
+) {
+
+    val colors = AppTheme.colors
+    val dimensions = AppTheme.dimensions
+    val circleColor = if (tab == HomeTab.ADD) colors.primary else colors.onTertiary
+
+    Box(
+        modifier = Modifier
+            .padding(end =
+                if (isLast) AppTheme.dimensions.spaces.x0
+                else AppTheme.dimensions.spaces.x3
+            )
+            .size(dimensions.sizes.x13)
+            .clip(CircleShape)
+            .background(circleColor),
+        contentAlignment = Alignment.Center,
+    ) {
+        IconButton(onClick = { onTabSelected(tab) }) {
+            Icon(
+                imageVector = tab.icon,
+                contentDescription = tab.label,
+                tint = if (tab == selectedTab) colors.success else colors.white,
+                modifier = Modifier.size(dimensions.sizes.x7),
+            )
         }
     }
 }
@@ -105,7 +107,7 @@ fun AppBottomNavBar(
 @Composable
 private fun AppBottomNavBarPreview() {
     ExtexisAndroidTheme {
-        var selectedTab by remember { mutableStateOf(HomeTab.Dashboard) }
+        var selectedTab by remember { mutableStateOf(HomeTab.DASHBOARD) }
         AppBottomNavBar(
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it },

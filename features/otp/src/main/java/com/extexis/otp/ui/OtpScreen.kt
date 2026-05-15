@@ -27,6 +27,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import com.extexis.core.navigation.OtpPurpose
 import com.extexis.core.ui.gds.ActionButton
 import com.extexis.core.ui.gds.AppButton
 import com.extexis.core.ui.gds.AppIconButton
@@ -34,7 +35,6 @@ import com.extexis.core.ui.gds.AppOtpField
 import com.extexis.core.ui.gds.AppTextField
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
-import com.extexis.core.navigation.OtpPurpose
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 import com.extexis.otp.R
 
@@ -110,7 +110,7 @@ fun OtpScreen(
 
         Spacer(Modifier.height(dimensions.spaces.x6))
 
-        if (state.purpose == OtpPurpose.ForgotPassword) {
+        if (state.purpose == OtpPurpose.FORGOT_PASSWORD) {
             Spacer(Modifier.height(dimensions.spaces.x6))
 
             AppTextField(
@@ -143,7 +143,7 @@ fun OtpScreen(
         Spacer(Modifier.height(dimensions.spaces.x8))
 
         AppButton(
-            text = if (state.purpose == OtpPurpose.ForgotPassword)
+            text = if (state.purpose == OtpPurpose.FORGOT_PASSWORD)
                 stringResource(R.string.otp_screen_cta_reset_password)
             else stringResource(R.string.otp_screen_cta_verify),
             onClick = { event(OtpUiEvent.VerifyClicked) },
@@ -181,7 +181,7 @@ fun OtpScreen(
 private fun OtpScreenPreview() {
     ExtexisAndroidTheme {
         OtpScreen(
-            state = OtpState(email = "dd@gmail.com", purpose = OtpPurpose.Registration),
+            state = OtpState(email = "dd@gmail.com", purpose = OtpPurpose.REGISTRATION),
             event = {},
         )
     }
@@ -194,7 +194,7 @@ private fun OtpScreenForgotPasswordPreview() {
         OtpScreen(
             state = OtpState(
                 email = "dd@gmail.com",
-                purpose = OtpPurpose.ForgotPassword,
+                purpose = OtpPurpose.FORGOT_PASSWORD,
                 otp = "123456",
                 canResend = true,
             ),

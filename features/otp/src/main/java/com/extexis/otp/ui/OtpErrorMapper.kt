@@ -1,20 +1,7 @@
 package com.extexis.otp.ui
 
-import com.extexis.core.ui.R as CoreUiR
 import com.extexis.core.ui.util.UiText
-
-
-enum class OtpErrorCode(val raw: String) {
-    VALIDATION_OTP_INVALID("VALIDATION_OTP_INVALID"),
-    USER_NOT_FOUND("USER_NOT_FOUND"),
-    NO_INTERNET("NO_INTERNET"),
-    UNKNOWN("UNKNOWN");
-
-    companion object {
-        fun from(raw: String?): OtpErrorCode =
-            entries.find { it.raw == raw } ?: UNKNOWN
-    }
-}
+import com.extexis.core.ui.R as CoreUiR
 
 object OtpErrorMapper {
     fun toUiMessage(code: OtpErrorCode): UiText {
@@ -31,5 +18,17 @@ object OtpErrorMapper {
             OtpErrorCode.UNKNOWN ->
                 UiText.StringResource(CoreUiR.string.error_message_something_went_wrong)
         }
+    }
+}
+
+enum class OtpErrorCode(val raw: String) {
+    VALIDATION_OTP_INVALID("VALIDATION_OTP_INVALID"),
+    USER_NOT_FOUND("USER_NOT_FOUND"),
+    NO_INTERNET("NO_INTERNET"),
+    UNKNOWN("UNKNOWN");
+
+    companion object {
+        fun from(raw: String?): OtpErrorCode =
+            entries.find { it.raw == raw } ?: UNKNOWN
     }
 }

@@ -6,7 +6,6 @@ import javax.inject.Inject
 interface ValidateNonEmptyFieldUseCase {
 
     fun isEmpty(value: String, errorMessageId: Int): ValidationResult
-
 }
 
 class ValidateNonEmptyFieldUseCaseImpl @Inject constructor() : ValidateNonEmptyFieldUseCase {
@@ -15,7 +14,7 @@ class ValidateNonEmptyFieldUseCaseImpl @Inject constructor() : ValidateNonEmptyF
         value: String,
         errorMessageId: Int
     ): ValidationResult {
-        if(value.isEmpty() || value.isBlank()) {
+        if (value.isEmpty() || value.isBlank()) {
             return ValidationResult(
                 isSuccessful = false,
                 errorMessage = UiText.StringResource(resId = errorMessageId),
@@ -25,5 +24,4 @@ class ValidateNonEmptyFieldUseCaseImpl @Inject constructor() : ValidateNonEmptyF
             isSuccessful = true
         )
     }
-
 }

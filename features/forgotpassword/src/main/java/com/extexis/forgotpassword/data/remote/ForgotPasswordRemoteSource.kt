@@ -1,9 +1,9 @@
 package com.extexis.forgotpassword.data.remote
 
-import com.extexis.core.network.responses.ApiReSendOtpResponse
 import com.extexis.core.network.ApiResult
 import com.extexis.core.network.ReSendOtpRequest
 import com.extexis.core.network.executeSafeApiCall
+import com.extexis.core.network.responses.ApiReSendOtpResponse
 import com.extexis.forgotpassword.data.api.ForgotPasswordApi
 import javax.inject.Inject
 

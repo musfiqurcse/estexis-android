@@ -129,7 +129,7 @@ private fun GetStartedButton(
     ) {
         Box(modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             Text(
                 text = stringResource(R.string.get_started),
                 style = AppTextStyles.ButtonLabel,
@@ -139,7 +139,7 @@ private fun GetStartedButton(
 
         Box(modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomEnd
-        ){
+        ) {
             Box(
                 modifier = Modifier
                     .size(AppTheme.dimensions.sizes.x9)
