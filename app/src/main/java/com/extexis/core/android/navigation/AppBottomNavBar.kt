@@ -41,7 +41,6 @@ enum class HomeTab(val icon: ImageVector, val label: String) {
     Menu(Icons.Default.BarChart, "Menu"),
 }
 
-private val NavItemColor = Color(0xFF8A8A8A)
 private val NavBarContainerColor = Color(0xFF4D4D4F)
 
 @Composable
