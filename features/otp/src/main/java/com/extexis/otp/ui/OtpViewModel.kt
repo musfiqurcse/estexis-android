@@ -103,38 +103,52 @@ class OtpViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             when (current.purpose) {
                 OtpPurpose.REGISTRATION -> {
-                    when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
-                        is ApiResult.Success -> {
-                            _state.update { it.copy(isLoading = false) }
-                            _navigationEvent.send(OtpNavigationEvent.ToHome)
-                        }
-                        is ApiResult.Error -> {
-                            _state.update { it.copy(isLoading = false) }
-                            sendMessage(
-                                UiMessageEvent.ToastMessage(
-                                    OtpErrorMapper.toUiMessage(OtpErrorCode.from(result.code))
-                                )
-                            )
-                        }
-                    }
+                    verifyEmail()
                 }
                 OtpPurpose.FORGOT_PASSWORD -> {
-                    when (val result = updatePasswordUseCase.updatePassword(
-                        current.email, current.otp, current.newPassword, current.confirmPassword
-                    )) {
-                        is ApiResult.Success -> {
-                            _state.update { it.copy(isLoading = false) }
-                            _navigationEvent.send(OtpNavigationEvent.ToLogin)
-                        }
-                        is ApiResult.Error -> {
-                            _state.update { it.copy(isLoading = false) }
-                            sendMessage(
-                                UiMessageEvent.ToastMessage(
-                                    OtpErrorMapper.toUiMessage(OtpErrorCode.from(result.code))
-                                )
-                            )
-                        }
-                    }
+                    updatePassword()
+                }
+            }
+        }
+    }
+
+    private fun verifyEmail() {
+        viewModelScope.launch {
+            val current = _state.value
+            when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _navigationEvent.send(OtpNavigationEvent.ToHome)
+                }
+                is ApiResult.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            OtpErrorMapper.toUiMessage(OtpErrorCode.from(result.code))
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun updatePassword() {
+        viewModelScope.launch {
+            val current = _state.value
+            when (val result = updatePasswordUseCase.updatePassword(
+                current.email, current.otp, current.newPassword, current.confirmPassword
+            )) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _navigationEvent.send(OtpNavigationEvent.ToLogin)
+                }
+                is ApiResult.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            OtpErrorMapper.toUiMessage(OtpErrorCode.from(result.code))
+                        )
+                    )
                 }
             }
         }

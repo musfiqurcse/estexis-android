@@ -26,7 +26,9 @@ class ValidatePasswordUseCaseImpl @Inject constructor() : ValidatePasswordUseCas
         val hasDigit = password.any { it.isDigit() }
         val hasSpecial = password.any { !it.isLetterOrDigit() }
 
-        if (!hasLowercase || !hasUppercase || !hasDigit || !hasSpecial) {
+        val isValidFormat = hasLowercase && hasUppercase && hasDigit && hasSpecial
+
+        if (!isValidFormat) {
             return ValidationResult(
                 isSuccessful = false,
                 errorMessage = UiText.StringResource(resId = errorMessageId)
