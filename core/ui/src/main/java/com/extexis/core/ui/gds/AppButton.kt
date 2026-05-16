@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -41,6 +42,7 @@ fun AppButton(
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
     enabled: Boolean = true,
+    isLoading: Boolean = false,
 ) {
     val colors = AppTheme.colors
     val shape = RoundedCornerShape(AppTheme.dimensions.radius.pill)
@@ -52,7 +54,7 @@ fun AppButton(
             OutlinedButton(
                 onClick = onClick,
                 modifier = modifier.height(AppTheme.dimensions.sizes.x13),
-                enabled = enabled,
+                enabled = enabled && !isLoading,
                 shape = shape,
                 colors = ButtonDefaults.outlinedButtonColors(
                     containerColor = Color.Transparent,
@@ -74,6 +76,7 @@ fun AppButton(
                     contentColor = contentColor,
                     leadingIcon = leadingIcon,
                     trailingIcon = trailingIcon,
+                    isLoading = isLoading,
                 )
             }
         }
@@ -90,7 +93,7 @@ fun AppButton(
             Button(
                 onClick = onClick,
                 modifier = modifier.height(AppTheme.dimensions.sizes.x13),
-                enabled = enabled,
+                enabled = enabled && !isLoading,
                 shape = shape,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = bgColor,
@@ -113,6 +116,7 @@ fun AppButton(
                     contentColor = contentColor,
                     leadingIcon = leadingIcon,
                     trailingIcon = trailingIcon,
+                    isLoading = isLoading,
                 )
             }
         }
@@ -125,35 +129,44 @@ private fun ButtonContent(
     contentColor: Color,
     leadingIcon: ImageVector?,
     trailingIcon: ImageVector?,
+    isLoading: Boolean,
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-    ) {
-        if (leadingIcon != null) {
-            Icon(
-                imageVector = leadingIcon,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
-                tint = contentColor,
-            )
-            Spacer(Modifier.width(8.dp))
-        }
-
-        Text(
-            text = text,
-            style = AppTextStyles.ButtonLabel,
+    if (isLoading) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(20.dp),
             color = contentColor,
+            strokeWidth = 2.dp,
         )
+    } else {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            if (leadingIcon != null) {
+                Icon(
+                    imageVector = leadingIcon,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = contentColor,
+                )
+                Spacer(Modifier.width(8.dp))
+            }
 
-        if (trailingIcon != null) {
-            Spacer(Modifier.width(8.dp))
-            Icon(
-                imageVector = trailingIcon,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
-                tint = contentColor,
+            Text(
+                text = text,
+                style = AppTextStyles.ButtonLabel,
+                color = contentColor,
             )
+
+            if (trailingIcon != null) {
+                Spacer(Modifier.width(8.dp))
+                Icon(
+                    imageVector = trailingIcon,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = contentColor,
+                )
+            }
         }
     }
 }

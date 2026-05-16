@@ -11,6 +11,6 @@ data class LoginScreenUiState(
 )
 
 data class LoginFormState(
-    val email: String = "",
-    val password: String = "",
+    val email: String = "info.anikdey003@gmail.com",
+    val password: String = "1qazZAQ!",
 )

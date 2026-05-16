@@ -115,7 +115,7 @@ fun LoginScreen(
             text = stringResource(R.string.login_screen_cta_login),
             onClick = { event(LoginUiEvent.LoginClicked) },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !state.isLoading,
+            isLoading = state.isLoading,
         )
 
         Spacer(Modifier.height(dimensions.spaces.x6))
