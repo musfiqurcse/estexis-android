@@ -230,7 +230,6 @@ fun RegistrationScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun RegistrationScreenPreview() {

@@ -12,9 +12,9 @@ import com.extexis.core.ui.util.validation.ValidateEmailUseCase
 import com.extexis.core.ui.util.validation.ValidateNonEmptyFieldUseCase
 import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
 import com.extexis.registration.R
-import com.extexis.registration.domain.RegistrationParams
 import com.extexis.registration.domain.RegistrationErrorCode
 import com.extexis.registration.domain.RegistrationErrorMapper
+import com.extexis.registration.domain.RegistrationParams
 import com.extexis.registration.domain.RegistrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -138,7 +138,9 @@ class RegistrationViewModel @Inject constructor(
         val isValidPassword = isValidPassword()
         val isPasswordMatch = isConfirmPasswordMatched()
         val isRoleSelected = isRoleSelected()
-        return isFirstNameValid && isValidEmail && isValidPhoneNumber && isCountrySelected && isValidPassword && isPasswordMatch && isRoleSelected
+        return isFirstNameValid && isValidEmail &&
+            isValidPhoneNumber && isCountrySelected &&
+            isValidPassword && isPasswordMatch && isRoleSelected
     }
 
     private fun validateNameInput(): Boolean {

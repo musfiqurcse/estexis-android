@@ -23,7 +23,6 @@ import androidx.compose.ui.text.withStyle
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 
-
 @Composable
 fun CountryPickerFieldView(
     selected: String?,

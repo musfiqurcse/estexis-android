@@ -20,7 +20,6 @@ import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.registration.domain.AccountRole
 
-
 @Composable
 fun RoleSelectorView(
     selected: AccountRole?,
