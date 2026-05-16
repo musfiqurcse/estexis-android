@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetValue
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -46,7 +45,6 @@ import com.extexis.registration.domain.availableCountries
 fun RegistrationScreen(
     state: RegistrationState,
     formState: RegistrationFormState,
-    hostState: SnackbarHostState,
     event: (RegistrationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -240,7 +238,7 @@ private fun RegistrationScreenPreview() {
         RegistrationScreen(
             state = RegistrationState(),
             formState = RegistrationFormState(),
-            hostState = SnackbarHostState(),
+            // hostState = SnackbarHostState(),
             event = {},
         )
     }
