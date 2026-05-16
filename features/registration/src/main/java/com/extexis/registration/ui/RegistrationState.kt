@@ -22,7 +22,7 @@ data class RegistrationState(
 data class RegistrationFormState(
     val firstName: String = "Anik",
     val lastName: String = "Dey",
-    val email: String = "info.anikdey003@gmail.com",
+    val email: String = "info.anikdey003+5@gmail.com",
     val phoneNumber: String = "01917986107",
     val password: String = "1qazZAQ!",
     val confirmPassword: String = "1qazZAQ!",

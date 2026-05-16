@@ -6,17 +6,17 @@ import com.extexis.registration.data.repository.RegistrationRepository
 import javax.inject.Inject
 
 interface RegistrationUseCase {
-    suspend fun register(params: RegistrationParams): ApiResult<Boolean>
+    suspend fun register(params: RegistrationParams): ApiResult<String>
 }
 
 class RegistrationUseCaseImpl @Inject constructor(
     private val repository: RegistrationRepository,
 ) : RegistrationUseCase {
 
-    override suspend fun register(params: RegistrationParams): ApiResult<Boolean> {
+    override suspend fun register(params: RegistrationParams): ApiResult<String> {
         return when (val result = repository.register(params.toRequest())) {
             is ApiResult.Error -> result
-            is ApiResult.Success -> ApiResult.Success(result.data.emailSent)
+            is ApiResult.Success -> ApiResult.Success(result.data.message)
         }
     }
 }

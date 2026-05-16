@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.extexis.core.ui.gds.ActionButton
+import com.extexis.core.ui.gds.AppLoadingDialog
 import com.extexis.core.ui.gds.AppButton
 import com.extexis.core.ui.gds.AppIconButton
 import com.extexis.core.ui.gds.AppTextField
@@ -54,6 +55,10 @@ fun RegistrationScreen(
         skipPartiallyExpanded = true,
         confirmValueChange = { it != SheetValue.Hidden || !state.isLoading },
     )
+
+    if (state.isLoading) {
+        AppLoadingDialog()
+    }
 
     if (state.showCountryPicker) {
         CountryPickerBottomSheet(

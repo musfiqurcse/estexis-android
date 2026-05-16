@@ -28,7 +28,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val TIME_OUT = 60L
+    private const val TIME_OUT = 30L
     private const val CACHE_SIZE: Long = 500 * 1024 * 1024
 
     @Provides
