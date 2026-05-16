@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.extexis.core.network.ApiResult
 import com.extexis.core.presentation.BaseViewModel
 import com.extexis.core.presentation.UiMessageEvent
+import com.extexis.core.ui.util.UiText
 import com.extexis.core.ui.util.validation.ValidateEmailUseCase
 import com.extexis.core.ui.util.validation.ValidateNonEmptyFieldUseCase
 import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
 import com.extexis.registration.R
 import com.extexis.registration.domain.RegistrationParams
+import com.extexis.registration.domain.RegistrationErrorCode
+import com.extexis.registration.domain.RegistrationErrorMapper
 import com.extexis.registration.domain.RegistrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -64,6 +67,22 @@ class RegistrationViewModel @Inject constructor(
                 formState = formState.copy(phoneNumber = event.phoneNumber)
             }
 
+            is RegistrationUiEvent.CountrySelected -> {
+                formState = formState.copy(selectedCountry = event.country)
+                _uiState.update { it.copy(showCountryPicker = false, countryError = null) }
+            }
+
+            is RegistrationUiEvent.RoleChanged -> {
+                formState = formState.copy(selectedRole = event.role)
+                _uiState.update { it.copy(roleError = null) }
+            }
+
+            RegistrationUiEvent.ShowCountryPicker ->
+                _uiState.update { it.copy(showCountryPicker = true) }
+
+            RegistrationUiEvent.DismissCountryPicker ->
+                _uiState.update { it.copy(showCountryPicker = false) }
+
             RegistrationUiEvent.SignUpClicked -> initiateRegistration()
 
             RegistrationUiEvent.LoginClicked ->
@@ -86,6 +105,8 @@ class RegistrationViewModel @Inject constructor(
                         phoneNumber = formState.phoneNumber,
                         password = formState.password,
                         confirmPassword = formState.confirmPassword,
+                        countryCode = formState.selectedCountry?.code ?: "",
+                        role = formState.selectedRole?.value ?: ""
                     )
                 )
                 when (result) {
@@ -113,9 +134,11 @@ class RegistrationViewModel @Inject constructor(
         val isFirstNameValid = validateNameInput()
         val isValidEmail = isValidEmail()
         val isValidPhoneNumber = isValidPhoneNumber()
+        val isCountrySelected = isCountrySelected()
         val isValidPassword = isValidPassword()
         val isPasswordMatch = isConfirmPasswordMatched()
-        return isFirstNameValid && isValidEmail && isValidPhoneNumber && isValidPassword && isPasswordMatch
+        val isRoleSelected = isRoleSelected()
+        return isFirstNameValid && isValidEmail && isValidPhoneNumber && isCountrySelected && isValidPassword && isPasswordMatch && isRoleSelected
     }
 
     private fun validateNameInput(): Boolean {
@@ -145,6 +168,26 @@ class RegistrationViewModel @Inject constructor(
             it.copy(emailError = validationResult.errorMessage)
         }
         return validationResult.isSuccessful
+    }
+
+    private fun isCountrySelected(): Boolean {
+        val isSelected = formState.selectedCountry != null
+        if (!isSelected) {
+            _uiState.update { it.copy(countryError = UiText.StringResource(R.string.registration_screen_country_is_not_selected)) }
+        } else {
+            _uiState.update { it.copy(countryError = null) }
+        }
+        return isSelected
+    }
+
+    private fun isRoleSelected(): Boolean {
+        val isSelected = formState.selectedRole != null
+        if (!isSelected) {
+            _uiState.update { it.copy(roleError = UiText.StringResource(R.string.registration_screen_role_is_not_selected)) }
+        } else {
+            _uiState.update { it.copy(roleError = null) }
+        }
+        return isSelected
     }
 
     private fun isValidPhoneNumber(): Boolean {

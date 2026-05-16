@@ -7,4 +7,7 @@ data class RegistrationParams(
     val phoneNumber: String,
     val password: String,
     val confirmPassword: String,
+    val role: String,
+    val countryCode: String,
+    val accountType: String = "personal",
 )

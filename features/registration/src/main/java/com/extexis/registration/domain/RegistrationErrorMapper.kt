@@ -1,4 +1,4 @@
-package com.extexis.registration.ui
+package com.extexis.registration.domain
 
 import com.extexis.core.ui.R
 import com.extexis.core.ui.util.UiText

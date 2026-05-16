@@ -11,4 +11,7 @@ data class RegistrationRequest(
     @field:Json(name = "password") val password: String,
     @field:Json(name = "phone_number") val phoneNumber: String,
     @field:Json(name = "confirm_password") val confirmPassword: String,
+    @field:Json(name = "role") val role: String,
+    @field:Json(name = "country_code") val countryCode: String,
+    @field:Json(name = "account_type") val accountType: String
 )

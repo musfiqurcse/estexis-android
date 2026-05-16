@@ -20,7 +20,11 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,15 +39,33 @@ import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 import com.extexis.registration.R
+import com.extexis.registration.domain.availableCountries
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationScreen(
     state: RegistrationState,
     formState: RegistrationFormState,
+    hostState: SnackbarHostState,
     event: (RegistrationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
     val dimensions = AppTheme.dimensions
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+        confirmValueChange = { it != SheetValue.Hidden || !state.isLoading },
+    )
+
+    if (state.showCountryPicker) {
+        CountryPickerBottomSheet(
+            countries = availableCountries,
+            selectedCountry = formState.selectedCountry,
+            sheetState = sheetState,
+            onCountrySelected = { event(RegistrationUiEvent.CountrySelected(it)) },
+            onDismiss = { event(RegistrationUiEvent.DismissCountryPicker) },
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -134,6 +156,15 @@ fun RegistrationScreen(
 
         Spacer(Modifier.height(dimensions.spaces.x4))
 
+        CountryPickerFieldView(
+            selected = formState.selectedCountry?.let { "${it.flag}  ${it.name}" },
+            isError = state.countryError != null,
+            errorMessage = state.countryError?.asString(),
+            onClick = { event(RegistrationUiEvent.ShowCountryPicker) },
+        )
+
+        Spacer(Modifier.height(dimensions.spaces.x4))
+
         AppTextField(
             value = formState.password,
             onValueChange = { event(RegistrationUiEvent.PasswordChanged(it)) },
@@ -158,6 +189,15 @@ fun RegistrationScreen(
             isPassword = true,
             isError = state.confirmPasswordError != null,
             errorMessage = state.confirmPasswordError?.asString(),
+        )
+
+        Spacer(Modifier.height(dimensions.spaces.x4))
+
+        RoleSelectorView(
+            selected = formState.selectedRole,
+            isError = state.roleError != null,
+            errorMessage = state.roleError?.asString(),
+            onRoleSelected = { event(RegistrationUiEvent.RoleChanged(it)) },
         )
 
         Spacer(Modifier.height(dimensions.spaces.x8))
@@ -192,6 +232,7 @@ fun RegistrationScreen(
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 private fun RegistrationScreenPreview() {
@@ -199,7 +240,7 @@ private fun RegistrationScreenPreview() {
         RegistrationScreen(
             state = RegistrationState(),
             formState = RegistrationFormState(),
-            // hostState = SnackbarHostState(),
+            hostState = SnackbarHostState(),
             event = {},
         )
     }
