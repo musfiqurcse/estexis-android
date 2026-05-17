@@ -45,7 +45,7 @@ fun ForgotPasswordScreen(
             .padding(horizontal = dimensions.spaces.x4)
             .imePadding(),
     ) {
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppIconButton(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
@@ -53,7 +53,7 @@ fun ForgotPasswordScreen(
             contentDescription = "Back",
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x6))
+        VerticalSpacer(dimensions.spaces.x6)
 
         Text(
             text = stringResource(R.string.forgot_password_screen_title),
@@ -61,7 +61,7 @@ fun ForgotPasswordScreen(
             color = colors.tertiary,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x2))
+        VerticalSpacer(dimensions.spaces.x2)
 
         Text(
             text = stringResource(R.string.forgot_password_screen_message),

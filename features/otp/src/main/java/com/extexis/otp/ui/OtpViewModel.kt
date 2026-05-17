@@ -12,6 +12,7 @@ import com.extexis.core.presentation.BaseViewModel
 import com.extexis.core.presentation.UiMessageEvent
 import com.extexis.core.ui.error.AppErrorMapper
 import com.extexis.core.ui.util.UiText
+import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
 import com.extexis.otp.R
 import com.extexis.otp.domain.ResendOtpUseCase
 import com.extexis.otp.domain.UpdatePasswordUseCase
@@ -33,6 +34,7 @@ class OtpViewModel @Inject constructor(
     private val verifyEmailUseCase: VerifyEmailUseCase,
     private val updatePasswordUseCase: UpdatePasswordUseCase,
     private val resendOtpUseCase: ResendOtpUseCase,
+    private val validatePasswordUseCase: ValidatePasswordUseCase,
 ) : BaseViewModel() {
 
     private val route = savedStateHandle.toRoute<OtpRoute>()
@@ -52,7 +54,14 @@ class OtpViewModel @Inject constructor(
     private var timerJob: Job? = null
 
     init {
-        startResendTimer()
+        when(route.purpose) {
+            FORGOT_PASSWORD, REGISTRATION -> {
+                startResendTimer()
+            }
+            VERIFY_EXISTING_USER -> {
+                resendOtpForAccountVerification()
+            }
+        }
     }
 
     fun onEvent(event: OtpUiEvent) {
@@ -83,65 +92,23 @@ class OtpViewModel @Inject constructor(
     }
 
     private fun verify() {
-        val current = _state.value
-
-        val otpError = if (current.otp.length < 6)
-            UiText.StringResource(
-                R.string.otp_verification_screen_please_enter_the_complete_6_digit_code
-            )
-        else null
-
-        if (current.purpose == FORGOT_PASSWORD) {
-            val newPasswordError =
-                if (current.newPassword.isBlank())
-                    UiText.StringResource(
-                        R.string.otp_verification_screen_password_required
-                    )
-                else null
-            val confirmPasswordError = when {
-                current.confirmPassword.isBlank() ->
-                    UiText.StringResource(
-                        R.string.otp_verification_screen_confirm_password
-                    )
-                current.confirmPassword != current.newPassword ->
-                    UiText.StringResource(
-                        R.string.otp_verification_screen_password_miss_match
-                    )
-                else -> null
+        when (_state.value.purpose) {
+            REGISTRATION, VERIFY_EXISTING_USER -> {
+                verifyEmail()
             }
 
-            if (otpError != null || newPasswordError != null || confirmPasswordError != null) {
-                _state.update {
-                    it.copy(
-                        otpError = otpError,
-                        newPasswordError = newPasswordError,
-                        confirmPasswordError = confirmPasswordError,
-                    )
-                }
-                return
-            }
-        } else if (otpError != null) {
-            _state.update { it.copy(otpError = otpError) }
-            return
-        }
-
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            when (current.purpose) {
-                REGISTRATION, VERIFY_EXISTING_USER -> {
-                    verifyEmail()
-                }
-
-                FORGOT_PASSWORD -> {
-                    updatePassword()
-                }
+            FORGOT_PASSWORD -> {
+                updatePassword()
             }
         }
     }
 
     private fun verifyEmail() {
         viewModelScope.launch {
+            if(!isValidOtp()) return@launch
+
             val current = _state.value
+
             when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
@@ -162,6 +129,8 @@ class OtpViewModel @Inject constructor(
 
     private fun updatePassword() {
         viewModelScope.launch {
+            if(!isValidInput()) return@launch
+
             val current = _state.value
             when (val result = updatePasswordUseCase.updatePassword(
                 current.email, current.otp, current.newPassword, current.confirmPassword
@@ -181,6 +150,33 @@ class OtpViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun isValidInput(): Boolean {
+        val isValidOtp = isValidOtp()
+        val isValidPassword = isValidPassword()
+        val isPasswordMatch = isConfirmPasswordMatched()
+
+        return isValidPassword && isPasswordMatch && isValidOtp
+    }
+
+    private fun isValidPassword(): Boolean {
+        val validationResult = validatePasswordUseCase.validatePassword(_state.value.newPassword)
+        _state.update {
+            it.copy(newPasswordError = validationResult.errorMessage)
+        }
+        return validationResult.isSuccessful
+    }
+
+    private fun isConfirmPasswordMatched(): Boolean {
+        val validationResult = validatePasswordUseCase.validateConfirmPassword(
+            password = _state.value.newPassword,
+            confirmPassword = _state.value.confirmPassword
+        )
+        _state.update {
+            it.copy(confirmPasswordError = validationResult.errorMessage)
+        }
+        return validationResult.isSuccessful
     }
 
     private fun resend() {
@@ -215,7 +211,8 @@ class OtpViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             when (val result = resendOtpUseCase.resendForForgotPassword(
-                _state.value.email, _state.value.lastName)
+                _state.value.email, _state.value.lastName
+            )
             ) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
@@ -232,6 +229,20 @@ class OtpViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun isValidOtp(): Boolean {
+        if (_state.value.otp.length < 6) {
+            _state.update {
+                it.copy(
+                    otpError = UiText.StringResource(
+                        R.string.otp_verification_screen_please_enter_the_complete_6_digit_code
+                    )
+                )
+            }
+            return false
+        }
+        return true
     }
 
     private fun startResendTimer() {
