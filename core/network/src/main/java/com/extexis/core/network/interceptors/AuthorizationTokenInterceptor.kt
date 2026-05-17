@@ -22,9 +22,11 @@ class AuthorizationTokenInterceptor(
         val request = runBlocking { attachToken(chain.request(), isExpired = false) }
         val response = chain.proceed(request)
         if (response.code != 401) return response
-        response.close()
+
         val refreshedRequest = runBlocking { attachToken(chain.request(), isExpired = true) }
         if (refreshedRequest == chain.request()) return response
+
+        response.close()
         return chain.proceed(refreshedRequest)
     }
 

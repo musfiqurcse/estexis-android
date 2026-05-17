@@ -12,8 +12,6 @@
     <string name="error_message_email_not_registered">This email is not associated with any account.</string>
     <string name="error_message_too_many_attempts">Too many attempts. Please try again later.</string>
     <string name="error_message_account_locked">Your account is temporarily locked.</string>
-    <string name="error_message_account_not_verified">Email not verified.</string>
-    <string name="error_message_invalid_credentials">Invalid credentials.</string>
     <string name="error_message_device_registered">This device is linked to an existing account. Please log in.</string>
     <string name="error_message_invalid_otp">Invalid otp.</string>
 

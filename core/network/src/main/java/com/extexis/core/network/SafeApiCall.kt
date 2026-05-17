@@ -7,6 +7,8 @@ import java.io.IOException
 suspend fun <T> executeSafeApiCall(apiCall: suspend () -> Response<T>): ApiResult<T> {
     return try {
         val response = apiCall()
+        val edf = response.isSuccessful
+        print(edf)
         return if (response.isSuccessful) {
             response.body()?.let { body ->
                 ApiResult.Success(body)

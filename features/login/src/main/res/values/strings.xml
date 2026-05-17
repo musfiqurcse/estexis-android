@@ -9,4 +9,6 @@
     <string name="login_screen_cta_login">Login</string>
     <string name="login_screen_cta_sign_up_now">Sign up now</string>
     <string name="login_screen_don_t_have_an_account">"Don\'t have an account? "</string>
+    <string name="error_message_account_not_verified">Email not verified.</string>
+    <string name="error_message_invalid_credentials">Invalid credentials.</string>
 </resources>

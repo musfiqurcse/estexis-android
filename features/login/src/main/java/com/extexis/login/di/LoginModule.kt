@@ -4,6 +4,7 @@ import com.extexis.login.data.api.LoginApi
 import com.extexis.login.data.repository.LoginRepository
 import com.extexis.login.data.repository.LoginRepositoryImpl
 import com.extexis.login.domain.LoginUseCase
+import com.extexis.core.network.qualifiers.RetrofitNoAuthorizationHeader
 import com.extexis.login.domain.LoginUseCaseImpl
 import dagger.Binds
 import dagger.Module
@@ -25,7 +26,7 @@ abstract class LoginModule {
 
     companion object {
         @Provides @Singleton
-        fun provideLoginApi(retrofit: Retrofit): LoginApi =
+        fun provideLoginApi(@RetrofitNoAuthorizationHeader retrofit: Retrofit): LoginApi =
             retrofit.create(LoginApi::class.java)
     }
 }
