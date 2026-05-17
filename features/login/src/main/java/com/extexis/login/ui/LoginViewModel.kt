@@ -3,9 +3,10 @@ package com.extexis.login.ui
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.extexis.core.network.ApiResult
+import com.extexis.core.presentation.BaseViewModel
+import com.extexis.core.presentation.UiMessageEvent
 import com.extexis.core.ui.util.validation.ValidateEmailUseCase
 import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
 import com.extexis.login.domain.LoginUseCase
@@ -23,7 +24,7 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow(LoginScreenUiState())
     val state: StateFlow<LoginScreenUiState> = _state
@@ -58,6 +59,16 @@ class LoginViewModel @Inject constructor(
                 }
                 is ApiResult.Error -> {
                     _state.update { it.copy(isLoading = false, isError = true) }
+                    val message = LoginErrorMapper.map(result.code)
+
+                    if (result.code == LoginErrorMapper.NOT_VERIFIED) {
+                        sendMessage(
+                            UiMessageEvent.ToastMessage(errorMessage = message)
+                        )
+                        _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
+                    } else {
+                        sendMessage(UiMessageEvent.ToastMessage(message))
+                    }
                 }
             }
         }

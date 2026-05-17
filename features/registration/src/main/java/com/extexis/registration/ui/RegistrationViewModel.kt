@@ -12,7 +12,6 @@ import com.extexis.core.ui.util.validation.ValidateEmailUseCase
 import com.extexis.core.ui.util.validation.ValidateNonEmptyFieldUseCase
 import com.extexis.core.ui.util.validation.ValidatePasswordUseCase
 import com.extexis.registration.R
-import com.extexis.registration.domain.RegistrationErrorCode
 import com.extexis.registration.domain.RegistrationErrorMapper
 import com.extexis.registration.domain.RegistrationParams
 import com.extexis.registration.domain.RegistrationUseCase
@@ -118,9 +117,7 @@ class RegistrationViewModel @Inject constructor(
                     is ApiResult.Error -> {
                         sendMessage(
                             UiMessageEvent.ToastMessage(
-                                RegistrationErrorMapper.toUiMessage(
-                                    RegistrationErrorCode.from(result.code)
-                                )
+                                RegistrationErrorMapper.map(result.code)
                             )
                         )
                         _uiState.update { it.copy(isLoading = false, isError = true) }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,8 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,25 +43,18 @@ fun SplashScreen(
 
     val colors = AppTheme.colors
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppTheme.colors.onPrimary),
+        contentAlignment = Alignment.BottomCenter
+    ) {
 
         Image(
             painter = painterResource(AppIcon.SplashBG.resId),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.wrapContentHeight().fillMaxWidth(),
             contentScale = ContentScale.Crop,
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        0.0f to Color.Transparent,
-                        0.45f to Color.Black.copy(alpha = 0.15f),
-                        1.0f to Color.Black.copy(alpha = 0.88f),
-                    )
-                )
         )
 
         Column(
@@ -71,14 +63,14 @@ fun SplashScreen(
                 .statusBarsPadding()
                 .navigationBarsPadding()
                 .padding(horizontal = AppTheme.dimensions.sizes.x6),
-            verticalArrangement = Arrangement.Bottom,
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Text(
                 text = stringResource(R.string.welcome_to),
                 style = AppTheme.typography.Title,
-                color = Color.White,
+                color = AppTheme.colors.primary,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -96,31 +88,29 @@ fun SplashScreen(
             Text(
                 text = stringResource(R.string.smart_way_to_find_your_dream_property),
                 style = AppTextStyles.BodyLarge,
-                color = Color.White.copy(alpha = 0.85f),
+                color = AppTheme.colors.tertiary,
             )
 
             Spacer(Modifier.height(AppTheme.dimensions.sizes.x8))
 
             GetStartedButton(
-                onClick = { event(SplashScreenUiEvent.GetStarted) },
-                primaryColor = colors.primary,
+                onClick = { event(SplashScreenUiEvent.GetStarted) }
             )
 
-            Spacer(Modifier.height(AppTheme.dimensions.sizes.x4))
+            Spacer(Modifier.height(AppTheme.dimensions.sizes.x41))
         }
     }
 }
 
 @Composable
 private fun GetStartedButton(
-    onClick: () -> Unit,
-    primaryColor: Color,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .height(AppTheme.dimensions.sizes.x15)
             .clip(RoundedCornerShape(AppRadius.pill))
-            .background(Color.White)
+            .background(AppTheme.colors.secondary)
             .clickable(onClick = onClick)
             .padding(
                 horizontal = AppTheme.dimensions.spaces.x5,
@@ -133,7 +123,7 @@ private fun GetStartedButton(
             Text(
                 text = stringResource(R.string.get_started),
                 style = AppTextStyles.ButtonLabel,
-                color = Color.Black,
+                color = AppTheme.colors.white,
             )
         }
 
@@ -144,13 +134,13 @@ private fun GetStartedButton(
                 modifier = Modifier
                     .size(AppTheme.dimensions.sizes.x9)
                     .clip(CircleShape)
-                    .background(primaryColor),
+                    .background(AppTheme.colors.white),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = AppTheme.colors.primary,
                     modifier = Modifier.size(AppTheme.dimensions.sizes.x5),
                 )
             }

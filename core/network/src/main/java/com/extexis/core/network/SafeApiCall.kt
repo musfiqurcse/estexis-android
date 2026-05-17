@@ -44,11 +44,11 @@ private fun parseErrorBody(statusCode: Int, errorBody: String?): ApiResult.Error
     }
     return try {
         val json = JSONObject(errorBody)
-        val errorObject = json.optJSONObject("error")
-        val code = errorObject?.optString("code") ?: ""
-        val message = errorObject?.optString("message") ?: ""
-        val details = errorObject?.optJSONObject("details")?.toMap()
-        ApiResult.Error(statusCode = statusCode, code = code, message = message, details = details)
+        // val detail = json.optJSONArray("detail")
+        val code = json.keys().asSequence()
+            .firstNotNullOfOrNull { key -> json.optJSONArray(key)?.optString(0) } ?: ""
+        // val code = detail?.optString(0) ?: ""
+        ApiResult.Error(statusCode = statusCode, code = code)
     } catch (_: Exception) {
         ApiResult.Error(
             statusCode = statusCode,
@@ -57,11 +57,3 @@ private fun parseErrorBody(statusCode: Int, errorBody: String?): ApiResult.Error
         )
     }
 }
-
-fun JSONObject.toMap(): Map<String, Any> =
-    keys().asSequence().associateWith { key ->
-        when (val value = this.get(key)) {
-            is JSONObject -> value.toMap()
-            else -> value
-        }
-    }

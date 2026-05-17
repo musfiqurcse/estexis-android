@@ -12,7 +12,7 @@ class LoginRemoteSource @Inject constructor(
 ) {
     suspend fun login(email: String, password: String): ApiResult<ApiLoginResponse> {
         return executeSafeApiCall {
-            loginApi.login(LoginRequest(identifier = email, password = password))
+            loginApi.login(LoginRequest(email = email, password = password))
         }
     }
 }

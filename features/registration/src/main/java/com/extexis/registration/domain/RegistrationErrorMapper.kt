@@ -1,12 +1,14 @@
 package com.extexis.registration.domain
 
 import com.extexis.core.ui.R
+import com.extexis.core.ui.error.AppErrorMapper
+import com.extexis.core.ui.error.ErrorMapper
 import com.extexis.core.ui.util.UiText
 
 enum class RegistrationErrorCode(val raw: String) {
-    VALIDATION_FAILED("VALIDATION_FAILED"),
-    USER_EMAIL_EXISTS("USER_EMAIL_EXISTS"),
-    AUTH_RATE_LIMITED("AUTH_RATE_LIMITED"),
+    VALIDATION_ERROR("E_1008"),
+    EMAIL_CONFLICT("E_2004"),
+    RATE_LIMITED("E_2005"),
     NO_INTERNET("NO_INTERNET"),
     UNKNOWN("UNKNOWN");
 
@@ -16,23 +18,29 @@ enum class RegistrationErrorCode(val raw: String) {
     }
 }
 
-object RegistrationErrorMapper {
-    fun toUiMessage(code: RegistrationErrorCode): UiText {
-        return when (code) {
-            RegistrationErrorCode.VALIDATION_FAILED ->
-                UiText.StringResource(R.string.error_message_invalid_credentials)
+object RegistrationErrorMapper : ErrorMapper {
 
-            RegistrationErrorCode.USER_EMAIL_EXISTS ->
-                UiText.StringResource(R.string.error_message_email_already_exists)
-
-            RegistrationErrorCode.AUTH_RATE_LIMITED ->
-                UiText.StringResource(R.string.error_message_too_many_attempts)
-
-            RegistrationErrorCode.NO_INTERNET ->
-                UiText.StringResource(R.string.error_message_no_internet)
-
-            RegistrationErrorCode.UNKNOWN ->
-                UiText.StringResource(R.string.error_message_something_went_wrong)
-        }
+    override fun map(code: String?): UiText = when (code) {
+        "E_2004" -> UiText.StringResource(R.string.error_message_email_already_exists)
+        else -> AppErrorMapper.map(code)
     }
+
+//    fun toUiMessage(code: RegistrationErrorCode): UiText {
+//        return when (code) {
+//            RegistrationErrorCode.VALIDATION_ERROR ->
+//                UiText.StringResource(R.string.error_message_invalid_credentials)
+//
+//            RegistrationErrorCode.EMAIL_CONFLICT ->
+//                UiText.StringResource(R.string.error_message_email_already_exists)
+//
+//            RegistrationErrorCode.RATE_LIMITED ->
+//                UiText.StringResource(R.string.error_message_too_many_attempts)
+//
+//            RegistrationErrorCode.NO_INTERNET ->
+//                UiText.StringResource(R.string.error_message_no_internet)
+//
+//            RegistrationErrorCode.UNKNOWN ->
+//                UiText.StringResource(R.string.error_message_something_went_wrong)
+//        }
+//    }
 }

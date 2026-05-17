@@ -6,5 +6,4 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ApiEmailVerificationResponse(
     @Json(name = "message") val message: String,
-    @Json(name = "email_verified") val emailVerified: Boolean,
 )

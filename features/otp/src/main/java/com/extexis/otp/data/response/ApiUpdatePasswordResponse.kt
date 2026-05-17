@@ -5,6 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ApiUpdatePasswordResponse(
-    @Json(name = "message") val message: String,
-    @Json(name = "tokens_revoked") val tokensRevoked: Int? = null,
+    @field:Json(name = "message") val message: String
 )

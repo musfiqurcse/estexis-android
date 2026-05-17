@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import com.extexis.core.navigation.ForgotPasswordRoute
 import com.extexis.core.navigation.HomeRoute
 import com.extexis.core.navigation.LoginRoute
+import com.extexis.core.navigation.OtpPurpose
+import com.extexis.core.navigation.OtpRoute
 import com.extexis.core.navigation.RegistrationRoute
 import kotlinx.coroutines.flow.collectLatest
 
@@ -32,7 +34,9 @@ fun NavGraphBuilder.loginNavGraph(navController: NavHostController) {
                     }
                     LoginNavigationEvent.ToForgotPassword -> navController.navigate(ForgotPasswordRoute)
                     LoginNavigationEvent.ToSignUp -> navController.navigate(RegistrationRoute)
-                    is LoginNavigationEvent.VerifyEmail -> {}
+                    is LoginNavigationEvent.VerifyEmail -> {
+                        navController.navigate(OtpRoute(event.email, OtpPurpose.VERIFY_EXISTING_USER))
+                    }
                 }
             }
         }

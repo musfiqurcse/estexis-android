@@ -3,7 +3,9 @@ package com.extexis.otp.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.extexis.core.navigation.OtpPurpose
+import com.extexis.core.navigation.OtpPurpose.FORGOT_PASSWORD
+import com.extexis.core.navigation.OtpPurpose.REGISTRATION
+import com.extexis.core.navigation.OtpPurpose.VERIFY_EXISTING_USER
 import com.extexis.core.navigation.OtpRoute
 import com.extexis.core.network.ApiResult
 import com.extexis.core.presentation.BaseViewModel
@@ -76,7 +78,7 @@ class OtpViewModel @Inject constructor(
 
         val otpError = if (current.otp.length < 6) "Please enter the complete 6-digit code" else null
 
-        if (current.purpose == OtpPurpose.FORGOT_PASSWORD) {
+        if (current.purpose == FORGOT_PASSWORD) {
             val newPasswordError = if (current.newPassword.isBlank()) "Password is required" else null
             val confirmPasswordError = when {
                 current.confirmPassword.isBlank() -> "Please confirm your password"
@@ -102,10 +104,10 @@ class OtpViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             when (current.purpose) {
-                OtpPurpose.REGISTRATION -> {
+                REGISTRATION, VERIFY_EXISTING_USER -> {
                     verifyEmail()
                 }
-                OtpPurpose.FORGOT_PASSWORD -> {
+                FORGOT_PASSWORD -> {
                     updatePassword()
                 }
             }
@@ -155,14 +157,39 @@ class OtpViewModel @Inject constructor(
     }
 
     private fun resend() {
-        val current = _state.value
+        when (_state.value.purpose) {
+            REGISTRATION, VERIFY_EXISTING_USER -> resendOtpForAccountVerification()
+            FORGOT_PASSWORD -> resendOtpForForgotPassword()
+        }
+    }
+
+    private fun resendOtpForAccountVerification() {
         viewModelScope.launch {
-            when (current.purpose) {
-                OtpPurpose.REGISTRATION -> resendOtpUseCase.resendForVerification(current.email)
-                OtpPurpose.FORGOT_PASSWORD -> resendOtpUseCase.resendForForgotPassword(current.email)
+            _state.update { it.copy(isLoading = true) }
+            when (val result = resendOtpUseCase.resendForVerification(_state.value.email)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    startResendTimer()
+                }
+                is ApiResult.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                }
             }
-            _state.update { it.copy(otp = "", otpError = null) }
-            startResendTimer()
+        }
+    }
+
+    private fun resendOtpForForgotPassword() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            when (val result = resendOtpUseCase.resendForForgotPassword(_state.value.email)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    startResendTimer()
+                }
+                is ApiResult.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                }
+            }
         }
     }
 

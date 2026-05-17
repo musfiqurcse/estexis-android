@@ -5,7 +5,6 @@ sealed class ApiResult<out T> {
     data class Error(
         val statusCode: Int = -1,
         val code: String = "",
-        val message: String,
-        val details: Map<String, Any>? = null,
+        val message: String = "",
     ) : ApiResult<Nothing>()
 }

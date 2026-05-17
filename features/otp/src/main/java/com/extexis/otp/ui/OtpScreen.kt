@@ -143,7 +143,7 @@ fun OtpScreen(
         Spacer(Modifier.height(dimensions.spaces.x8))
 
         AppButton(
-            text = if (state.purpose == OtpPurpose.FORGOT_PASSWORD)
+            text = if (state.purpose == OtpPurpose.VERIFY_EXISTING_USER)
                 stringResource(R.string.otp_screen_cta_reset_password)
             else stringResource(R.string.otp_screen_cta_verify),
             onClick = { event(OtpUiEvent.VerifyClicked) },
@@ -194,7 +194,7 @@ private fun OtpScreenForgotPasswordPreview() {
         OtpScreen(
             state = OtpState(
                 email = "dd@gmail.com",
-                purpose = OtpPurpose.FORGOT_PASSWORD,
+                purpose = OtpPurpose.VERIFY_EXISTING_USER,
                 otp = "123456",
                 canResend = true,
             ),
