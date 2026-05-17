@@ -32,7 +32,7 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            resValue("string", "app_name", "Travel Planner (Debug)")
+            resValue("string", "app_name", "Extexis (Debug)")
             buildConfigField("String", "API_BASE_URL", "\"https://api.travelhug.ai/api/\"")
         }
 
@@ -74,7 +74,7 @@ dependencies {
     implementation(project(":features:login"))
     implementation(project(":features:otp"))
     implementation(project(":features:forgotpassword"))
-    implementation(project(":features:splash"))
+    implementation(project(":features:welcome"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.core.splashscreen)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.material.icons.extended)

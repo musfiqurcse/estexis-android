@@ -20,6 +20,7 @@ squareRetrofit = "3.0.0"
 coilCompose = "3.4.0"
 kotlinxSerializationJson = "1.11.0"
 datastorePreferencesVersion = "1.2.1"
+splash ="1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +54,8 @@ datastore-preferences = { module = "androidx.datastore:datastore-preferences", v
 
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
+
+core-splashscreen = { group = "androidx.core", name="core-splashscreen", version.ref="splash"}
 
 
 #Square

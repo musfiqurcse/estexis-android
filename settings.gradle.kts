@@ -32,7 +32,7 @@ include(":features:registration")
 include(":features:home")
 include(":features:login")
 include(":features:otp")
-include(":features:splash")
+include(":features:welcome")
 include(":features:forgotpassword")
 
 include(":core:domain")

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.splash"
+    namespace = "com.extexis.welcome"
     compileSdk = 36
 
     defaultConfig {
@@ -27,6 +27,7 @@ android {
 dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:common"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
     implementation(project(":core:presentation"))

@@ -1,24 +1,38 @@
 package com.extexis.core.android.presentation.splash
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.extexis.core.datastore.AccessTokenPreference
+import com.extexis.core.datastore.AppOnBoardingPreference
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SplashViewModel : ViewModel() {
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val onBoardingPreference: AppOnBoardingPreference,
+    private val accessTokenPreference: AccessTokenPreference,
+) : ViewModel() {
 
-    private val _onboardingState = MutableStateFlow(OnBoardingState.FirstLaunch)
+    private val _onboardingState = MutableStateFlow<OnBoardingState>(OnBoardingState.Loading)
     val onboardingState: StateFlow<OnBoardingState> = _onboardingState
 
-//    private val _navigationEvent = Channel<SplashScreenNavigationEvent>()
-//    val navigationEvent = _navigationEvent.receiveAsFlow()
-//
-//    fun onEvent(event: SplashScreenUiEvent) {
-//        when (event) {
-//            SplashScreenUiEvent.GetStarted -> {
-//                viewModelScope.launch {
-//                    _navigationEvent.send(SplashScreenNavigationEvent.ToLogin)
-//                }
-//            }
-//        }
-//    }
+    init {
+        resolveStartDestination()
+    }
+
+    private fun resolveStartDestination() {
+        viewModelScope.launch {
+            val hasSeenWelcome = onBoardingPreference.get()
+            val accessToken = accessTokenPreference.get()
+
+            _onboardingState.value = when {
+                !hasSeenWelcome -> OnBoardingState.FirstLaunch
+                accessToken.isNotBlank() -> OnBoardingState.LoggedIn
+                else -> OnBoardingState.LoggedOut
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.extexis.splash.ui
+package com.extexis.welcome.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,14 +34,12 @@ import com.extexis.core.ui.gds.AppIcon
 import com.extexis.core.ui.theme.AppRadius
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
-import com.extexis.splash.R
+import com.extexis.welcome.R
 
 @Composable
-fun SplashScreen(
-    event: (SplashScreenUiEvent) -> Unit,
+fun WelcomeScreen(
+    event: (WelcomeScreenUiEvent) -> Unit,
 ) {
-
-    val colors = AppTheme.colors
 
     Box(
         modifier = Modifier
@@ -94,7 +92,7 @@ fun SplashScreen(
             Spacer(Modifier.height(AppTheme.dimensions.sizes.x8))
 
             GetStartedButton(
-                onClick = { event(SplashScreenUiEvent.GetStarted) }
+                onClick = { event(WelcomeScreenUiEvent.GetStarted) }
             )
 
             Spacer(Modifier.height(AppTheme.dimensions.sizes.x41))
@@ -150,8 +148,8 @@ private fun GetStartedButton(
 
 @Preview
 @Composable
-fun PreviewSplashScreen() {
-    SplashScreen(
+fun PreviewWelcomeScreen() {
+    WelcomeScreen(
         event = {}
     )
 }

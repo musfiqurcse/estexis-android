@@ -1,17 +1,17 @@
 package com.extexis.core.android.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import com.extexis.core.android.presentation.home.homeNavGraph
 import com.extexis.core.android.presentation.splash.OnBoardingState
+import com.extexis.core.navigation.HomeRoute
 import com.extexis.core.navigation.LoginRoute
 import com.extexis.core.navigation.SplashScreenRoute
 import com.extexis.forgotpassword.ui.forgotPasswordNavGraph
 import com.extexis.login.ui.loginNavGraph
 import com.extexis.otp.ui.otpNavGraph
 import com.extexis.registration.ui.registrationNavGraph
-import com.extexis.splash.ui.splashScreenNavGraph
+import com.extexis.welcome.ui.welcomeScreenNavGraph
 
 @Composable
 fun AppNavigation(
@@ -19,8 +19,10 @@ fun AppNavigation(
     onboardingState: OnBoardingState,
 ) {
     val startDestination = when (onboardingState) {
-        OnBoardingState.OnBoarded -> LoginRoute
+        OnBoardingState.Loading -> return
         OnBoardingState.FirstLaunch -> SplashScreenRoute
+        OnBoardingState.LoggedOut -> LoginRoute
+        OnBoardingState.LoggedIn -> HomeRoute
     }
 
 //    LaunchedEffect(authState) {
@@ -41,21 +43,11 @@ fun AppNavigation(
     val navController = appNavState.navHostController
 
     NavHost(navController = navController, startDestination = startDestination) {
-        splashScreenNavGraph(navController)
+        welcomeScreenNavGraph(navController)
         loginNavGraph(navController)
         registrationNavGraph(navController)
         forgotPasswordNavGraph(navController)
         otpNavGraph(navController)
         homeNavGraph()
-    }
-}
-
-fun NavController.navigateToRoute(route: Any, popupTo: Any) {
-    navigate(route) {
-        popUpTo(popupTo) {
-            saveState = true
-            inclusive = true
-        }
-        launchSingleTop = true
     }
 }
