@@ -13,6 +13,6 @@ class SendOtpForForgotPasswordUseCaseImpl @Inject constructor(
 ) : SendOtpForForgotPasswordUseCase {
 
     override suspend fun sendOtp(email: String, lastName: String): ApiResult<Boolean> {
-        return repository.sendOtp(email=email, lastName=lastName)
+        return repository.sendOtp(email = email, lastName = lastName)
     }
 }

@@ -27,7 +27,7 @@ class OtpRepositoryImpl @Inject constructor(
     }
 
     override suspend fun resendOtp(email: String): ApiResult<Boolean> {
-        return when (val result = remoteSource.resendOtp(ReSendOtpRequest(email=email, ))) {
+        return when (val result = remoteSource.resendOtp(ReSendOtpRequest(email = email,))) {
             is ApiResult.Success -> ApiResult.Success(true)
             is ApiResult.Error -> result
         }
@@ -35,7 +35,7 @@ class OtpRepositoryImpl @Inject constructor(
 
     override suspend fun resendOtpForForgotPassword(email: String, lastName: String): ApiResult<Boolean> {
         return when (val result = remoteSource.resendOtpForForgotPassword(
-            ReSendOtpForgotPasswordRequest(email=email, lastName=lastName)
+            ReSendOtpForgotPasswordRequest(email = email, lastName = lastName)
         )) {
             is ApiResult.Success -> ApiResult.Success(true)
             is ApiResult.Error -> result

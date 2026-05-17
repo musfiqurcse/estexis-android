@@ -19,6 +19,6 @@ class ResendOtpUseCaseImpl @Inject constructor(
     }
 
     override suspend fun resendForForgotPassword(email: String, lastName: String): ApiResult<Boolean> {
-        return repository.resendOtpForForgotPassword(email=email, lastName=lastName)
+        return repository.resendOtpForForgotPassword(email = email, lastName = lastName)
     }
 }
