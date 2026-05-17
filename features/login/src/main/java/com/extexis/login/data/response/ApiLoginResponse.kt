@@ -6,8 +6,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ApiLoginResponse(
-    @Json(name = "access_token") val accessToken: String,
-    @Json(name = "refresh_token") val refreshToken: String,
-    @Json(name = "expires_at") val expiresAt: Long,
-    @Json(name = "user") val user: ApiUserResponse,
+    @field:Json(name = "access_token") val accessToken: String,
+    @field:Json(name = "refresh_token") val refreshToken: String,
+    @field:Json(name = "token_type") val tokenType: String,
+    @field:Json(name = "user") val user: ApiUserResponse,
 )

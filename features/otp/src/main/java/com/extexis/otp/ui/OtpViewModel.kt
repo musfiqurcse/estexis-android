@@ -54,7 +54,7 @@ class OtpViewModel @Inject constructor(
     private var timerJob: Job? = null
 
     init {
-        when(route.purpose) {
+        when (route.purpose) {
             FORGOT_PASSWORD, REGISTRATION -> {
                 startResendTimer()
             }
@@ -105,7 +105,7 @@ class OtpViewModel @Inject constructor(
 
     private fun verifyEmail() {
         viewModelScope.launch {
-            if(!isValidOtp()) return@launch
+            if (!isValidOtp()) return@launch
 
             val current = _state.value
 
@@ -129,7 +129,7 @@ class OtpViewModel @Inject constructor(
 
     private fun updatePassword() {
         viewModelScope.launch {
-            if(!isValidInput()) return@launch
+            if (!isValidInput()) return@launch
 
             val current = _state.value
             when (val result = updatePasswordUseCase.updatePassword(

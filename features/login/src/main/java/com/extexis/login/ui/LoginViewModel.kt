@@ -24,6 +24,7 @@ class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
+
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(LoginScreenUiState())
