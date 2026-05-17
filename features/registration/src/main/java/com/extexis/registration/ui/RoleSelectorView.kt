@@ -16,6 +16,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.extexis.core.ui.gds.VerticalSpacer
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.registration.domain.AccountRole
@@ -37,11 +38,11 @@ fun RoleSelectorView(
                 append(" ")
                 withStyle(SpanStyle(color = colors.error)) { append("*") }
             },
-            style = AppTextStyles.BodyMedium,
-            color = colors.onBackground,
+            style = AppTextStyles.BodyText3Bold,
+            color = colors.tertiary,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x1))
+        VerticalSpacer(dimensions.spaces.x1)
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             AccountRole.entries.forEach { role ->
@@ -55,7 +56,7 @@ fun RoleSelectorView(
                 )
                 Text(
                     text = role.name.lowercase().replaceFirstChar { it.uppercase() },
-                    style = AppTextStyles.Body,
+                    style = AppTextStyles.BodyText1Regular,
                     color = colors.onBackground,
                 )
                 Spacer(Modifier.width(16.dp))
@@ -66,7 +67,7 @@ fun RoleSelectorView(
             Spacer(Modifier.height(dimensions.spaces.x1))
             Text(
                 text = errorMessage,
-                style = AppTextStyles.Meta,
+                style = AppTextStyles.BodyText2Regular,
                 color = colors.error,
                 modifier = Modifier.padding(horizontal = dimensions.spaces.x1),
             )

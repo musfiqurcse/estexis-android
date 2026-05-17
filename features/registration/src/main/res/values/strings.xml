@@ -22,4 +22,6 @@
     <string name="registration_screen_country_is_not_selected">Please select a country.</string>
     <string name="registration_screen_role_is_not_selected">Please select a role.</string>
     <string name="error_message_invalid_phone_number">Invalid phone number</string>
+    <string name="registration_label_country">Country</string>
+    <string name="registration_screen_placeholder_select_your_country">Select your country</string>
 </resources>

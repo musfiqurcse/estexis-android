@@ -1,10 +1,10 @@
 package com.extexis.login.di
 
+import com.extexis.core.network.qualifiers.RetrofitNoAuthorizationHeader
 import com.extexis.login.data.api.LoginApi
 import com.extexis.login.data.repository.LoginRepository
 import com.extexis.login.data.repository.LoginRepositoryImpl
 import com.extexis.login.domain.LoginUseCase
-import com.extexis.core.network.qualifiers.RetrofitNoAuthorizationHeader
 import com.extexis.login.domain.LoginUseCaseImpl
 import dagger.Binds
 import dagger.Module

@@ -69,8 +69,7 @@ fun NavGraphBuilder.registrationNavGraph(navController: NavHostController) {
         RegistrationScreen(
             state = state,
             formState = viewModel.formState,
-            event = viewModel::onEvent,
-            // hostState = hostState,
+            event = viewModel::onEvent
         )
     }
 }

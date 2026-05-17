@@ -11,4 +11,8 @@
     <string name="otp_screen_cta_resend">Resend</string>
     <string name="otp_screen_didn_t_receive_the_code">"Didn\'t receive the code? "</string>
     <string name="otp_screen_resend_code_in_s">"Resend code in %1$ds  "</string>
+    <string name="otp_verification_screen_please_enter_the_complete_6_digit_code">Please enter the complete 6-digit code</string>
+    <string name="otp_verification_screen_password_required">Password is required</string>
+    <string name="otp_verification_screen_confirm_password">Please confirm your password</string>
+    <string name="otp_verification_screen_password_miss_match">Passwords do not match</string>
 </resources>

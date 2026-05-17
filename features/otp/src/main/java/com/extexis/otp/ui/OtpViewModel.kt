@@ -10,6 +10,9 @@ import com.extexis.core.navigation.OtpRoute
 import com.extexis.core.network.ApiResult
 import com.extexis.core.presentation.BaseViewModel
 import com.extexis.core.presentation.UiMessageEvent
+import com.extexis.core.ui.error.AppErrorMapper
+import com.extexis.core.ui.util.UiText
+import com.extexis.otp.R
 import com.extexis.otp.domain.ResendOtpUseCase
 import com.extexis.otp.domain.UpdatePasswordUseCase
 import com.extexis.otp.domain.VerifyEmailUseCase
@@ -60,7 +63,12 @@ class OtpViewModel @Inject constructor(
                 _state.update { it.copy(newPassword = event.password, newPasswordError = null) }
 
             is OtpUiEvent.ConfirmPasswordChanged ->
-                _state.update { it.copy(confirmPassword = event.confirmPassword, confirmPasswordError = null) }
+                _state.update {
+                    it.copy(
+                        confirmPassword = event.confirmPassword,
+                        confirmPasswordError = null
+                    )
+                }
 
             OtpUiEvent.VerifyClicked -> verify()
 
@@ -76,13 +84,28 @@ class OtpViewModel @Inject constructor(
     private fun verify() {
         val current = _state.value
 
-        val otpError = if (current.otp.length < 6) "Please enter the complete 6-digit code" else null
+        val otpError = if (current.otp.length < 6)
+            UiText.StringResource(
+                R.string.otp_verification_screen_please_enter_the_complete_6_digit_code
+            )
+        else null
 
         if (current.purpose == FORGOT_PASSWORD) {
-            val newPasswordError = if (current.newPassword.isBlank()) "Password is required" else null
+            val newPasswordError =
+                if (current.newPassword.isBlank())
+                    UiText.StringResource(
+                        R.string.otp_verification_screen_password_required
+                    )
+                else null
             val confirmPasswordError = when {
-                current.confirmPassword.isBlank() -> "Please confirm your password"
-                current.confirmPassword != current.newPassword -> "Passwords do not match"
+                current.confirmPassword.isBlank() ->
+                    UiText.StringResource(
+                        R.string.otp_verification_screen_confirm_password
+                    )
+                current.confirmPassword != current.newPassword ->
+                    UiText.StringResource(
+                        R.string.otp_verification_screen_password_miss_match
+                    )
                 else -> null
             }
 
@@ -107,6 +130,7 @@ class OtpViewModel @Inject constructor(
                 REGISTRATION, VERIFY_EXISTING_USER -> {
                     verifyEmail()
                 }
+
                 FORGOT_PASSWORD -> {
                     updatePassword()
                 }
@@ -122,6 +146,7 @@ class OtpViewModel @Inject constructor(
                     _state.update { it.copy(isLoading = false) }
                     _navigationEvent.send(OtpNavigationEvent.ToHome)
                 }
+
                 is ApiResult.Error -> {
                     _state.update { it.copy(isLoading = false) }
                     sendMessage(
@@ -144,6 +169,7 @@ class OtpViewModel @Inject constructor(
                     _state.update { it.copy(isLoading = false) }
                     _navigationEvent.send(OtpNavigationEvent.ToLogin)
                 }
+
                 is ApiResult.Error -> {
                     _state.update { it.copy(isLoading = false) }
                     sendMessage(
@@ -171,7 +197,13 @@ class OtpViewModel @Inject constructor(
                     _state.update { it.copy(isLoading = false) }
                     startResendTimer()
                 }
+
                 is ApiResult.Error -> {
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            AppErrorMapper.map(result.code)
+                        )
+                    )
                     _state.update { it.copy(isLoading = false) }
                 }
             }
@@ -186,7 +218,13 @@ class OtpViewModel @Inject constructor(
                     _state.update { it.copy(isLoading = false) }
                     startResendTimer()
                 }
+
                 is ApiResult.Error -> {
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            AppErrorMapper.map(result.code)
+                        )
+                    )
                     _state.update { it.copy(isLoading = false) }
                 }
             }

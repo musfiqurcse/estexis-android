@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -16,10 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -35,6 +29,7 @@ import com.extexis.core.ui.gds.AppButton
 import com.extexis.core.ui.gds.AppIconButton
 import com.extexis.core.ui.gds.AppLoadingDialog
 import com.extexis.core.ui.gds.AppTextField
+import com.extexis.core.ui.gds.VerticalSpacer
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
@@ -79,7 +74,7 @@ fun RegistrationScreen(
             .imePadding()
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppIconButton(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
@@ -87,23 +82,23 @@ fun RegistrationScreen(
             contentDescription = "Back",
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x6))
+        VerticalSpacer(dimensions.spaces.x6)
 
         Text(
             text = stringResource(R.string.registration_screen_create_an_account),
-            style = AppTheme.typography.Hero,
-            color = colors.onBackground,
-        )
-
-        Spacer(Modifier.height(dimensions.spaces.x2))
-
-        Text(
-            text = stringResource(R.string.registration_screen_welcome_please_enter_your_details),
-            style = AppTextStyles.Body,
+            style = AppTheme.typography.H2Bold,
             color = colors.tertiary,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x6))
+        VerticalSpacer(dimensions.spaces.x2)
+
+        Text(
+            text = stringResource(R.string.registration_screen_welcome_please_enter_your_details),
+            style = AppTextStyles.BodyText3Regular,
+            color = colors.tertiary,
+        )
+
+        VerticalSpacer(dimensions.spaces.x6)
 
         AppTextField(
             value = formState.firstName,
@@ -111,12 +106,11 @@ fun RegistrationScreen(
             label = stringResource(R.string.registration_screen_label_first_name),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_first_name),
-            leadingIcon = Icons.Default.Person,
             isError = state.firstNameError != null,
             errorMessage = state.firstNameError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppTextField(
             value = formState.lastName,
@@ -124,12 +118,11 @@ fun RegistrationScreen(
             label = stringResource(R.string.registration_screen_label_last_name),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_last_name),
-            leadingIcon = Icons.Default.Person,
             isError = state.lastNameError != null,
             errorMessage = state.lastNameError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppTextField(
             value = formState.email,
@@ -137,13 +130,12 @@ fun RegistrationScreen(
             label = stringResource(R.string.registration_screen_label_email),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_email),
-            leadingIcon = Icons.Default.Email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = state.emailError != null,
             errorMessage = state.emailError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppTextField(
             value = formState.phoneNumber,
@@ -151,13 +143,12 @@ fun RegistrationScreen(
             label = stringResource(R.string.registration_screen_label_phone_number),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_phone_number),
-            leadingIcon = Icons.Default.Phone,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             isError = state.phoneNumberError != null,
             errorMessage = state.phoneNumberError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         CountryPickerFieldView(
             selected = formState.selectedCountry?.let { "${it.flag}  ${it.name}" },
@@ -166,7 +157,7 @@ fun RegistrationScreen(
             onClick = { event(RegistrationUiEvent.ShowCountryPicker) },
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppTextField(
             value = formState.password,
@@ -174,13 +165,12 @@ fun RegistrationScreen(
             label = stringResource(R.string.registration_screen_label_password),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_enter_your_password),
-            leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.passwordError != null,
             errorMessage = state.passwordError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppTextField(
             value = formState.confirmPassword,
@@ -188,13 +178,12 @@ fun RegistrationScreen(
             label = stringResource(R.string.registration_screen_label_confirm_password),
             isRequired = true,
             placeholder = stringResource(R.string.registration_screen_placeholder_re_enter_your_password),
-            leadingIcon = Icons.Default.Lock,
             isPassword = true,
             isError = state.confirmPasswordError != null,
             errorMessage = state.confirmPasswordError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         RoleSelectorView(
             selected = formState.selectedRole,
@@ -203,7 +192,7 @@ fun RegistrationScreen(
             onRoleSelected = { event(RegistrationUiEvent.RoleChanged(it)) },
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x8))
+        VerticalSpacer(dimensions.spaces.x8)
 
         AppButton(
             text = stringResource(R.string.registration_screen_cta_sign_up),
@@ -212,7 +201,7 @@ fun RegistrationScreen(
             enabled = !state.isLoading,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x6))
+        VerticalSpacer(dimensions.spaces.x6)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -221,17 +210,17 @@ fun RegistrationScreen(
         ) {
             Text(
                 text = stringResource(R.string.registration_screen_already_have_an_account),
-                style = AppTextStyles.Body,
-                color = colors.tertiary,
+                style = AppTextStyles.BodyText3Regular,
+                color = colors.onBackground,
             )
             ActionButton(
                 text = stringResource(R.string.registration_screen_cta_login),
                 onClick = { event(RegistrationUiEvent.LoginClicked) },
-                style = AppTextStyles.BodyMedium,
+                style = AppTextStyles.BodyText3Bold,
             )
         }
 
-        Spacer(Modifier.height(dimensions.spaces.x8))
+        VerticalSpacer(dimensions.spaces.x8)
     }
 }
 

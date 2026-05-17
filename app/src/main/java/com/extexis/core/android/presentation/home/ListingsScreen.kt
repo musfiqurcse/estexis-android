@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 
 @Composable
@@ -24,7 +23,7 @@ fun ListingsScreen() {
     ) {
         Text(
             text = "Listings",
-            style = AppTextStyles.Title,
+            // style = AppTextStyles.Title,
             color = colors.onBackground,
         )
     }

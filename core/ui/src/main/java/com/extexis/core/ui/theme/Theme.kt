@@ -17,25 +17,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.core.view.WindowCompat
 import com.extexis.core.ui.R
 
-val DMSans = FontFamily(
-    Font(R.font.dm_sans_regular, FontWeight.Normal),
-    Font(R.font.dm_sans_medium, FontWeight.Medium),
-    Font(R.font.dm_sans_medium, FontWeight.SemiBold),
-    Font(R.font.dm_sans_medium, FontWeight.Bold),
+val MONTSERRAT = FontFamily(
+    Font(R.font.montserrat_regular, FontWeight.Normal),
+    Font(R.font.montserrat_light, FontWeight.Light),
+    Font(R.font.montserrat_medium, FontWeight.Medium),
+    Font(R.font.montserrat_semi_bold, FontWeight.SemiBold),
+    Font(R.font.montserrat_bold, FontWeight.Bold),
+    Font(R.font.montserrat_extra_bold, FontWeight.ExtraBold),
 )
 
 private val AppMaterialTypography = Typography(
-    displayLarge = AppTextStyles.Hero,
-    displayMedium = AppTextStyles.Title,
-    headlineLarge = AppTextStyles.SectionHeading,
-    titleLarge = AppTextStyles.SectionHeading,
-    titleMedium = AppTextStyles.CardTitle,
-    bodyLarge = AppTextStyles.BodyLarge,
-    bodyMedium = AppTextStyles.Body,
-    bodySmall = AppTextStyles.Meta,
-    labelLarge = AppTextStyles.ButtonLabel,
-    labelMedium = AppTextStyles.BodyMedium,
-    labelSmall = AppTextStyles.Caption,
+    displayLarge = AppTextStyles.H1Bold,
+    displayMedium = AppTextStyles.H2Bold,
+    displaySmall = AppTextStyles.H3Bold,
+    headlineLarge = AppTextStyles.H1Regular,
+    headlineMedium = AppTextStyles.H2Regular,
+    headlineSmall = AppTextStyles.H3Regular,
+    titleLarge = AppTextStyles.BodyText1Bold,
+    titleMedium = AppTextStyles.BodyText2Bold,
+    titleSmall = AppTextStyles.BodyText3Bold,
+    bodyLarge = AppTextStyles.BodyText1Regular,
+    bodyMedium = AppTextStyles.BodyText2Regular,
+    bodySmall = AppTextStyles.BodyText3Regular,
+    labelLarge = AppTextStyles.BodyText2Bold,
+    labelMedium = AppTextStyles.BodyText3Bold,
+    labelSmall = AppTextStyles.BodyText3Bold,
 )
 
 private val appDimensions = AppDimensions()

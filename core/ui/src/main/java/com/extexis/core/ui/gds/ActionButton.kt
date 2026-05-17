@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 
@@ -21,7 +20,7 @@ fun ActionButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    style: TextStyle = AppTextStyles.BodyMedium,
+    style: TextStyle = AppTheme.typography.BodyText3Regular,
 ) {
     val colors = AppTheme.colors
 

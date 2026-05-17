@@ -3,6 +3,10 @@
     <string name="forgot_password_screen_title">Forgot password?</string>
     <string name="forgot_password_screen_message">Enter your registered email and we\'ll send you a verification code to reset your password.</string>
     <string name="forgot_password_screen_label_email">Email</string>
+    <string name="forgot_password_screen_label_last_name">Last Name</string>
     <string name="forgot_password_screen_placeholder">Enter your email</string>
+    <string name="forgot_password_screen_placeholder_last_name">Enter your last name</string>
     <string name="forgot_password_screen_cta_send_code">Send Code</string>
+    <string name="forgot_password_screen_email_is_required">Email is required</string>
+    <string name="forgot_password_screen_last_name_is_required">Last name is required</string>
 </resources>

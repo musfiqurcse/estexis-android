@@ -16,7 +16,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +32,7 @@ import com.extexis.core.ui.gds.AppButton
 import com.extexis.core.ui.gds.AppIconButton
 import com.extexis.core.ui.gds.AppOtpField
 import com.extexis.core.ui.gds.AppTextField
+import com.extexis.core.ui.gds.VerticalSpacer
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
@@ -55,7 +55,7 @@ fun OtpScreen(
             .imePadding()
             .padding(horizontal = dimensions.spaces.x4)
     ) {
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppIconButton(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
@@ -63,28 +63,28 @@ fun OtpScreen(
             contentDescription = "Back",
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x6))
+        VerticalSpacer(dimensions.spaces.x6)
 
         Text(
             text = stringResource(R.string.otp_screen_title_verification_code),
-            style = AppTheme.typography.Hero,
-            color = colors.onBackground,
+            style = AppTheme.typography.H2SemiBold,
+            color = colors.tertiary,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x2))
+        VerticalSpacer(dimensions.spaces.x2)
 
         Text(
             text = buildAnnotatedString {
                 append(stringResource(R.string.otp_screen_message_otp_sent))
-                withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = colors.onBackground)) {
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = colors.action)) {
                     append(state.email)
                 }
             },
-            style = AppTextStyles.Body,
+            style = AppTextStyles.BodyText3Regular,
             color = colors.tertiary,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x8))
+        VerticalSpacer(dimensions.spaces.x8)
 
         Row(
             modifier = Modifier
@@ -99,16 +99,16 @@ fun OtpScreen(
             )
         }
 
-        if (state.otpError != null) {
+        state.otpError?.let { error ->
             Spacer(Modifier.height(dimensions.spaces.x2))
             Text(
-                text = state.otpError,
-                style = AppTextStyles.Meta,
+                text = error.asString(),
+                style = AppTextStyles.BodyText2Regular,
                 color = colors.error,
             )
         }
 
-        Spacer(Modifier.height(dimensions.spaces.x6))
+        VerticalSpacer(dimensions.spaces.x6)
 
         if (state.purpose == OtpPurpose.FORGOT_PASSWORD) {
             Spacer(Modifier.height(dimensions.spaces.x6))
@@ -119,13 +119,12 @@ fun OtpScreen(
                 label = stringResource(R.string.otp_screen_label_new_password),
                 isRequired = true,
                 placeholder = stringResource(R.string.otp_screen_placeholder_enter_your_new_password),
-                leadingIcon = Icons.Default.Lock,
                 isPassword = true,
                 isError = state.newPasswordError != null,
-                errorMessage = state.newPasswordError,
+                errorMessage = state.newPasswordError?.asString(),
             )
 
-            Spacer(Modifier.height(dimensions.spaces.x4))
+            VerticalSpacer(dimensions.spaces.x4)
 
             AppTextField(
                 value = state.confirmPassword,
@@ -133,14 +132,13 @@ fun OtpScreen(
                 label = stringResource(R.string.otp_screen_confirm_new_password),
                 isRequired = true,
                 placeholder = stringResource(R.string.otp_screen_placeholder_re_enter_your_new_password),
-                leadingIcon = Icons.Default.Lock,
                 isPassword = true,
                 isError = state.confirmPasswordError != null,
-                errorMessage = state.confirmPasswordError,
+                errorMessage = state.confirmPasswordError?.asString(),
             )
         }
 
-        Spacer(Modifier.height(dimensions.spaces.x8))
+        VerticalSpacer(dimensions.spaces.x8)
 
         AppButton(
             text = if (state.purpose == OtpPurpose.VERIFY_EXISTING_USER)
@@ -151,7 +149,7 @@ fun OtpScreen(
             enabled = state.otp.length == 6 && !state.isLoading,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x4))
+        VerticalSpacer(dimensions.spaces.x4)
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -162,14 +160,14 @@ fun OtpScreen(
                 text = if (state.canResend)
                     stringResource(R.string.otp_screen_didn_t_receive_the_code)
                 else stringResource(R.string.otp_screen_resend_code_in_s, state.resendTimer),
-                style = AppTheme.typography.Body,
-                color = colors.tertiary,
+                style = AppTheme.typography.BodyText3Regular,
+                color = colors.onBackground,
             )
             if (state.canResend) {
                 ActionButton(
                     text = stringResource(R.string.otp_screen_cta_resend),
                     onClick = { event(OtpUiEvent.ResendClicked) },
-                    style = AppTheme.typography.BodyMedium,
+                    style = AppTheme.typography.BodyText3Bold,
                 )
             }
         }
@@ -186,6 +184,16 @@ private fun OtpScreenPreview() {
         )
     }
 }
+@Preview(showBackground = true)
+@Composable
+private fun OtpScreenVerifyExistingUserPreview() {
+    ExtexisAndroidTheme {
+        OtpScreen(
+            state = OtpState(email = "dd@gmail.com", purpose = OtpPurpose.VERIFY_EXISTING_USER),
+            event = {},
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -194,7 +202,7 @@ private fun OtpScreenForgotPasswordPreview() {
         OtpScreen(
             state = OtpState(
                 email = "dd@gmail.com",
-                purpose = OtpPurpose.VERIFY_EXISTING_USER,
+                purpose = OtpPurpose.FORGOT_PASSWORD,
                 otp = "123456",
                 canResend = true,
             ),

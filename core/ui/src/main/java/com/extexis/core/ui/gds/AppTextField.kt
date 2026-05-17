@@ -1,5 +1,6 @@
 package com.extexis.core.ui.gds
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,11 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -25,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,8 +42,8 @@ fun AppTextField(
     placeholder: String = "",
     label: String? = null,
     isRequired: Boolean = false,
-    leadingIcon: ImageVector? = null,
-    trailingIcon: ImageVector? = null,
+    @DrawableRes leadingIcon: Int? = null,
+    @DrawableRes trailingIcon: Int? = null,
     onTrailingIconClick: (() -> Unit)? = null,
     isPassword: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -66,16 +62,6 @@ fun AppTextField(
         else -> VisualTransformation.None
     }
 
-    val resolvedTrailingIcon: ImageVector? = when {
-        isPassword -> if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-        else -> trailingIcon
-    }
-
-    val resolvedTrailingClick: (() -> Unit)? = when {
-        isPassword -> ({ passwordVisible = !passwordVisible })
-        else -> onTrailingIconClick
-    }
-
     Column(modifier = modifier) {
         if (label != null) {
             Text(
@@ -86,8 +72,8 @@ fun AppTextField(
                         withStyle(SpanStyle(color = colors.error)) { append("*") }
                     }
                 },
-                style = AppTextStyles.BodyMedium,
-                color = colors.onBackground,
+                style = AppTextStyles.BodyText3Bold,
+                color = colors.tertiary,
             )
             Spacer(Modifier.height(dimensions.spaces.x1))
         }
@@ -107,41 +93,59 @@ fun AppTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = AppTextStyles.Body,
-                    color = colors.surfaceDim,
+                    style = AppTextStyles.BodyText2Regular,
+                    color = colors.onBackground,
                 )
             },
             leadingIcon = if (leadingIcon != null) {
                 {
                     Icon(
-                        imageVector = leadingIcon,
+                        painter = painterResource(leadingIcon),
                         contentDescription = null,
                         modifier = Modifier.size(dimensions.sizes.x5),
-                        tint = colors.surfaceDim,
+                        tint = colors.tertiary,
                     )
                 }
             } else null,
-            trailingIcon = if (resolvedTrailingIcon != null) {
-                {
-                    if (resolvedTrailingClick != null) {
-                        IconButton(onClick = resolvedTrailingClick) {
+            trailingIcon = when {
+                isPassword -> {
+                    {
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
-                                imageVector = resolvedTrailingIcon,
+                                painter = if (passwordVisible)
+                                    painterResource(AppIcon.IcVisibilityOff.resId)
+                                else
+                                    painterResource(AppIcon.IcVisibilityOn.resId),
                                 contentDescription = null,
                                 modifier = Modifier.size(dimensions.sizes.x5),
-                                tint = colors.surfaceDim,
+                                tint = colors.tertiary,
                             )
                         }
-                    } else {
-                        Icon(
-                            imageVector = resolvedTrailingIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(dimensions.sizes.x5),
-                            tint = colors.surfaceDim,
-                        )
                     }
                 }
-            } else null,
+                trailingIcon != null -> {
+                    {
+                        if (onTrailingIconClick != null) {
+                            IconButton(onClick = onTrailingIconClick) {
+                                Icon(
+                                    painter = painterResource(trailingIcon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(dimensions.sizes.x5),
+                                    tint = colors.tertiary,
+                                )
+                            }
+                        } else {
+                            Icon(
+                                painter = painterResource(trailingIcon),
+                                contentDescription = null,
+                                modifier = Modifier.size(dimensions.sizes.x5),
+                                tint = colors.tertiary,
+                            )
+                        }
+                    }
+                }
+                else -> null
+            },
             isError = isError,
             shape = RoundedCornerShape(dimensions.radius.xlarge),
             colors = OutlinedTextFieldDefaults.colors(
@@ -166,7 +170,7 @@ fun AppTextField(
             Spacer(Modifier.height(dimensions.spaces.x1))
             Text(
                 text = errorMessage,
-                style = AppTextStyles.Meta,
+                style = AppTextStyles.BodyText2Regular,
                 color = colors.error,
                 modifier = Modifier.padding(horizontal = dimensions.spaces.x1),
             )
@@ -185,14 +189,12 @@ private fun AppTextFieldPreview() {
                 value = "",
                 onValueChange = {},
                 placeholder = "Email address",
-                leadingIcon = Icons.Default.Email,
             )
             Spacer(Modifier.height(12.dp))
             AppTextField(
                 value = "••••••••••••••",
                 onValueChange = {},
                 placeholder = "Password",
-                leadingIcon = Icons.Default.Lock,
                 isPassword = true,
             )
             Spacer(Modifier.height(12.dp))

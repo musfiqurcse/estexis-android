@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 
@@ -154,7 +153,7 @@ private fun ButtonContent(
 
             Text(
                 text = text,
-                style = AppTextStyles.ButtonLabel,
+                style = AppTheme.typography.BodyText1Bold,
                 color = contentColor,
             )
 

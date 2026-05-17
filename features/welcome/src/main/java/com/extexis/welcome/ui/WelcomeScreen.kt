@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +16,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.extexis.core.ui.gds.AppIcon
+import com.extexis.core.ui.gds.VerticalSpacer
 import com.extexis.core.ui.theme.AppRadius
 import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
@@ -40,11 +38,12 @@ import com.extexis.welcome.R
 fun WelcomeScreen(
     event: (WelcomeScreenUiEvent) -> Unit,
 ) {
+    val colors = AppTheme.colors
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(AppTheme.colors.onPrimary),
+            .background(colors.onPrimary),
         contentAlignment = Alignment.BottomCenter
     ) {
 
@@ -67,35 +66,34 @@ fun WelcomeScreen(
 
             Text(
                 text = stringResource(R.string.welcome_to),
-                style = AppTheme.typography.Title,
+                style = AppTheme.typography.H2SemiBold,
                 color = AppTheme.colors.primary,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
 
-            Spacer(Modifier.height(AppTheme.dimensions.sizes.x2))
+            VerticalSpacer(AppTheme.dimensions.sizes.x2)
 
             Image(
                 painter = painterResource(AppIcon.LogoGreen.resId),
-                contentDescription = "Grihoo",
+                contentDescription = "Grihoo Logo",
                 modifier = Modifier.height(AppTheme.dimensions.sizes.x10),
             )
 
-            Spacer(Modifier.height(AppTheme.dimensions.sizes.x4))
+            VerticalSpacer(AppTheme.dimensions.sizes.x4)
 
             Text(
                 text = stringResource(R.string.smart_way_to_find_your_dream_property),
-                style = AppTextStyles.BodyLarge,
+                style = AppTextStyles.BodyText1SemiBold,
                 color = AppTheme.colors.tertiary,
             )
 
-            Spacer(Modifier.height(AppTheme.dimensions.sizes.x8))
+            VerticalSpacer(AppTheme.dimensions.sizes.x8)
 
             GetStartedButton(
                 onClick = { event(WelcomeScreenUiEvent.GetStarted) }
             )
-
-            Spacer(Modifier.height(AppTheme.dimensions.sizes.x41))
+            VerticalSpacer(AppTheme.dimensions.sizes.x41)
         }
     }
 }
@@ -120,7 +118,7 @@ private fun GetStartedButton(
         ) {
             Text(
                 text = stringResource(R.string.get_started),
-                style = AppTextStyles.ButtonLabel,
+                style = AppTextStyles.BodyText1Bold,
                 color = AppTheme.colors.white,
             )
         }
@@ -136,7 +134,7 @@ private fun GetStartedButton(
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    painter = painterResource(AppIcon.IcArrowForward.resId),
                     contentDescription = null,
                     tint = AppTheme.colors.primary,
                     modifier = Modifier.size(AppTheme.dimensions.sizes.x5),

@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.registration.domain.Country
 
@@ -45,7 +44,7 @@ fun CountryPickerBottomSheet(
         Column(modifier = Modifier.padding(bottom = dimensions.spaces.x6)) {
             Text(
                 text = "Select Country",
-                style = AppTheme.typography.BodyMedium,
+                // style = AppTheme.typography.BodyMedium,
                 color = colors.onBackground,
                 modifier = Modifier.padding(
                     horizontal = dimensions.spaces.x4,
@@ -68,13 +67,16 @@ fun CountryPickerBottomSheet(
                         ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = country.flag, style = AppTextStyles.Body)
+                    Text(
+                        text = country.flag,
+                        // style = AppTextStyles.Body
+                    )
 
                     Spacer(Modifier.width(dimensions.spaces.x3))
 
                     Text(
                         text = country.name,
-                        style = AppTextStyles.Body,
+                        // style = AppTextStyles.Body,
                         color = if (isSelected) colors.primary else colors.onBackground,
                         modifier = Modifier.weight(1f),
                     )

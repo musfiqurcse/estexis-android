@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.extexis.core.ui.gds.AppButton
 import com.extexis.core.ui.gds.AppIconButton
 import com.extexis.core.ui.gds.AppTextField
-import com.extexis.core.ui.theme.AppTextStyles
+import com.extexis.core.ui.gds.VerticalSpacer
 import com.extexis.core.ui.theme.AppTheme
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 import com.extexis.forgotpassword.R
@@ -58,19 +57,19 @@ fun ForgotPasswordScreen(
 
         Text(
             text = stringResource(R.string.forgot_password_screen_title),
-            style = AppTheme.typography.Hero,
-            color = colors.onBackground,
+            style = AppTheme.typography.H2SemiBold,
+            color = colors.tertiary,
         )
 
         Spacer(Modifier.height(dimensions.spaces.x2))
 
         Text(
             text = stringResource(R.string.forgot_password_screen_message),
-            style = AppTextStyles.Body,
+            style = AppTheme.typography.BodyText2Regular,
             color = colors.tertiary,
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x8))
+        VerticalSpacer(dimensions.spaces.x8)
 
         AppTextField(
             value = state.email,
@@ -78,13 +77,25 @@ fun ForgotPasswordScreen(
             label = stringResource(R.string.forgot_password_screen_label_email),
             isRequired = true,
             placeholder = stringResource(R.string.forgot_password_screen_placeholder),
-            leadingIcon = Icons.Default.Email,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             isError = state.emailError != null,
-            errorMessage = state.emailError,
+            errorMessage = state.emailError?.asString(),
         )
 
-        Spacer(Modifier.height(dimensions.spaces.x8))
+        VerticalSpacer(dimensions.spaces.x4)
+
+        AppTextField(
+            value = state.lastName,
+            onValueChange = { event(ForgotPasswordUiEvent.LastNameChanged(it)) },
+            label = stringResource(R.string.forgot_password_screen_label_last_name),
+            isRequired = true,
+            placeholder = stringResource(R.string.forgot_password_screen_placeholder_last_name),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = state.emailError != null,
+            errorMessage = state.lastNameError?.asString(),
+        )
+
+        VerticalSpacer(dimensions.spaces.x8)
 
         AppButton(
             text = stringResource(R.string.forgot_password_screen_cta_send_code),

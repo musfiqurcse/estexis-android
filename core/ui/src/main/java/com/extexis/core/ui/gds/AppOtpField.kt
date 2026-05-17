@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import com.extexis.core.ui.theme.AppTextStyles
 import com.extexis.core.ui.theme.AppTheme
 
 private const val OTP_LENGTH = 6
@@ -63,7 +62,7 @@ fun AppOtpField(
                     ) {
                         Text(
                             text = char?.toString() ?: "",
-                            style = AppTextStyles.Title,
+                            style = AppTheme.typography.H3Regular,
                             color = colors.onBackground,
                             textAlign = TextAlign.Center,
                         )
