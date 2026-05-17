@@ -5,14 +5,14 @@ import com.extexis.forgotpassword.data.repository.ForgotPasswordRepository
 import javax.inject.Inject
 
 interface SendOtpForForgotPasswordUseCase {
-    suspend fun sendOtp(email: String): ApiResult<Boolean>
+    suspend fun sendOtp(email: String, lastName: String): ApiResult<Boolean>
 }
 
 class SendOtpForForgotPasswordUseCaseImpl @Inject constructor(
     private val repository: ForgotPasswordRepository,
 ) : SendOtpForForgotPasswordUseCase {
 
-    override suspend fun sendOtp(email: String): ApiResult<Boolean> {
-        return repository.sendOtp(email)
+    override suspend fun sendOtp(email: String, lastName: String): ApiResult<Boolean> {
+        return repository.sendOtp(email=email, lastName=lastName)
     }
 }

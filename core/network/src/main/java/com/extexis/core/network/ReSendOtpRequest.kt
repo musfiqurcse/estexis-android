@@ -5,5 +5,11 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ReSendOtpRequest(
-    @Json(name = "email") val email: String,
+    @field:Json(name = "email") val email: String
+)
+
+@JsonClass(generateAdapter = true)
+data class ReSendOtpForgotPasswordRequest(
+    @field:Json(name = "email") val email: String,
+    @field:Json(name = "last_name") val lastName: String,
 )

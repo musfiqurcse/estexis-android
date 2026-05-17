@@ -40,6 +40,7 @@ class OtpViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         OtpState(
             email = route.email,
+            lastName = route.lastName,
             purpose = route.purpose,
         )
     )
@@ -213,7 +214,9 @@ class OtpViewModel @Inject constructor(
     private fun resendOtpForForgotPassword() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            when (val result = resendOtpUseCase.resendForForgotPassword(_state.value.email)) {
+            when (val result = resendOtpUseCase.resendForForgotPassword(
+                _state.value.email, _state.value.lastName)
+            ) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
                     startResendTimer()

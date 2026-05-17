@@ -59,10 +59,15 @@ class ForgotPasswordViewModel @Inject constructor(
             if (!isValidInput()) return@launch
 
             _state.update { it.copy(isLoading = true) }
-            when (val result = sendOtpUseCase.sendOtp(current.email)) {
+            when (val result = sendOtpUseCase.sendOtp(current.email, current.lastName)) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
-                    _navigationEvent.send(ForgotPasswordNavigationEvent.ToOtp(email = current.email))
+                    _navigationEvent.send(
+                        ForgotPasswordNavigationEvent.ToOtp(
+                            email = current.email,
+                            lastName = current.lastName
+                        )
+                    )
                 }
                 is ApiResult.Error -> {
                     sendMessage(

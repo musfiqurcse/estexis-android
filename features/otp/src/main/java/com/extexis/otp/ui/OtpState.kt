@@ -6,6 +6,7 @@ import com.extexis.core.ui.util.UiText
 data class OtpState(
     val otp: String = "",
     val email: String = "",
+    val lastName: String = "",
     val purpose: OtpPurpose = OtpPurpose.REGISTRATION,
     val isLoading: Boolean = false,
     val otpError: UiText? = null,

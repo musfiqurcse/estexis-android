@@ -27,7 +27,8 @@ fun NavGraphBuilder.forgotPasswordNavGraph(navController: NavHostController) {
                         navController.navigate(
                             OtpRoute(
                                 email = event.email,
-                                purpose = OtpPurpose.VERIFY_EXISTING_USER,
+                                lastName = event.lastName,
+                                purpose = OtpPurpose.FORGOT_PASSWORD,
                             )
                         )
                     }

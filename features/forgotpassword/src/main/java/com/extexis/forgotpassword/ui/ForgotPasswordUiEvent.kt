@@ -9,5 +9,5 @@ sealed class ForgotPasswordUiEvent {
 
 sealed class ForgotPasswordNavigationEvent {
     object Back : ForgotPasswordNavigationEvent()
-    data class ToOtp(val email: String) : ForgotPasswordNavigationEvent()
+    data class ToOtp(val email: String, val lastName: String) : ForgotPasswordNavigationEvent()
 }
