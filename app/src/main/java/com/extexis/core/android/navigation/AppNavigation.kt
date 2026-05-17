@@ -2,8 +2,8 @@ package com.extexis.core.android.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
+import com.extexis.core.android.OnBoardingState
 import com.extexis.core.android.presentation.home.homeNavGraph
-import com.extexis.core.android.presentation.splash.OnBoardingState
 import com.extexis.core.navigation.HomeRoute
 import com.extexis.core.navigation.LoginRoute
 import com.extexis.core.navigation.SplashScreenRoute

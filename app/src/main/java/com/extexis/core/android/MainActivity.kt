@@ -10,15 +10,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.extexis.core.android.navigation.AppNavigation
 import com.extexis.core.android.navigation.rememberAppNavState
-import com.extexis.core.android.presentation.splash.OnBoardingState
-import com.extexis.core.android.presentation.splash.SplashViewModel
 import com.extexis.core.ui.theme.ExtexisAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: SplashViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
