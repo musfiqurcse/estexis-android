@@ -4,6 +4,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException
 
+@Suppress("TooGenericExceptionCaught")
 suspend fun <T> executeSafeApiCall(apiCall: suspend () -> Response<T>): ApiResult<T> {
     return try {
         val response = apiCall()
