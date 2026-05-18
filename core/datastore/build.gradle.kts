@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.core.datastore"
+    namespace = "com.estexis.core.datastore"
     compileSdk = 36
 
     defaultConfig {

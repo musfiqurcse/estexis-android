@@ -34,6 +34,7 @@ include(":features:login")
 include(":features:otp")
 include(":features:welcome")
 include(":features:forgotpassword")
+include(":features:verifyexistinguser")
 
 include(":core:domain")
 include(":core:data")

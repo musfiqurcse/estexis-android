@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.welcome"
+    namespace = "com.estexis.welcome"
     compileSdk = 36
 
     defaultConfig {

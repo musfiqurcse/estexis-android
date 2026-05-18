@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.core.presentation"
+    namespace = "com.estexis.core.presentation"
     compileSdk = 36
 
     defaultConfig {

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.core.network"
+    namespace = "com.estexis.core.network"
     compileSdk = 36
 
     defaultConfig {

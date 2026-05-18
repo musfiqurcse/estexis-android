@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.core.ui"
+    namespace = "com.estexis.core.ui"
     compileSdk = 36
 
     defaultConfig {

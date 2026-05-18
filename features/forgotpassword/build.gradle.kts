@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.forgotpassword"
+    namespace = "com.estexis.forgotpassword"
     compileSdk = 36
 
     defaultConfig {

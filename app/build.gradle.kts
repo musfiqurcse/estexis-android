@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.core.android"
+    namespace = "com.estexis.core.android"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1

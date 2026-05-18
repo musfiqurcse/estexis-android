@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.extexis.otp"
+    namespace = "com.estexis.otp"
     compileSdk = 36
 
     defaultConfig {
