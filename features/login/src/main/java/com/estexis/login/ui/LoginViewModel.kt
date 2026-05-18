@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.presentation.BaseViewModel
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.util.validation.ValidateEmailUseCase
@@ -51,27 +51,28 @@ class LoginViewModel @Inject constructor(
 
     private fun login() {
         viewModelScope.launch {
-            if (!isValidInput()) return@launch
-            _state.update { it.copy(isLoading = true) }
-            when (val result = loginUseCase.login(formState.email, formState.password)) {
-                is ApiResult.Success -> {
-                    _state.update { it.copy(isLoading = false) }
-                    _navigationEvent.send(LoginNavigationEvent.ToHome)
-                }
-                is ApiResult.Error -> {
-                    _state.update { it.copy(isLoading = false, isError = true) }
-                    val message = LoginErrorMapper.map(result.code)
-
-                    if (result.code == LoginErrorMapper.NOT_VERIFIED) {
-                        sendMessage(
-                            UiMessageEvent.ToastMessage(errorMessage = message)
-                        )
-                        _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
-                    } else {
-                        sendMessage(UiMessageEvent.ToastMessage(message))
-                    }
-                }
-            }
+            _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
+//            if (!isValidInput()) return@launch
+//            _state.update { it.copy(isLoading = true) }
+//            when (val result = loginUseCase.login(formState.email, formState.password)) {
+//                is ApiResult.Success -> {
+//                    _state.update { it.copy(isLoading = false) }
+//                    _navigationEvent.send(LoginNavigationEvent.ToHome)
+//                }
+//                is ApiResult.Error -> {
+//                    _state.update { it.copy(isLoading = false, isError = true) }
+//                    val message = LoginErrorMapper.map(result.code)
+//
+//                    if (result.code == LoginErrorMapper.NOT_VERIFIED) {
+//                        sendMessage(
+//                            UiMessageEvent.ToastMessage(errorMessage = message)
+//                        )
+//                        _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
+//                    } else {
+//                        sendMessage(UiMessageEvent.ToastMessage(message))
+//                    }
+//                }
+//            }
         }
     }
 

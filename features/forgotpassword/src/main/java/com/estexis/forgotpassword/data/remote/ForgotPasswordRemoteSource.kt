@@ -1,6 +1,6 @@
 package com.estexis.forgotpassword.data.remote
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.ReSendOtpForgotPasswordRequest
 import com.estexis.core.network.executeSafeApiCall
 import com.estexis.core.network.responses.ApiReSendOtpResponse

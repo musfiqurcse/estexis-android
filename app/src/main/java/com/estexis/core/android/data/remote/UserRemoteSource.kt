@@ -6,7 +6,7 @@ import com.estexis.core.android.data.request.DeleteAccountRequest
 import com.estexis.core.android.data.response.ApiChangePasswordResponse
 import com.estexis.core.android.data.response.ApiDeleteAccountResponse
 import com.estexis.core.android.data.response.ApiLogOutResponse
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.executeSafeApiCall
 import javax.inject.Inject
 

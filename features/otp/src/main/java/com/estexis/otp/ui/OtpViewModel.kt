@@ -7,7 +7,7 @@ import com.estexis.core.navigation.OtpPurpose.FORGOT_PASSWORD
 import com.estexis.core.navigation.OtpPurpose.REGISTRATION
 import com.estexis.core.navigation.OtpPurpose.VERIFY_EXISTING_USER
 import com.estexis.core.navigation.OtpRoute
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.presentation.BaseViewModel
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.error.AppErrorMapper

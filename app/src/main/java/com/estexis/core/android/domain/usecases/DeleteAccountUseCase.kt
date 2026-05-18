@@ -2,9 +2,9 @@ package com.estexis.core.android.domain.usecases
 
 import com.estexis.core.android.data.request.DeleteAccountRequest
 import com.estexis.core.android.domain.repositories.UserRepository
+import com.estexis.core.common.ApiResult
 import com.estexis.core.datastore.AccessTokenPreference
 import com.estexis.core.datastore.RefreshTokenPreference
-import com.estexis.core.network.ApiResult
 import javax.inject.Inject
 
 interface DeleteAccountUseCase {

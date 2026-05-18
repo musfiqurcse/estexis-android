@@ -1,6 +1,6 @@
 package com.estexis.registration.data.repository
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.registration.data.remote.RegistrationRemoteSource
 import com.estexis.registration.data.request.RegistrationRequest
 import com.estexis.registration.data.response.ApiRegistrationResponse

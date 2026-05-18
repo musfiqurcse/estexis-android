@@ -3,4 +3,4 @@ package com.estexis.core.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OtpRoute(val email: String, val lastName: String, val purpose: OtpPurpose)
+data class ExistingUserVerificationRoute(val email: String)

@@ -11,11 +11,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import com.estexis.core.navigation.ExistingUserVerificationRoute
 import com.estexis.core.navigation.ForgotPasswordRoute
 import com.estexis.core.navigation.HomeRoute
 import com.estexis.core.navigation.LoginRoute
-import com.estexis.core.navigation.OtpPurpose
-import com.estexis.core.navigation.OtpRoute
 import com.estexis.core.navigation.RegistrationRoute
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.util.showToast
@@ -45,7 +44,11 @@ fun NavGraphBuilder.loginNavGraph(navController: NavHostController) {
                     LoginNavigationEvent.ToForgotPassword -> navController.navigate(ForgotPasswordRoute)
                     LoginNavigationEvent.ToSignUp -> navController.navigate(RegistrationRoute)
                     is LoginNavigationEvent.VerifyEmail -> {
-                        navController.navigate(OtpRoute(event.email, OtpPurpose.VERIFY_EXISTING_USER))
+                        navController.navigate(
+                            ExistingUserVerificationRoute(
+                                event.email
+                            )
+                        )
                     }
                 }
             }

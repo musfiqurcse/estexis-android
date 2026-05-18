@@ -1,6 +1,6 @@
 package com.estexis.login.data.remote
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.executeSafeApiCall
 import com.estexis.login.data.api.LoginApi
 import com.estexis.login.data.request.LoginRequest

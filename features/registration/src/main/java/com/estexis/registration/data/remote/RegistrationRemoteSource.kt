@@ -1,6 +1,6 @@
 package com.estexis.registration.data.remote
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.executeSafeApiCall
 import com.estexis.registration.data.api.RegistrationApi
 import com.estexis.registration.data.request.RegistrationRequest

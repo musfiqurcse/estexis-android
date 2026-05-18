@@ -1,6 +1,6 @@
 package com.estexis.registration.domain
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.registration.data.mapper.toRequest
 import com.estexis.registration.data.repository.RegistrationRepository
 import javax.inject.Inject

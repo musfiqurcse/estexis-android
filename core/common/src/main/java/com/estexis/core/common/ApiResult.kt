@@ -1,4 +1,4 @@
-package com.estexis.core.network
+package com.estexis.core.common
 
 sealed class ApiResult<out T> {
     data class Success<T>(val data: T) : ApiResult<T>()

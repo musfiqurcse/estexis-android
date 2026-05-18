@@ -1,6 +1,6 @@
 package com.estexis.otp.data.repository
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.ReSendOtpForgotPasswordRequest
 import com.estexis.core.network.ReSendOtpRequest
 import com.estexis.otp.data.remote.OtpRemoteSource

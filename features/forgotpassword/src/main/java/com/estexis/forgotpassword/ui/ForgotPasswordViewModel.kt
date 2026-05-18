@@ -1,7 +1,7 @@
 package com.estexis.forgotpassword.ui
 
 import androidx.lifecycle.viewModelScope
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.presentation.BaseViewModel
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.error.AppErrorMapper

@@ -1,0 +1,117 @@
+package com.estexis.verifyexistinguser.ui
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import com.estexis.core.ui.gds.AppButton
+import com.estexis.core.ui.gds.AppIconButton
+import com.estexis.core.ui.gds.AppTextField
+import com.estexis.core.ui.gds.VerticalSpacer
+import com.estexis.core.ui.theme.AppTheme
+import com.estexis.core.ui.theme.ExtexisAndroidTheme
+import com.estexis.verifyexistinguser.R
+
+@Composable
+fun ExistingUserVerificationScreen(
+    state: ExistingUserVerificationState,
+    event: (ExistingUserVerificationUiEvent) -> Unit,
+) {
+    val colors = AppTheme.colors
+    val dimensions = AppTheme.dimensions
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colors.onPrimary)
+            .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = dimensions.spaces.x4)
+            .imePadding(),
+    ) {
+        VerticalSpacer(dimensions.spaces.x4)
+
+        AppIconButton(
+            icon = Icons.AutoMirrored.Filled.ArrowBack,
+            onClick = { event(ExistingUserVerificationUiEvent.BackClicked) },
+            contentDescription = "Back",
+        )
+
+        VerticalSpacer(dimensions.spaces.x6)
+
+        Text(
+            text = stringResource(R.string.verify_existing_user_screen_title),
+            style = AppTheme.typography.H2SemiBold,
+            color = colors.tertiary,
+        )
+
+        VerticalSpacer(dimensions.spaces.x2)
+
+        Text(
+            text = stringResource(R.string.verify_existing_user_screen_message),
+            style = AppTheme.typography.BodyText2Regular,
+            color = colors.tertiary,
+        )
+
+        VerticalSpacer(dimensions.spaces.x8)
+
+        AppTextField(
+            value = state.email,
+            onValueChange = { event(ExistingUserVerificationUiEvent.EmailChanged(it)) },
+            label = stringResource(R.string.verify_existing_user_screen_label_email),
+            isRequired = true,
+            enabled = false,
+            placeholder = stringResource(R.string.verify_existing_user_screen_placeholder),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = state.emailError != null,
+            errorMessage = state.emailError?.asString(),
+        )
+
+        VerticalSpacer(dimensions.spaces.x4)
+
+        AppTextField(
+            value = state.lastName,
+            onValueChange = { event(ExistingUserVerificationUiEvent.LastNameChanged(it)) },
+            label = stringResource(R.string.verify_existing_user_screen_label_last_name),
+            isRequired = true,
+            placeholder = stringResource(R.string.verify_existing_user_screen_placeholder_last_name),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = state.lastNameError != null,
+            errorMessage = state.lastNameError?.asString(),
+        )
+
+        VerticalSpacer(dimensions.spaces.x8)
+
+        AppButton(
+            text = stringResource(R.string.verify_existing_user_screen_cta_send_code),
+            onClick = { event(ExistingUserVerificationUiEvent.SubmitClicked) },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !state.isLoading,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ExistingUserVerificationScreenPreview() {
+    ExtexisAndroidTheme {
+        ExistingUserVerificationScreen(
+            state = ExistingUserVerificationState(),
+            event = {},
+        )
+    }
+}

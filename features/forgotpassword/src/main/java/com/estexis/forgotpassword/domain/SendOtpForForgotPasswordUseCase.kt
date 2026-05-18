@@ -1,6 +1,6 @@
 package com.estexis.forgotpassword.domain
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.forgotpassword.data.repository.ForgotPasswordRepository
 import javax.inject.Inject
 

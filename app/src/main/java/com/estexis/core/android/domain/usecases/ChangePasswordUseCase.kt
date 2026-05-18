@@ -2,7 +2,7 @@ package com.estexis.core.android.domain.usecases
 
 import com.estexis.core.android.data.request.ChangePasswordRequest
 import com.estexis.core.android.domain.repositories.UserRepository
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import javax.inject.Inject
 
 interface ChangePasswordUseCase {

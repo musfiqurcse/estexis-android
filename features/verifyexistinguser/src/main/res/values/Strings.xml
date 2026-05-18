@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="verify_existing_user_screen_title">Verify account?</string>
+    <string name="verify_existing_user_screen_message">Enter your last name and we\'ll send you a verification code to verify your account.</string>
+    <string name="verify_existing_user_screen_label_email">Email</string>
+    <string name="verify_existing_user_screen_label_last_name">Last Name</string>
+    <string name="verify_existing_user_screen_placeholder">Enter your email</string>
+    <string name="verify_existing_user_screen_placeholder_last_name">Enter your last name</string>
+    <string name="verify_existing_user_screen_cta_send_code">Send Code</string>
+    <string name="verify_existing_user_screen_email_is_required">Email is required</string>
+    <string name="verify_existing_user_screen_last_name_is_required">Last name is required</string>
+</resources>

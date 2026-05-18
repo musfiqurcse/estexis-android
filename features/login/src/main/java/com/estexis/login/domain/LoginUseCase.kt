@@ -1,6 +1,6 @@
 package com.estexis.login.domain
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.TokenProvider
 import com.estexis.login.data.repository.LoginRepository
 import javax.inject.Inject

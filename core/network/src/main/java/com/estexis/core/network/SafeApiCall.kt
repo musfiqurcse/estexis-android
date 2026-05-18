@@ -1,5 +1,6 @@
 package com.estexis.core.network
 
+import com.estexis.core.common.ApiResult
 import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException

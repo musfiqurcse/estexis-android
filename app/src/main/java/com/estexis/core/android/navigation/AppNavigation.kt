@@ -11,6 +11,7 @@ import com.estexis.forgotpassword.ui.forgotPasswordNavGraph
 import com.estexis.login.ui.loginNavGraph
 import com.estexis.otp.ui.otpNavGraph
 import com.estexis.registration.ui.registrationNavGraph
+import com.estexis.verifyexistinguser.ui.existingUserVerificationNavGraph
 import com.estexis.welcome.ui.welcomeScreenNavGraph
 
 @Composable
@@ -45,6 +46,7 @@ fun AppNavigation(
     NavHost(navController = navController, startDestination = startDestination) {
         welcomeScreenNavGraph(navController)
         loginNavGraph(navController)
+        existingUserVerificationNavGraph(navController)
         registrationNavGraph(navController)
         forgotPasswordNavGraph(navController)
         otpNavGraph(navController)

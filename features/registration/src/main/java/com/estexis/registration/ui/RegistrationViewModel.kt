@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.presentation.BaseViewModel
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.util.UiText
@@ -111,7 +111,7 @@ class RegistrationViewModel @Inject constructor(
                 when (result) {
                     is ApiResult.Success -> {
                         _uiState.update { it.copy(isLoading = false, isSuccess = true) }
-                        _navigationEvent.send(RegistrationNavigationEvent.ToOtpVerification(formState.email))
+                        _navigationEvent.send(RegistrationNavigationEvent.ToOtpVerification(formState.email, formState.lastName))
                     }
 
                     is ApiResult.Error -> {

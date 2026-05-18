@@ -65,6 +65,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:presentation"))
     implementation(project(":core:navigation"))
@@ -72,6 +73,7 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":features:registration"))
     implementation(project(":features:login"))
+    implementation(project(":features:verifyexistinguser"))
     implementation(project(":features:otp"))
     implementation(project(":features:forgotpassword"))
     implementation(project(":features:welcome"))

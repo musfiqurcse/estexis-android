@@ -1,6 +1,6 @@
 package com.estexis.forgotpassword.data.repository
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.core.network.ReSendOtpForgotPasswordRequest
 import com.estexis.forgotpassword.data.remote.ForgotPasswordRemoteSource
 import javax.inject.Inject

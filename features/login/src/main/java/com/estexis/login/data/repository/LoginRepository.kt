@@ -1,6 +1,6 @@
 package com.estexis.login.data.repository
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.login.data.remote.LoginRemoteSource
 import com.estexis.login.data.response.ApiLoginResponse
 import javax.inject.Inject

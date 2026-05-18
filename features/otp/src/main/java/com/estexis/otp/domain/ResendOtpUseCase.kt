@@ -1,6 +1,6 @@
 package com.estexis.otp.domain
 
-import com.estexis.core.network.ApiResult
+import com.estexis.core.common.ApiResult
 import com.estexis.otp.data.repository.OtpRepository
 import javax.inject.Inject
 
