@@ -1,15 +1,10 @@
-package com.estexis.core.network
+package com.estexis.core.network.request
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ReSendOtpRequest(
-    @field:Json(name = "email") val email: String
-)
-
-@JsonClass(generateAdapter = true)
-data class ReSendOtpForgotPasswordRequest(
+data class SendOtpRequest(
     @field:Json(name = "email") val email: String,
     @field:Json(name = "last_name") val lastName: String,
 )

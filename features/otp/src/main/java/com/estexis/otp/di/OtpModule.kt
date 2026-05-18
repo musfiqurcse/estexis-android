@@ -4,10 +4,10 @@ import com.estexis.core.network.qualifiers.RetrofitNoAuthorizationHeader
 import com.estexis.otp.data.api.OtpApi
 import com.estexis.otp.data.remote.OtpRemoteSource
 import com.estexis.otp.data.remote.OtpRemoteSourceImpl
-import com.estexis.otp.data.repository.OtpRepository
-import com.estexis.otp.data.repository.OtpRepositoryImpl
-import com.estexis.otp.domain.ResendOtpUseCase
-import com.estexis.otp.domain.ResendOtpUseCaseImpl
+import com.estexis.otp.data.repository.AccountVerificationRepository
+import com.estexis.otp.data.repository.AccountVerificationRepositoryImpl
+import com.estexis.otp.domain.SendOtpForPasswordResetUseCase
+import com.estexis.otp.domain.SendOtpForPasswordResetUseCaseImpl
 import com.estexis.otp.domain.UpdatePasswordUseCase
 import com.estexis.otp.domain.UpdatePasswordUseCaseImpl
 import com.estexis.otp.domain.VerifyEmailUseCase
@@ -28,7 +28,7 @@ abstract class OtpModule {
     abstract fun bindOtpRemoteSource(impl: OtpRemoteSourceImpl): OtpRemoteSource
 
     @Binds @Singleton
-    abstract fun bindOtpRepository(impl: OtpRepositoryImpl): OtpRepository
+    abstract fun bindOtpRepository(impl: AccountVerificationRepositoryImpl): AccountVerificationRepository
 
     @Binds @Singleton
     abstract fun bindVerifyEmailUseCase(impl: VerifyEmailUseCaseImpl): VerifyEmailUseCase
@@ -37,7 +37,7 @@ abstract class OtpModule {
     abstract fun bindUpdatePasswordUseCase(impl: UpdatePasswordUseCaseImpl): UpdatePasswordUseCase
 
     @Binds @Singleton
-    abstract fun bindResendOtpUseCase(impl: ResendOtpUseCaseImpl): ResendOtpUseCase
+    abstract fun bindResendOtpUseCase(impl: SendOtpForPasswordResetUseCaseImpl): SendOtpForPasswordResetUseCase
 
     companion object {
         @Provides @Singleton

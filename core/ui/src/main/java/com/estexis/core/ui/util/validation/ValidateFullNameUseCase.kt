@@ -1,7 +1,7 @@
 package com.estexis.core.ui.util.validation
 
-import com.estexis.core.ui.util.UiText
 import com.estexis.core.ui.R
+import com.estexis.core.ui.util.UiText
 import javax.inject.Inject
 
 interface ValidateFullNameUseCase {

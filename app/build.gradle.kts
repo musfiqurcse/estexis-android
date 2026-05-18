@@ -70,6 +70,8 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":core:navigation"))
     implementation(project(":core:network"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
     implementation(project(":core:datastore"))
     implementation(project(":features:registration"))
     implementation(project(":features:login"))

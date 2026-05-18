@@ -1,23 +1,29 @@
 package com.estexis.otp.data.repository
 
 import com.estexis.core.common.ApiResult
-import com.estexis.core.network.ReSendOtpForgotPasswordRequest
-import com.estexis.core.network.ReSendOtpRequest
+import com.estexis.core.network.request.SendOtpRequest
 import com.estexis.otp.data.remote.OtpRemoteSource
 import com.estexis.otp.data.request.EmailVerificationRequest
 import com.estexis.otp.data.request.UpdatePasswordRequest
 import javax.inject.Inject
 
-interface OtpRepository {
+interface AccountVerificationRepository {
+
     suspend fun verifyEmail(email: String, code: String): ApiResult<Boolean>
-    suspend fun resendOtp(email: String): ApiResult<Boolean>
+
     suspend fun resendOtpForForgotPassword(email: String, lastName: String): ApiResult<Boolean>
-    suspend fun updatePassword(email: String, code: String, newPassword: String, confirmPassword: String): ApiResult<Boolean>
+
+    suspend fun updatePassword(
+        email: String,
+        code: String,
+        newPassword: String,
+        confirmPassword: String
+    ): ApiResult<Boolean>
 }
 
-class OtpRepositoryImpl @Inject constructor(
+class AccountVerificationRepositoryImpl @Inject constructor(
     private val remoteSource: OtpRemoteSource,
-) : OtpRepository {
+) : AccountVerificationRepository {
 
     override suspend fun verifyEmail(email: String, code: String): ApiResult<Boolean> {
         return when (val result = remoteSource.verifyEmail(EmailVerificationRequest(email, code))) {
@@ -26,16 +32,12 @@ class OtpRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun resendOtp(email: String): ApiResult<Boolean> {
-        return when (val result = remoteSource.resendOtp(ReSendOtpRequest(email = email))) {
-            is ApiResult.Success -> ApiResult.Success(true)
-            is ApiResult.Error -> result
-        }
-    }
-
-    override suspend fun resendOtpForForgotPassword(email: String, lastName: String): ApiResult<Boolean> {
+    override suspend fun resendOtpForForgotPassword(
+        email: String,
+        lastName: String
+    ): ApiResult<Boolean> {
         return when (val result = remoteSource.resendOtpForForgotPassword(
-            ReSendOtpForgotPasswordRequest(email = email, lastName = lastName)
+            SendOtpRequest(email = email, lastName = lastName)
         )) {
             is ApiResult.Success -> ApiResult.Success(true)
             is ApiResult.Error -> result
@@ -48,7 +50,14 @@ class OtpRepositoryImpl @Inject constructor(
         newPassword: String,
         confirmPassword: String,
     ): ApiResult<Boolean> {
-        return when (val result = remoteSource.updatePassword(UpdatePasswordRequest(email, code, newPassword, confirmPassword))) {
+        return when (val result = remoteSource.updatePassword(
+            UpdatePasswordRequest(
+                email,
+                code,
+                newPassword,
+                confirmPassword
+            )
+        )) {
             is ApiResult.Success -> ApiResult.Success(true)
             is ApiResult.Error -> result
         }

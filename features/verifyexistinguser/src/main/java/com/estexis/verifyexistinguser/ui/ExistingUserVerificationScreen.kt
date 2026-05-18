@@ -100,6 +100,7 @@ fun ExistingUserVerificationScreen(
             text = stringResource(R.string.verify_existing_user_screen_cta_send_code),
             onClick = { event(ExistingUserVerificationUiEvent.SubmitClicked) },
             modifier = Modifier.fillMaxWidth(),
+            isLoading = state.isLoading,
             enabled = !state.isLoading,
         )
     }

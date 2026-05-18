@@ -3,18 +3,19 @@ package com.estexis.otp.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.estexis.core.common.ApiResult
+import com.estexis.core.domain.SendOtpForVerificationUseCase
 import com.estexis.core.navigation.OtpPurpose.FORGOT_PASSWORD
 import com.estexis.core.navigation.OtpPurpose.REGISTRATION
 import com.estexis.core.navigation.OtpPurpose.VERIFY_EXISTING_USER
 import com.estexis.core.navigation.OtpRoute
-import com.estexis.core.common.ApiResult
 import com.estexis.core.presentation.BaseViewModel
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.error.AppErrorMapper
 import com.estexis.core.ui.util.UiText
 import com.estexis.core.ui.util.validation.ValidatePasswordUseCase
 import com.estexis.otp.R
-import com.estexis.otp.domain.ResendOtpUseCase
+import com.estexis.otp.domain.SendOtpForPasswordResetUseCase
 import com.estexis.otp.domain.UpdatePasswordUseCase
 import com.estexis.otp.domain.VerifyEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +34,8 @@ class OtpViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val verifyEmailUseCase: VerifyEmailUseCase,
     private val updatePasswordUseCase: UpdatePasswordUseCase,
-    private val resendOtpUseCase: ResendOtpUseCase,
+    private val resendOtpUseCase: SendOtpForPasswordResetUseCase,
+    private val sendOtpUseCase: SendOtpForVerificationUseCase,
     private val validatePasswordUseCase: ValidatePasswordUseCase,
 ) : BaseViewModel() {
 
@@ -54,14 +56,7 @@ class OtpViewModel @Inject constructor(
     private var timerJob: Job? = null
 
     init {
-        when (route.purpose) {
-            FORGOT_PASSWORD, REGISTRATION -> {
-                startResendTimer()
-            }
-            VERIFY_EXISTING_USER -> {
-                resendOtpForAccountVerification()
-            }
-        }
+        startResendTimer()
     }
 
     fun onEvent(event: OtpUiEvent) {
@@ -189,7 +184,7 @@ class OtpViewModel @Inject constructor(
     private fun resendOtpForAccountVerification() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            when (val result = resendOtpUseCase.resendForVerification(_state.value.email)) {
+            when (val result = sendOtpUseCase.send(_state.value.email, _state.value.lastName)) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
                     startResendTimer()
@@ -210,7 +205,7 @@ class OtpViewModel @Inject constructor(
     private fun resendOtpForForgotPassword() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            when (val result = resendOtpUseCase.resendForForgotPassword(
+            when (val result = resendOtpUseCase.send(
                 _state.value.email, _state.value.lastName
             )
             ) {

@@ -52,27 +52,27 @@ class LoginViewModel @Inject constructor(
     private fun login() {
         viewModelScope.launch {
             _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
-//            if (!isValidInput()) return@launch
-//            _state.update { it.copy(isLoading = true) }
-//            when (val result = loginUseCase.login(formState.email, formState.password)) {
-//                is ApiResult.Success -> {
-//                    _state.update { it.copy(isLoading = false) }
-//                    _navigationEvent.send(LoginNavigationEvent.ToHome)
-//                }
-//                is ApiResult.Error -> {
-//                    _state.update { it.copy(isLoading = false, isError = true) }
-//                    val message = LoginErrorMapper.map(result.code)
-//
-//                    if (result.code == LoginErrorMapper.NOT_VERIFIED) {
-//                        sendMessage(
-//                            UiMessageEvent.ToastMessage(errorMessage = message)
-//                        )
-//                        _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
-//                    } else {
-//                        sendMessage(UiMessageEvent.ToastMessage(message))
-//                    }
-//                }
-//            }
+            if (!isValidInput()) return@launch
+            _state.update { it.copy(isLoading = true) }
+            when (val result = loginUseCase.login(formState.email, formState.password)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _navigationEvent.send(LoginNavigationEvent.ToHome)
+                }
+                is ApiResult.Error -> {
+                    _state.update { it.copy(isLoading = false, isError = true) }
+                    val message = LoginErrorMapper.map(result.code)
+
+                    if (result.code == LoginErrorMapper.NOT_VERIFIED) {
+                        sendMessage(
+                            UiMessageEvent.ToastMessage(errorMessage = message)
+                        )
+                        _navigationEvent.send(LoginNavigationEvent.VerifyEmail(formState.email))
+                    } else {
+                        sendMessage(UiMessageEvent.ToastMessage(message))
+                    }
+                }
+            }
         }
     }
 

@@ -3,9 +3,9 @@ package com.estexis.verifyexistinguser.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.estexis.core.navigation.ExistingUserVerificationRoute
-import com.estexis.core.navigation.OtpRoute
 import com.estexis.core.common.ApiResult
+import com.estexis.core.domain.SendOtpForVerificationUseCase
+import com.estexis.core.navigation.ExistingUserVerificationRoute
 import com.estexis.core.presentation.BaseViewModel
 import com.estexis.core.presentation.UiMessageEvent
 import com.estexis.core.ui.error.AppErrorMapper
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExistingUserVerificationViewModel @Inject constructor(
-    //private val sendOtpUseCase: SendOtpForForgotPasswordUseCase,
+    private val sendOtpUseCase: SendOtpForVerificationUseCase,
     private val validateEmailUseCase: ValidateEmailUseCase,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
@@ -49,43 +49,33 @@ class ExistingUserVerificationViewModel @Inject constructor(
                 viewModelScope.launch { _navigationEvent.send(ExistingUserVerificationNavigationEvent.Back) }
 
             is ExistingUserVerificationUiEvent.LastNameChanged ->
-                _state.update { it.copy(email = event.lastName, emailError = null) }
+                _state.update { it.copy(lastName = event.lastName, emailError = null) }
         }
     }
 
     private fun submit() {
-
-        val current = _state.value
-
-        if (current.email.isBlank()) {
-            _state.update { it.copy(emailError = UiText.StringResource(R.string.verify_existing_user_screen_email_is_required)) }
-            return
-        }
-
         viewModelScope.launch {
-
             if (!isValidInput()) return@launch
-
             _state.update { it.copy(isLoading = true) }
-//            when (val result = sendOtpUseCase.sendOtp(current.email, current.lastName)) {
-//                is ApiResult.Success -> {
-//                    _state.update { it.copy(isLoading = false) }
-//                    _navigationEvent.send(
-//                        ForgotPasswordNavigationEvent.ToOtp(
-//                            email = current.email,
-//                            lastName = current.lastName
-//                        )
-//                    )
-//                }
-//                is ApiResult.Error -> {
-//                    sendMessage(
-//                        UiMessageEvent.ToastMessage(
-//                            AppErrorMapper.map(result.code)
-//                        )
-//                    )
-//                    _state.update { it.copy(isLoading = false) }
-//                }
-//            }
+            when (val result = sendOtpUseCase.send(_state.value.email, _state.value.lastName)) {
+                is ApiResult.Success -> {
+                    _state.update { it.copy(isLoading = false) }
+                    _navigationEvent.send(
+                        ExistingUserVerificationNavigationEvent.ToOtp(
+                            email = _state.value.email,
+                            lastName = _state.value.lastName
+                        )
+                    )
+                }
+                is ApiResult.Error -> {
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            AppErrorMapper.map(result.code)
+                        )
+                    )
+                    _state.update { it.copy(isLoading = false) }
+                }
+            }
         }
     }
 

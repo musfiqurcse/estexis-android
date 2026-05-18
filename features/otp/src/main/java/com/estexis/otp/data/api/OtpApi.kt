@@ -1,8 +1,7 @@
 package com.estexis.otp.data.api
 
 import com.estexis.core.network.NetworkConfig
-import com.estexis.core.network.ReSendOtpForgotPasswordRequest
-import com.estexis.core.network.ReSendOtpRequest
+import com.estexis.core.network.request.SendOtpRequest
 import com.estexis.core.network.responses.ApiReSendOtpResponse
 import com.estexis.otp.data.request.EmailVerificationRequest
 import com.estexis.otp.data.request.UpdatePasswordRequest
@@ -18,10 +17,10 @@ interface OtpApi {
     suspend fun verifyEmail(@Body request: EmailVerificationRequest): Response<ApiEmailVerificationResponse>
 
     @POST(NetworkConfig.SEND_OTP)
-    suspend fun resendOtp(@Body request: ReSendOtpRequest): Response<ApiReSendOtpResponse>
+    suspend fun resendOtp(@Body request: SendOtpRequest): Response<ApiReSendOtpResponse>
 
     @POST(NetworkConfig.SEND_OTP_FORGOT_PASSWORD)
-    suspend fun resendOtpForForgotPassword(@Body request: ReSendOtpForgotPasswordRequest): Response<ApiReSendOtpResponse>
+    suspend fun resendOtpForForgotPassword(@Body request: SendOtpRequest): Response<ApiReSendOtpResponse>
 
     @POST(NetworkConfig.RESET_PASSWORD)
     suspend fun updatePassword(@Body request: UpdatePasswordRequest): Response<ApiUpdatePasswordResponse>

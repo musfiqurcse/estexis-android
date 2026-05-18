@@ -1,7 +1,7 @@
 package com.estexis.otp.domain
 
 import com.estexis.core.common.ApiResult
-import com.estexis.otp.data.repository.OtpRepository
+import com.estexis.otp.data.repository.AccountVerificationRepository
 import javax.inject.Inject
 
 interface UpdatePasswordUseCase {
@@ -14,7 +14,7 @@ interface UpdatePasswordUseCase {
 }
 
 class UpdatePasswordUseCaseImpl @Inject constructor(
-    private val repository: OtpRepository,
+    private val repository: AccountVerificationRepository,
 ) : UpdatePasswordUseCase {
 
     override suspend fun updatePassword(

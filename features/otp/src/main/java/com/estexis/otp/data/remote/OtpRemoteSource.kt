@@ -1,9 +1,8 @@
 package com.estexis.otp.data.remote
 
 import com.estexis.core.common.ApiResult
-import com.estexis.core.network.ReSendOtpForgotPasswordRequest
-import com.estexis.core.network.ReSendOtpRequest
 import com.estexis.core.network.executeSafeApiCall
+import com.estexis.core.network.request.SendOtpRequest
 import com.estexis.core.network.responses.ApiReSendOtpResponse
 import com.estexis.otp.data.api.OtpApi
 import com.estexis.otp.data.request.EmailVerificationRequest
@@ -14,8 +13,9 @@ import javax.inject.Inject
 
 interface OtpRemoteSource {
     suspend fun verifyEmail(request: EmailVerificationRequest): ApiResult<ApiEmailVerificationResponse>
-    suspend fun resendOtp(request: ReSendOtpRequest): ApiResult<ApiReSendOtpResponse>
-    suspend fun resendOtpForForgotPassword(request: ReSendOtpForgotPasswordRequest): ApiResult<ApiReSendOtpResponse>
+
+    suspend fun resendOtpForForgotPassword(request: SendOtpRequest): ApiResult<ApiReSendOtpResponse>
+
     suspend fun updatePassword(request: UpdatePasswordRequest): ApiResult<ApiUpdatePasswordResponse>
 }
 
@@ -27,11 +27,7 @@ class OtpRemoteSourceImpl @Inject constructor(
         return executeSafeApiCall { otpApi.verifyEmail(request) }
     }
 
-    override suspend fun resendOtp(request: ReSendOtpRequest): ApiResult<ApiReSendOtpResponse> {
-        return executeSafeApiCall { otpApi.resendOtp(request) }
-    }
-
-    override suspend fun resendOtpForForgotPassword(request: ReSendOtpForgotPasswordRequest): ApiResult<ApiReSendOtpResponse> {
+    override suspend fun resendOtpForForgotPassword(request: SendOtpRequest): ApiResult<ApiReSendOtpResponse> {
         return executeSafeApiCall { otpApi.resendOtpForForgotPassword(request) }
     }
 

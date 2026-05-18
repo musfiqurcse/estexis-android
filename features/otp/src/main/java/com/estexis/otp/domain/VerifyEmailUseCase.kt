@@ -1,7 +1,7 @@
 package com.estexis.otp.domain
 
 import com.estexis.core.common.ApiResult
-import com.estexis.otp.data.repository.OtpRepository
+import com.estexis.otp.data.repository.AccountVerificationRepository
 import javax.inject.Inject
 
 interface VerifyEmailUseCase {
@@ -9,7 +9,7 @@ interface VerifyEmailUseCase {
 }
 
 class VerifyEmailUseCaseImpl @Inject constructor(
-    private val repository: OtpRepository,
+    private val repository: AccountVerificationRepository,
 ) : VerifyEmailUseCase {
 
     override suspend fun verifyEmail(email: String, code: String): ApiResult<Boolean> {
