@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.estexis.core.ui.gds.AppButton
 import com.estexis.core.ui.gds.AppIconButton
+import com.estexis.core.ui.gds.AppLoadingDialog
 import com.estexis.core.ui.gds.AppTextField
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTheme
@@ -33,6 +34,10 @@ fun ForgotPasswordScreen(
 ) {
     val colors = AppTheme.colors
     val dimensions = AppTheme.dimensions
+
+    if (state.isLoading) {
+        AppLoadingDialog()
+    }
 
     Column(
         modifier = Modifier

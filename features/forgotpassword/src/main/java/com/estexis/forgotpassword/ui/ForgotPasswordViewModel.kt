@@ -41,31 +41,23 @@ class ForgotPasswordViewModel @Inject constructor(
                 viewModelScope.launch { _navigationEvent.send(ForgotPasswordNavigationEvent.Back) }
 
             is ForgotPasswordUiEvent.LastNameChanged ->
-                _state.update { it.copy(email = event.lastName, emailError = null) }
+                _state.update { it.copy(lastName = event.lastName, emailError = null) }
         }
     }
 
     private fun submit() {
-
-        val current = _state.value
-
-        if (current.email.isBlank()) {
-            _state.update { it.copy(emailError = UiText.StringResource(R.string.forgot_password_screen_email_is_required)) }
-            return
-        }
-
         viewModelScope.launch {
 
             if (!isValidInput()) return@launch
 
             _state.update { it.copy(isLoading = true) }
-            when (val result = sendOtpUseCase.sendOtp(current.email, current.lastName)) {
+            when (val result = sendOtpUseCase.sendOtp(_state.value.email, _state.value.lastName)) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
                     _navigationEvent.send(
                         ForgotPasswordNavigationEvent.ToOtp(
-                            email = current.email,
-                            lastName = current.lastName
+                            email = _state.value.email,
+                            lastName = _state.value.lastName
                         )
                     )
                 }

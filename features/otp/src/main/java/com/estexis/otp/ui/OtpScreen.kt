@@ -146,7 +146,7 @@ fun OtpScreen(
         VerticalSpacer(dimensions.spaces.x8)
 
         AppButton(
-            text = if (state.purpose == OtpPurpose.VERIFY_EXISTING_USER)
+            text = if (state.purpose == OtpPurpose.FORGOT_PASSWORD)
                 stringResource(R.string.otp_screen_cta_reset_password)
             else stringResource(R.string.otp_screen_cta_verify),
             onClick = { event(OtpUiEvent.VerifyClicked) },

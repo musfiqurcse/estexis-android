@@ -34,7 +34,6 @@ fun NavGraphBuilder.loginNavGraph(navController: NavHostController) {
         LaunchedEffect(Unit) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
-                    LoginNavigationEvent.Back -> navController.navigateUp()
                     LoginNavigationEvent.ToHome -> {
                         navController.navigate(HomeRoute) {
                             popUpTo(0) { inclusive = true }

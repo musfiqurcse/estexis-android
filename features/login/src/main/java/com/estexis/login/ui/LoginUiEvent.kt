@@ -6,11 +6,9 @@ sealed class LoginUiEvent {
     object LoginClicked : LoginUiEvent()
     object ForgotPasswordClicked : LoginUiEvent()
     object SignUpClicked : LoginUiEvent()
-    object BackClicked : LoginUiEvent()
 }
 
 sealed class LoginNavigationEvent {
-    object Back : LoginNavigationEvent()
     object ToHome : LoginNavigationEvent()
     object ToForgotPassword : LoginNavigationEvent()
     object ToSignUp : LoginNavigationEvent()

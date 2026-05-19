@@ -20,12 +20,12 @@ data class RegistrationState(
 )
 
 data class RegistrationFormState(
-    val firstName: String = "Anik",
-    val lastName: String = "Dey",
-    val email: String = "info.anikdey003+5@gmail.com",
-    val phoneNumber: String = "01917986107",
-    val password: String = "1qazZAQ!",
-    val confirmPassword: String = "1qazZAQ!",
+    val firstName: String = "",
+    val lastName: String = "",
+    val email: String = "",
+    val phoneNumber: String = "",
+    val password: String = "",
+    val confirmPassword: String = "",
     val selectedCountry: Country? = null,
     val selectedRole: AccountRole? = null,
 )

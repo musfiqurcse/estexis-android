@@ -11,18 +11,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.estexis.core.ui.gds.ActionButton
 import com.estexis.core.ui.gds.AppButton
 import com.estexis.core.ui.gds.AppIcon
-import com.estexis.core.ui.gds.AppIconButton
 import com.estexis.core.ui.gds.AppTextField
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
@@ -48,20 +46,14 @@ fun LoginScreen(
             .padding(horizontal = dimensions.spaces.x4)
             .imePadding(),
     ) {
-        VerticalSpacer(dimensions.spaces.x4)
-
-        AppIconButton(
-            icon = Icons.AutoMirrored.Filled.ArrowBack,
-            onClick = { event(LoginUiEvent.BackClicked) },
-            contentDescription = stringResource(R.string.back),
-        )
-
-        VerticalSpacer(dimensions.spaces.x6)
+        VerticalSpacer(dimensions.spaces.x16)
 
         Text(
             text = stringResource(R.string.login_screen_title_log_in),
             style = AppTheme.typography.H2Bold,
             color = colors.tertiary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
 
         VerticalSpacer(dimensions.spaces.x2)
@@ -70,6 +62,8 @@ fun LoginScreen(
             text = stringResource(R.string.login_screen_message),
             style = AppTextStyles.BodyText3Regular,
             color = colors.tertiary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
 
         VerticalSpacer(dimensions.spaces.x8)

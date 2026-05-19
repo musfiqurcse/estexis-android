@@ -44,8 +44,6 @@ class LoginViewModel @Inject constructor(
                 viewModelScope.launch { _navigationEvent.send(LoginNavigationEvent.ToForgotPassword) }
             LoginUiEvent.SignUpClicked ->
                 viewModelScope.launch { _navigationEvent.send(LoginNavigationEvent.ToSignUp) }
-            LoginUiEvent.BackClicked ->
-                viewModelScope.launch { _navigationEvent.send(LoginNavigationEvent.Back) }
         }
     }
 
