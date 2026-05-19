@@ -15,4 +15,7 @@
     <string name="otp_verification_screen_password_required">Password is required</string>
     <string name="otp_verification_screen_confirm_password">Please confirm your password</string>
     <string name="otp_verification_screen_password_miss_match">Passwords do not match</string>
+
+    <string name="otp_verification_screen_verification_done">Account successfully verified.</string>
+    <string name="otp_verification_screen_pass_reset_done">Password reset was successful.</string>
 </resources>

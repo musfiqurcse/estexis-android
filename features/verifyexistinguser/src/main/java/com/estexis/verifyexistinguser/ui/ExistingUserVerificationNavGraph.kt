@@ -28,7 +28,7 @@ fun NavGraphBuilder.existingUserVerificationNavGraph(navController: NavHostContr
                             OtpRoute(
                                 email = event.email,
                                 lastName = event.lastName,
-                                purpose = OtpPurpose.FORGOT_PASSWORD,
+                                purpose = OtpPurpose.VERIFY_EXISTING_USER,
                             )
                         )
                     }

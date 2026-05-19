@@ -107,7 +107,14 @@ class OtpViewModel @Inject constructor(
             when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
-                    _navigationEvent.send(OtpNavigationEvent.ToHome)
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            UiText.StringResource(
+                                R.string.otp_verification_screen_verification_done
+                            )
+                        )
+                    )
+                    _navigationEvent.send(OtpNavigationEvent.ToLogin)
                 }
 
                 is ApiResult.Error -> {
@@ -132,6 +139,13 @@ class OtpViewModel @Inject constructor(
             )) {
                 is ApiResult.Success -> {
                     _state.update { it.copy(isLoading = false) }
+                    sendMessage(
+                        UiMessageEvent.ToastMessage(
+                            UiText.StringResource(
+                                R.string.otp_verification_screen_pass_reset_done
+                            )
+                        )
+                    )
                     _navigationEvent.send(OtpNavigationEvent.ToLogin)
                 }
 

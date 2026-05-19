@@ -11,6 +11,5 @@ sealed class OtpUiEvent {
 
 sealed class OtpNavigationEvent {
     object Back : OtpNavigationEvent()
-    object ToHome : OtpNavigationEvent()
     object ToLogin : OtpNavigationEvent()
 }
