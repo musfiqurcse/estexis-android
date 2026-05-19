@@ -32,7 +32,7 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            resValue("string", "app_name", "Extexis (Debug)")
+            resValue("string", "app_name", "Estexis (Debug)")
             buildConfigField("String", "API_BASE_URL", "\"https://api.travelhug.ai/api/\"")
         }
 

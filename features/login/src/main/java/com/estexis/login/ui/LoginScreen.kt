@@ -95,7 +95,7 @@ fun LoginScreen(
             errorMessage = state.passwordError?.asString(),
         )
 
-        VerticalSpacer(dimensions.spaces.x2)
+        VerticalSpacer(dimensions.spaces.x4)
 
         Row(
             modifier = Modifier.fillMaxWidth(),

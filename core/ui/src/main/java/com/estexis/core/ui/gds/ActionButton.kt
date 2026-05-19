@@ -20,7 +20,7 @@ fun ActionButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    style: TextStyle = AppTheme.typography.BodyText3Regular,
+    style: TextStyle = AppTheme.typography.BodyText3Bold,
 ) {
     val colors = AppTheme.colors
 

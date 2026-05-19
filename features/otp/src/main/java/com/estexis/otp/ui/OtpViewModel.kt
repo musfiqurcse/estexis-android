@@ -102,6 +102,7 @@ class OtpViewModel @Inject constructor(
         viewModelScope.launch {
             if (!isValidOtp()) return@launch
 
+            _state.update { it.copy(isLoading = true) }
             val current = _state.value
 
             when (val result = verifyEmailUseCase.verifyEmail(current.email, current.otp)) {
@@ -133,6 +134,7 @@ class OtpViewModel @Inject constructor(
         viewModelScope.launch {
             if (!isValidInput()) return@launch
 
+            _state.update { it.copy(isLoading = true) }
             val current = _state.value
             when (val result = updatePasswordUseCase.updatePassword(
                 current.email, current.otp, current.newPassword, current.confirmPassword

@@ -30,6 +30,7 @@ import com.estexis.core.navigation.OtpPurpose
 import com.estexis.core.ui.gds.ActionButton
 import com.estexis.core.ui.gds.AppButton
 import com.estexis.core.ui.gds.AppIconButton
+import com.estexis.core.ui.gds.AppLoadingDialog
 import com.estexis.core.ui.gds.AppOtpField
 import com.estexis.core.ui.gds.AppTextField
 import com.estexis.core.ui.gds.VerticalSpacer
@@ -45,6 +46,10 @@ fun OtpScreen(
 ) {
     val colors = AppTheme.colors
     val dimensions = AppTheme.dimensions
+
+    if (state.isLoading) {
+        AppLoadingDialog()
+    }
 
     Column(
         modifier = Modifier
