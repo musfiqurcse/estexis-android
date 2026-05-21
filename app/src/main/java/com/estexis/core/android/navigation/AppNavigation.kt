@@ -3,13 +3,15 @@ package com.estexis.core.android.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import com.estexis.core.android.OnBoardingState
-import com.estexis.core.android.presentation.home.homeNavGraph
 import com.estexis.core.navigation.HomeRoute
 import com.estexis.core.navigation.LoginRoute
 import com.estexis.core.navigation.SplashScreenRoute
 import com.estexis.forgotpassword.ui.forgotPasswordNavGraph
+import com.estexis.home.ui.homeNavGraph
+import com.estexis.kyc.ui.kycNavGraph
 import com.estexis.login.ui.loginNavGraph
 import com.estexis.otp.ui.otpNavGraph
+import com.estexis.profile.ui.profileNavGraph
 import com.estexis.registration.ui.registrationNavGraph
 import com.estexis.verifyexistinguser.ui.existingUserVerificationNavGraph
 import com.estexis.welcome.ui.welcomeScreenNavGraph
@@ -50,6 +52,8 @@ fun AppNavigation(
         registrationNavGraph(navController)
         forgotPasswordNavGraph(navController)
         otpNavGraph(navController)
-        homeNavGraph()
+        homeNavGraph(navController)
+        profileNavGraph(navController)
+        kycNavGraph(navController)
     }
 }

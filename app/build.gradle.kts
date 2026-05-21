@@ -79,6 +79,9 @@ dependencies {
     implementation(project(":features:otp"))
     implementation(project(":features:forgotpassword"))
     implementation(project(":features:welcome"))
+    implementation(project(":features:home"))
+    implementation(project(":features:profile"))
+    implementation(project(":features:kyc"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

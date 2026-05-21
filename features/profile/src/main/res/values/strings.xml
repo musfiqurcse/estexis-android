@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_screen_account_information">Account Information</string>
+    <string name="profile_screen_language">Language</string>
+    <string name="profile_screen_security">Security</string>
+    <string name="profile_screen_kyc">KYC</string>
+    <string name="profile_screen_notification">Notification</string>
+    <string name="profile_screen_terms_condition"><![CDATA[Terms & Condition]]></string>
+    <string name="profile_screen_privacy_policy">Privacy Policy</string>
+    <string name="profile_screen_title_profile">Profile</string>
+</resources>

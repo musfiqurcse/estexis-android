@@ -113,9 +113,9 @@ fun AppTextField(
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
                                 painter = if (passwordVisible)
-                                    painterResource(AppIcon.IcVisibilityOff.resId)
+                                    painterResource(AppIcon.VisibilityOff.resId)
                                 else
-                                    painterResource(AppIcon.IcVisibilityOn.resId),
+                                    painterResource(AppIcon.VisibilityOn.resId),
                                 contentDescription = null,
                                 modifier = Modifier.size(dimensions.sizes.x5),
                                 tint = colors.tertiary,

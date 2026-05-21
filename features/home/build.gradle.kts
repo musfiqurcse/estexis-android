@@ -26,7 +26,15 @@ android {
 dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:common"))
+    implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
+    implementation(project(":core:presentation"))
+
+    implementation(project(":features:dashboard"))
+    implementation(project(":features:listings"))
+    implementation(project(":features:addlisting"))
+    implementation(project(":features:messages"))
+    implementation(project(":features:menu"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -37,6 +45,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 

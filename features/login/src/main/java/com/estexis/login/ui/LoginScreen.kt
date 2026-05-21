@@ -72,7 +72,7 @@ fun LoginScreen(
             value = formState.email,
             onValueChange = { event(LoginUiEvent.EmailChanged(it)) },
             placeholder = stringResource(R.string.login_screen_placeholder_email_address),
-            leadingIcon = AppIcon.IcMail.resId,
+            leadingIcon = AppIcon.Mail.resId,
             isError = state.emailError != null,
             errorMessage = state.emailError?.asString(),
         )
@@ -83,7 +83,7 @@ fun LoginScreen(
             value = formState.password,
             onValueChange = { event(LoginUiEvent.PasswordChanged(it)) },
             placeholder = stringResource(R.string.login_screen_placeholder_password),
-            leadingIcon = AppIcon.IcLockPassword.resId,
+            leadingIcon = AppIcon.LockPassword.resId,
             isPassword = true,
             isError = state.passwordError != null,
             errorMessage = state.passwordError?.asString(),

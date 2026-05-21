@@ -134,7 +134,7 @@ private fun GetStartedButton(
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    painter = painterResource(AppIcon.IcArrowForward.resId),
+                    painter = painterResource(AppIcon.ArrowForward.resId),
                     contentDescription = null,
                     tint = AppTheme.colors.primary,
                     modifier = Modifier.size(AppTheme.dimensions.sizes.x5),
