@@ -1,46 +1,32 @@
 package com.estexis.kyc.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.AssignmentInd
-import androidx.compose.material.icons.filled.Badge
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ContactPage
-import androidx.compose.material.icons.filled.HourglassEmpty
-import androidx.compose.material.icons.filled.ReceiptLong
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.estexis.core.ui.gds.AppIconButton
+import com.estexis.core.navigation.DocumentUploadType
+import com.estexis.core.ui.gds.AppIcon
+import com.estexis.core.ui.gds.AppTitleBar
 import com.estexis.core.ui.gds.CollapsibleSection
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
+import com.estexis.core.ui.util.addBackground
+import com.estexis.kyc.R
 
 @Composable
 fun KycScreen(
@@ -50,43 +36,29 @@ fun KycScreen(
     val colors = AppTheme.colors
     val dimensions = AppTheme.dimensions
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colors.onPrimary)
-            .statusBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = dimensions.spaces.x4),
-    ) {
-        VerticalSpacer(dimensions.spaces.x4)
+    Column(modifier = Modifier.addBackground()) {
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            AppIconButton(
-                icon = Icons.AutoMirrored.Filled.ArrowBack,
-                onClick = { event(KycUiEvent.BackClicked) },
-                contentDescription = "Back",
-            )
-            Text(
-                text = "KYC",
-                style = AppTheme.typography.H3Bold,
-                color = colors.onBackground,
-                modifier = Modifier.padding(start = dimensions.spaces.x2),
-            )
-        }
+        AppTitleBar(
+            onBackClick = {
+                event(KycUiEvent.BackClicked)
+            },
+            title = stringResource(R.string.kyc_screen_title_kyc)
+        )
 
         VerticalSpacer(dimensions.spaces.x4)
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Default.ContactPage,
+
+            Image(
+                painter = painterResource(AppIcon.NID.resId),
                 contentDescription = null,
-                tint = colors.secondary,
-                modifier = Modifier.size(dimensions.sizes.x10),
+                modifier = Modifier.size(dimensions.sizes.x12),
             )
+
             Text(
-                text = "Personal Identification",
+                text = stringResource(R.string.kyc_screen_personal_identification),
                 style = AppTextStyles.BodyText1Bold,
-                color = colors.onBackground,
+                color = colors.tertiary,
                 modifier = Modifier.padding(start = dimensions.spaces.x3),
             )
         }
@@ -94,7 +66,7 @@ fun KycScreen(
         VerticalSpacer(dimensions.spaces.x4)
 
         CollapsibleSection(
-            title = "Identification",
+            title = stringResource(R.string.kyc_screen_identification),
             expanded = state.identificationExpanded,
             onToggle = { event(KycUiEvent.ToggleIdentification) },
         ) {
@@ -102,25 +74,43 @@ fun KycScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensions.radius.large))
-                    .background(colors.background)
-                    .padding(dimensions.spaces.x3),
+                    .background(colors.white),
                 verticalArrangement = Arrangement.spacedBy(dimensions.spaces.x3),
             ) {
-                state.identificationItems.forEach { item ->
-                    KycItemRow(
-                        icon = iconFor(item.type),
-                        title = item.title,
-                        status = item.status,
-                        onClick = { event(KycUiEvent.IdentificationClicked(item.type)) },
-                    )
-                }
+                KycItemRow(
+                    image = AppIcon.NidVerification.resId,
+                    title = stringResource(R.string.kyc_screen_nid_verification),
+                    status = KycStatus.FAILED,
+                    onClick = { event(KycUiEvent.IdentificationClicked(
+                        IdentificationType.NID
+                    )) },
+                )
+
+                KycItemRow(
+                    image = AppIcon.Passport.resId,
+                    title = stringResource(R.string.kyc_screen_passport_verification),
+                    status = KycStatus.NOT_VERIFIED,
+                    onClick = { event(KycUiEvent.IdentificationClicked(
+                        IdentificationType.PASSPORT
+                    )) },
+                )
+
+                KycItemRow(
+                    image = AppIcon.License.resId,
+                    title = stringResource(R.string.kyc_screen_driving_license_verification),
+                    status = KycStatus.PENDING,
+                    onClick = { event(KycUiEvent.IdentificationClicked(
+                        IdentificationType.DRIVING_LICENSE
+                    )) },
+                    hasBorder = false
+                )
             }
         }
 
         VerticalSpacer(dimensions.spaces.x4)
 
         CollapsibleSection(
-            title = "Upload Verification Document",
+            title = stringResource(R.string.kyc_screen_upload_verification_document),
             expanded = state.documentsExpanded,
             onToggle = { event(KycUiEvent.ToggleDocuments) },
         ) {
@@ -128,122 +118,33 @@ fun KycScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(dimensions.radius.large))
-                    .background(colors.background)
-                    .padding(dimensions.spaces.x3),
+                    .background(colors.background),
                 verticalArrangement = Arrangement.spacedBy(dimensions.spaces.x3),
             ) {
-                state.documentItems.forEach { item ->
-                    KycItemRow(
-                        icon = iconFor(item.type),
-                        title = item.title,
-                        status = item.status,
-                        onClick = { event(KycUiEvent.DocumentClicked(item.type)) },
-                    )
-                }
+
+                KycItemRow(
+                    image = AppIcon.BankStatement.resId,
+                    title = stringResource(R.string.kyc_screen_bank_account_statement),
+                    status = KycStatus.VERIFIED,
+                    onClick = { event(KycUiEvent.DocumentClicked(
+                        DocumentUploadType.BANK_STATEMENT
+                    )) },
+                )
+
+                KycItemRow(
+                    image = AppIcon.Invoice.resId,
+                    title = stringResource(R.string.kyc_screen_utility_bill),
+                    status = KycStatus.NOT_VERIFIED,
+                    onClick = { event(KycUiEvent.DocumentClicked(
+                        DocumentUploadType.UTILITY_BILL
+                    )) },
+                    hasBorder = false
+                )
             }
         }
 
         VerticalSpacer(dimensions.spaces.x8)
     }
-}
-
-@Composable
-private fun KycItemRow(
-    icon: ImageVector,
-    title: String,
-    status: KycStatus,
-    onClick: () -> Unit,
-) {
-    val colors = AppTheme.colors
-    val dimensions = AppTheme.dimensions
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = dimensions.spaces.x2),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = colors.tertiary,
-            modifier = Modifier.size(dimensions.sizes.x9),
-        )
-
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = dimensions.spaces.x3),
-        ) {
-            Text(
-                text = title,
-                style = AppTextStyles.BodyText2Bold,
-                color = colors.onBackground,
-            )
-            Text(
-                text = statusLabel(status),
-                style = AppTextStyles.BodyText3Bold,
-                color = statusColor(status),
-            )
-        }
-
-        StatusBadge(status)
-    }
-}
-
-@Composable
-private fun StatusBadge(status: KycStatus) {
-    val colors = AppTheme.colors
-    val dimensions = AppTheme.dimensions
-
-    val (icon, tint) = when (status) {
-        KycStatus.VERIFIED -> Icons.Default.CheckCircle to colors.success
-        KycStatus.FAILED -> Icons.Default.Cancel to colors.error
-        KycStatus.NOT_VERIFIED -> Icons.Default.Warning to colors.primary
-        KycStatus.PENDING -> Icons.Default.HourglassEmpty to colors.action
-    }
-
-    Box(
-        modifier = Modifier
-            .size(dimensions.sizes.x7)
-            .clip(CircleShape)
-            .background(tint),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier.size(dimensions.sizes.x5),
-        )
-    }
-}
-
-@Composable
-private fun statusColor(status: KycStatus): Color = when (status) {
-    KycStatus.VERIFIED -> AppTheme.colors.success
-    KycStatus.FAILED -> AppTheme.colors.error
-    KycStatus.NOT_VERIFIED -> AppTheme.colors.primary
-    KycStatus.PENDING -> AppTheme.colors.action
-}
-
-private fun statusLabel(status: KycStatus): String = when (status) {
-    KycStatus.VERIFIED -> "Verified"
-    KycStatus.FAILED -> "Verified Failed"
-    KycStatus.NOT_VERIFIED -> "Not Verified"
-    KycStatus.PENDING -> "Pending"
-}
-
-private fun iconFor(type: IdentificationType): ImageVector = when (type) {
-    IdentificationType.NID -> Icons.Default.Badge
-    IdentificationType.PASSPORT -> Icons.Default.ContactPage
-    IdentificationType.DRIVING_LICENSE -> Icons.Default.AssignmentInd
-}
-
-private fun iconFor(type: DocumentType): ImageVector = when (type) {
-    DocumentType.BANK_STATEMENT -> Icons.Default.AccountBalance
-    DocumentType.UTILITY_BILL -> Icons.Default.ReceiptLong
 }
 
 @Preview(showBackground = true)

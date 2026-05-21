@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="kyc_screen_title_kyc">KYC</string>
+    <string name="kyc_screen_identification">Identification</string>
+    <string name="kyc_screen_upload_verification_document">Upload Verification Document</string>
+    <string name="kyc_screen_personal_identification">Personal Identification</string>
+    <string name="kyc_screen_nid_verification">NID Verification</string>
+    <string name="kyc_screen_passport_verification">Passport Verification</string>
+    <string name="kyc_screen_driving_license_verification">Driving License Verification</string>
+    <string name="kyc_screen_bank_account_statement">Bank Account Statement</string>
+    <string name="kyc_screen_utility_bill">Utility Bill</string>
+</resources>

@@ -20,4 +20,11 @@ sealed class AppIcon(val resId: Int) {
     data object DocumentValidation : AppIcon(R.drawable.ic_document_validation)
     data object Notification : AppIcon(R.drawable.ic_notification)
     data object PrivacyPolicy : AppIcon(R.drawable.ic_privacy_policy)
+    data object NID : AppIcon(R.drawable.ic_nid)
+
+    data object NidVerification : AppIcon(R.drawable.ic_nid_verification)
+    data object Passport : AppIcon(R.drawable.ic_passport)
+    data object License : AppIcon(R.drawable.ic_license)
+    data object BankStatement : AppIcon(R.drawable.ic_bank)
+    data object Invoice : AppIcon(R.drawable.ic_invoice)
 }

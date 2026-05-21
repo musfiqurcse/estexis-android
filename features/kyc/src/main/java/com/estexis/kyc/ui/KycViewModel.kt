@@ -28,8 +28,18 @@ class KycViewModel @Inject constructor() : ViewModel() {
                 _state.update { it.copy(identificationExpanded = !it.identificationExpanded) }
             KycUiEvent.ToggleDocuments ->
                 _state.update { it.copy(documentsExpanded = !it.documentsExpanded) }
-            is KycUiEvent.IdentificationClicked -> Unit
-            is KycUiEvent.DocumentClicked -> Unit
+            is KycUiEvent.IdentificationClicked -> when (event.type) {
+                IdentificationType.PASSPORT ->
+                    viewModelScope.launch {
+                        _navigationEvent.send(KycNavigationEvent.ToPassportVerification)
+                    }
+                IdentificationType.NID,
+                IdentificationType.DRIVING_LICENSE -> Unit
+            }
+            is KycUiEvent.DocumentClicked ->
+                viewModelScope.launch {
+                    _navigationEvent.send(KycNavigationEvent.ToDocumentUpload(event.type))
+                }
         }
     }
 }

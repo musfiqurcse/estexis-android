@@ -46,23 +46,24 @@ fun CollapsibleSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(dimensions.radius.pill))
+                .clip(RoundedCornerShape(dimensions.radius.x8))
+                .background(colors.white)
                 .border(
                     width = dimensions.borders.veryLow,
                     color = colors.primary,
-                    shape = RoundedCornerShape(dimensions.radius.pill),
+                    shape = RoundedCornerShape(dimensions.radius.x8),
                 )
                 .clickable(onClick = onToggle)
                 .padding(
                     horizontal = dimensions.spaces.x4,
-                    vertical = dimensions.spaces.x3,
+                    vertical = dimensions.spaces.x4,
                 ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = title,
-                style = AppTextStyles.BodyText1Bold,
-                color = colors.onBackground,
+                style = AppTextStyles.BodyText1SemiBold,
+                color = colors.tertiary,
                 modifier = Modifier.weight(1f),
             )
 

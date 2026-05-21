@@ -1,17 +1,22 @@
 package com.estexis.core.ui.util
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -20,6 +25,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.estexis.core.ui.theme.AppTheme
+
+@Composable
+fun Modifier.addBackground(
+    backgroundColor: Color = AppTheme.colors.onPrimary
+) =
+    this.fillMaxSize()
+        .background(backgroundColor)
+        .statusBarsPadding()
+        .verticalScroll(rememberScrollState())
+        .padding(horizontal = AppTheme.dimensions.spaces.x4)
 
 @Composable
 fun Modifier.clipRounded(radius: Dp = AppTheme.dimensions.radius.medium) =
