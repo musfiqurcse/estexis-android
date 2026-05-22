@@ -9,4 +9,5 @@
     <string name="kyc_screen_driving_license_verification">Driving License Verification</string>
     <string name="kyc_screen_bank_account_statement">Bank Account Statement</string>
     <string name="kyc_screen_utility_bill">Utility Bill</string>
+    <string name="passport_verification_title">Passport Verification</string>
 </resources>

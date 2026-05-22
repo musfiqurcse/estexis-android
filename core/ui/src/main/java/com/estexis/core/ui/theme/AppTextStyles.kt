@@ -134,6 +134,13 @@ object AppTextStyles {
         lineHeight = 18.sp,
         fontWeight = FontWeight.Bold,
     )
+    val BodyText2SemiBold = TextStyle(
+        fontFamily = MONTSERRAT,
+        fontSize = 14.sp,
+        lineHeight = 18.sp,
+        fontWeight = FontWeight.SemiBold,
+    )
+
     val BodyText3Regular = TextStyle(
         fontFamily = MONTSERRAT,
         fontSize = 12.sp,
@@ -145,6 +152,12 @@ object AppTextStyles {
         fontSize = 12.sp,
         lineHeight = 15.sp,
         fontWeight = FontWeight.Bold,
+    )
+    val BodyText3SemiBold = TextStyle(
+        fontFamily = MONTSERRAT,
+        fontSize = 12.sp,
+        lineHeight = 15.sp,
+        fontWeight = FontWeight.SemiBold,
     )
     val ParagraphText1Regular = TextStyle(
         fontFamily = MONTSERRAT,

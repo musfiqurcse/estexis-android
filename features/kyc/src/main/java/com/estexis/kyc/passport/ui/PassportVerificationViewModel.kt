@@ -62,7 +62,7 @@ class PassportVerificationViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun handleContinue() {
-        if (!isStep1Valid()) return
+        //if (!isStep1Valid()) return
         _uiState.update { it.copy(currentStep = 2) }
     }
 

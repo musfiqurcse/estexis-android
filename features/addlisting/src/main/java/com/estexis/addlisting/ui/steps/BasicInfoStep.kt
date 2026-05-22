@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import com.estexis.addlisting.ui.AddListingFormState
 import com.estexis.addlisting.ui.AddListingUiEvent
 import com.estexis.core.ui.gds.AppTextField
@@ -18,6 +19,7 @@ import com.estexis.core.ui.gds.StepperCounter
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
+import com.estexis.core.ui.theme.ExtexisAndroidTheme
 
 @Composable
 fun BasicInfoStep(
@@ -127,5 +129,17 @@ fun BasicInfoStep(
                 modifier = Modifier.weight(1f),
             )
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBasicInfoStep() {
+    ExtexisAndroidTheme() {
+        BasicInfoStep(
+            formState = AddListingFormState(),
+            event = {}
+        )
     }
 }
