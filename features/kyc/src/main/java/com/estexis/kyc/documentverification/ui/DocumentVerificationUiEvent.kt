@@ -1,5 +1,7 @@
 package com.estexis.kyc.documentverification.ui
 
+import android.net.Uri
+
 sealed class PassportVerificationUiEvent {
     data class PassportNumberChanged(val value: String) : PassportVerificationUiEvent()
     data class DateOfBirthChanged(val value: String) : PassportVerificationUiEvent()
@@ -12,7 +14,7 @@ sealed class PassportVerificationUiEvent {
     object SubmitClicked : PassportVerificationUiEvent()
 
     data class StartCapture(val target: DocumentPhotoTarget) : PassportVerificationUiEvent()
-    object TakePhotoClicked : PassportVerificationUiEvent()
+    data class PhotoTaken(val uri: Uri) : PassportVerificationUiEvent()
     object CancelCapture : PassportVerificationUiEvent()
 }
 

@@ -1,5 +1,6 @@
 package com.estexis.core.ui.gds
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,7 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
@@ -32,7 +33,7 @@ import com.estexis.core.ui.theme.ExtexisAndroidTheme
 @Composable
 fun DocumentCaptureCard(
     label: String,
-    captured: Boolean,
+    capturedImageUri: Uri?,
     placeholderImage: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -55,20 +56,13 @@ fun DocumentCaptureCard(
                 .clip(RoundedCornerShape(dimensions.radius.large))
                 .clickable(onClick = onClick),
         ) {
-            if (captured) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(colors.secondaryContainer),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Captured",
-                        tint = colors.secondary,
-                        modifier = Modifier.size(dimensions.sizes.x12),
-                    )
-                }
+            if (capturedImageUri != null) {
+                AsyncImage(
+                    model = capturedImageUri,
+                    contentDescription = "Captured document photo",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
             } else {
                 Image(
                     painter = painterResource(placeholderImage),
@@ -103,21 +97,7 @@ private fun DocumentCaptureCardEmptyPreview() {
     ExtexisAndroidTheme {
         DocumentCaptureCard(
             label = "Cover Page",
-            captured = false,
-            placeholderImage = AppIcon.CoverPage.resId,
-            onClick = {},
-            modifier = Modifier.padding(16.dp),
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DocumentCaptureCardCapturedPreview() {
-    ExtexisAndroidTheme {
-        DocumentCaptureCard(
-            label = "Data Page",
-            captured = true,
+            capturedImageUri = null,
             placeholderImage = AppIcon.CoverPage.resId,
             onClick = {},
             modifier = Modifier.padding(16.dp),

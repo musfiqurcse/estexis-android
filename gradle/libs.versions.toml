@@ -21,6 +21,7 @@ coilCompose = "3.4.0"
 kotlinxSerializationJson = "1.11.0"
 datastorePreferencesVersion = "1.2.1"
 splash ="1.2.0"
+cameraX = "1.4.2"
 appcompat = "1.6.1"
 material = "1.10.0"
 
@@ -58,6 +59,12 @@ gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 
 core-splashscreen = { group = "androidx.core", name="core-splashscreen", version.ref="splash"}
+
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraX" }
+androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "cameraX" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraX" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 
 
 #Square

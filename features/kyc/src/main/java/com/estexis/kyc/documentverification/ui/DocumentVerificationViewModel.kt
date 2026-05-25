@@ -72,14 +72,14 @@ class DocumentVerificationViewModel @Inject constructor(
             is PassportVerificationUiEvent.StartCapture ->
                 _uiState.update { it.copy(captureMode = event.target) }
 
-            PassportVerificationUiEvent.TakePhotoClicked -> handleTakePhoto()
+            is PassportVerificationUiEvent.PhotoTaken -> handlePhotoTaken(event.uri)
             PassportVerificationUiEvent.CancelCapture ->
                 _uiState.update { it.copy(captureMode = null) }
         }
     }
 
     private fun handleContinue() {
-        if (!isStep1Valid()) return
+        // if (!isStep1Valid()) return
         _uiState.update { it.copy(currentStep = 2) }
     }
 
@@ -99,17 +99,17 @@ class DocumentVerificationViewModel @Inject constructor(
         }
     }
 
-    private fun handleTakePhoto() {
+    private fun handlePhotoTaken(uri: android.net.Uri) {
         val target = _uiState.value.captureMode ?: return
         formState = when (target) {
-            DocumentPhotoTarget.COVER -> formState.copy(coverPhotoCaptured = true)
-            DocumentPhotoTarget.DATA -> formState.copy(dataPhotoCaptured = true)
+            DocumentPhotoTarget.COVER -> formState.copy(coverPhotoUri = uri)
+            DocumentPhotoTarget.DATA -> formState.copy(dataPhotoUri = uri)
         }
         _uiState.update { it.copy(captureMode = null) }
     }
 
     private fun handleSubmit() {
-        if (!formState.coverPhotoCaptured || !formState.dataPhotoCaptured) return
+        if (formState.coverPhotoUri == null || formState.dataPhotoUri == null) return
         viewModelScope.launch {
             _navigationEvent.send(PassportVerificationNavigationEvent.Submitted)
         }

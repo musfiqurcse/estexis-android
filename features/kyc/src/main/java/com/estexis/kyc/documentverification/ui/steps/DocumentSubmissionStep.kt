@@ -18,10 +18,12 @@ import com.estexis.core.ui.theme.ExtexisAndroidTheme
 import com.estexis.kyc.R
 import com.estexis.kyc.documentverification.ui.DocumentPhotoTarget
 import com.estexis.kyc.documentverification.ui.DocumentVerificationFormState
+import com.estexis.kyc.documentverification.ui.DocumentVerificationUiState
 import com.estexis.kyc.documentverification.ui.PassportVerificationUiEvent
 
 @Composable
 fun DocumentSubmissionStep(
+    uiState: DocumentVerificationUiState,
     formState: DocumentVerificationFormState,
     event: (PassportVerificationUiEvent) -> Unit,
 ) {
@@ -40,8 +42,8 @@ fun DocumentSubmissionStep(
         VerticalSpacer(dimensions.spaces.x6)
 
         DocumentCaptureCard(
-            label = stringResource(R.string.passport_verification_screen_cover_page),
-            captured = formState.coverPhotoCaptured,
+            label = stringResource(uiState.documentFrontPageLabel),
+            capturedImageUri = formState.coverPhotoUri,
             placeholderImage = AppIcon.CoverPage.resId,
             onClick = { event(PassportVerificationUiEvent.StartCapture(DocumentPhotoTarget.COVER)) },
         )
@@ -49,8 +51,8 @@ fun DocumentSubmissionStep(
         VerticalSpacer(dimensions.spaces.x4)
 
         DocumentCaptureCard(
-            label = stringResource(R.string.passport_verification_screen_data_page),
-            captured = formState.dataPhotoCaptured,
+            label = stringResource(uiState.documentBackPageLabel),
+            capturedImageUri = formState.dataPhotoUri,
             placeholderImage = AppIcon.DataPage.resId,
             onClick = { event(PassportVerificationUiEvent.StartCapture(DocumentPhotoTarget.DATA)) },
         )
@@ -63,6 +65,7 @@ private fun DocumentSubmissionStepEmptyPreview() {
     ExtexisAndroidTheme {
         Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
             DocumentSubmissionStep(
+                uiState = DocumentVerificationUiState(),
                 formState = DocumentVerificationFormState(),
                 event = {},
             )
@@ -76,23 +79,8 @@ private fun DocumentSubmissionStepCoverCapturedPreview() {
     ExtexisAndroidTheme {
         Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
             DocumentSubmissionStep(
-                formState = DocumentVerificationFormState(coverPhotoCaptured = true),
-                event = {},
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DocumentSubmissionStepBothCapturedPreview() {
-    ExtexisAndroidTheme {
-        Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
-            DocumentSubmissionStep(
-                formState = DocumentVerificationFormState(
-                    coverPhotoCaptured = true,
-                    dataPhotoCaptured = true,
-                ),
+                uiState = DocumentVerificationUiState(),
+                formState = DocumentVerificationFormState(),
                 event = {},
             )
         }

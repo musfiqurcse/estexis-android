@@ -13,8 +13,6 @@
     <string name="driving_license_verification_title">Driving License Verification</string>
     <string name="personal_identity_verification_title">Personal Identity Verification</string>
     <string name="passport_verification_take_clear_photo">Take a clear photo of the front of your Passport</string>
-    <string name="passport_verification_screen_cover_page">Cover Page</string>
-    <string name="passport_verification_screen_data_page">Data Page</string>
 
     <string name="passport_verification_screen_passport_number_needed">Passport number is required.</string>
     <string name="passport_verification_screen_dob_needed">Date of birth is required.</string>
@@ -38,5 +36,15 @@
     <string name="document_upload_screen_upload_document">Upload Document</string>
     <string name="document_upload_screen_drop_your_file_here_to_get_stared">Drop your file here to get stared</string>
     <string name="document_upload_screen_cta_submit">Submit</string>
+    <string name="document_verification_camera_help">"Please make sure there's enough lighting\nand that the Passport lettering is clear\nbefore continuing."</string>
+    <string name="document_verification_screen_cta_take_photo">Take Photo</string>
+    <string name="document_verification_screen_cta_continue">Continue</string>
+    <string name="document_verification_screen_cta_submit">Submit</string>
+
+    <string name="document_verification_screen_cover_page">Cover Page</string>
+    <string name="document_verification_screen_data_page">Data Page</string>
+    <string name="document_verification_screen_front_page">Front</string>
+    <string name="document_verification_screen_back_page">Back</string>
+
 
 </resources>

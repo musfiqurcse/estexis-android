@@ -1,5 +1,6 @@
 package com.estexis.kyc.documentverification.ui
 
+import android.net.Uri
 import com.estexis.core.navigation.DocumentVerificationType
 import com.estexis.core.ui.util.UiText
 import com.estexis.kyc.R
@@ -12,8 +13,8 @@ data class DocumentVerificationFormState(
     val expiryDate: String = "",
     val issueDate: String = "",
     val countryOfIssue: String = "",
-    val coverPhotoCaptured: Boolean = false,
-    val dataPhotoCaptured: Boolean = false,
+    val coverPhotoUri: Uri? = null,
+    val dataPhotoUri: Uri? = null,
 )
 
 data class DocumentVerificationUiState(
@@ -55,5 +56,20 @@ data class DocumentVerificationUiState(
             R.string.document_verification_screen_enter_driving_license_number
         DocumentVerificationType.NID ->
             R.string.document_verification_screen_enter_document_number
+    }
+
+    val documentFrontPageLabel: Int get() = when (type) {
+        DocumentVerificationType.PASSPORT,
+        DocumentVerificationType.DRIVING_LICENSE ->
+            R.string.document_verification_screen_cover_page
+        DocumentVerificationType.NID ->
+            R.string.document_verification_screen_front_page
+    }
+    val documentBackPageLabel: Int get() = when (type) {
+        DocumentVerificationType.PASSPORT,
+        DocumentVerificationType.DRIVING_LICENSE ->
+            R.string.document_verification_screen_data_page
+        DocumentVerificationType.NID ->
+            R.string.document_verification_screen_back_page
     }
 }

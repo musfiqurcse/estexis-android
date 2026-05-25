@@ -19,9 +19,11 @@ import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
 import com.estexis.core.ui.util.addBackground
+import com.estexis.kyc.R
 import com.estexis.kyc.documentverification.ui.steps.CameraCaptureStep
 import com.estexis.kyc.documentverification.ui.steps.DataCollectionStep
 import com.estexis.kyc.documentverification.ui.steps.DocumentSubmissionStep
+import com.estexis.kyc.documentverification.ui.steps.rememberCaptureController
 
 private val WIZARD_STEPS = listOf(
     Step(1, "Data\nCollection"),
@@ -35,6 +37,7 @@ fun DocumentVerificationScreen(
     event: (PassportVerificationUiEvent) -> Unit,
 ) {
     val dimensions = AppTheme.dimensions
+    val captureController = rememberCaptureController()
 
     Column(
         modifier = Modifier
@@ -63,20 +66,32 @@ fun DocumentVerificationScreen(
             VerticalSpacer(dimensions.spaces.x6)
 
             when {
-                uiState.isCaptureMode -> CameraCaptureStep()
+                uiState.isCaptureMode -> CameraCaptureStep(
+                    captureController = captureController,
+                    onPhotoTaken = { uri -> event(PassportVerificationUiEvent.PhotoTaken(uri)) },
+                )
                 uiState.currentStep == 1 -> DataCollectionStep(
                     formState = formState,
                     uiState = uiState,
                     event = event,
                 )
 
-                else -> DocumentSubmissionStep(formState = formState, event = event)
+                else -> DocumentSubmissionStep(
+                    uiState = uiState,
+                    formState = formState,
+                    event = event
+                )
             }
 
             VerticalSpacer(dimensions.spaces.x6)
         }
 
-        BottomBar(uiState = uiState, formState = formState, event = event)
+        BottomBar(
+            uiState = uiState,
+            formState = formState,
+            event = event,
+            onTakePhotoClick = { captureController.capture() },
+        )
     }
 }
 
@@ -85,6 +100,7 @@ private fun BottomBar(
     uiState: DocumentVerificationUiState,
     formState: DocumentVerificationFormState,
     event: (PassportVerificationUiEvent) -> Unit,
+    onTakePhotoClick: () -> Unit,
 ) {
     val colors = AppTheme.colors
     val dimensions = AppTheme.dimensions
@@ -95,21 +111,21 @@ private fun BottomBar(
 
     when {
         uiState.isCaptureMode -> {
-            text = "Take Photo"
-            onClick = { event(PassportVerificationUiEvent.TakePhotoClicked) }
+            text = stringResource(R.string.document_verification_screen_cta_take_photo)
+            onClick = onTakePhotoClick
             enabled = true
         }
 
         uiState.currentStep == 1 -> {
-            text = "Continue"
+            text = stringResource(R.string.document_verification_screen_cta_continue)
             onClick = { event(PassportVerificationUiEvent.ContinueClicked) }
             enabled = true
         }
 
         else -> {
-            text = "Submit"
+            text = stringResource(R.string.document_verification_screen_cta_submit)
             onClick = { event(PassportVerificationUiEvent.SubmitClicked) }
-            enabled = formState.coverPhotoCaptured && formState.dataPhotoCaptured
+            enabled = formState.coverPhotoUri != null && formState.dataPhotoUri != null
         }
     }
 
@@ -148,21 +164,6 @@ private fun DocumentSubmissionEmptyPreview() {
         DocumentVerificationScreen(
             uiState = DocumentVerificationUiState(currentStep = 2),
             formState = DocumentVerificationFormState(),
-            event = {},
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DocumentSubmissionCapturedPreview() {
-    ExtexisAndroidTheme {
-        DocumentVerificationScreen(
-            uiState = DocumentVerificationUiState(currentStep = 2),
-            formState = DocumentVerificationFormState(
-                coverPhotoCaptured = true,
-                dataPhotoCaptured = true,
-            ),
             event = {},
         )
     }
