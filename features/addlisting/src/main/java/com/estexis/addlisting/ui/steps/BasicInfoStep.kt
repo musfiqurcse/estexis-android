@@ -132,11 +132,10 @@ fun BasicInfoStep(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewBasicInfoStep() {
-    ExtexisAndroidTheme() {
+    ExtexisAndroidTheme {
         BasicInfoStep(
             formState = AddListingFormState(),
             event = {}

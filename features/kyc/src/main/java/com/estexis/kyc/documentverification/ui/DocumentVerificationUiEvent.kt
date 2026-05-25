@@ -1,4 +1,4 @@
-package com.estexis.kyc.passport.ui
+package com.estexis.kyc.documentverification.ui
 
 sealed class PassportVerificationUiEvent {
     data class PassportNumberChanged(val value: String) : PassportVerificationUiEvent()
@@ -11,7 +11,7 @@ sealed class PassportVerificationUiEvent {
     object BackClicked : PassportVerificationUiEvent()
     object SubmitClicked : PassportVerificationUiEvent()
 
-    data class StartCapture(val target: PassportPhotoTarget) : PassportVerificationUiEvent()
+    data class StartCapture(val target: DocumentPhotoTarget) : PassportVerificationUiEvent()
     object TakePhotoClicked : PassportVerificationUiEvent()
     object CancelCapture : PassportVerificationUiEvent()
 }

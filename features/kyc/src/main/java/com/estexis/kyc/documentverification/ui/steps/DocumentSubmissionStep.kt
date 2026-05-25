@@ -1,4 +1,4 @@
-package com.estexis.kyc.passport.ui.steps
+package com.estexis.kyc.documentverification.ui.steps
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,21 +6,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.estexis.core.ui.gds.AppIcon
 import com.estexis.core.ui.gds.DocumentCaptureCard
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
-import com.estexis.kyc.passport.ui.PassportPhotoTarget
-import com.estexis.kyc.passport.ui.PassportVerificationFormState
-import com.estexis.kyc.passport.ui.PassportVerificationUiEvent
+import com.estexis.kyc.R
+import com.estexis.kyc.documentverification.ui.DocumentPhotoTarget
+import com.estexis.kyc.documentverification.ui.DocumentVerificationFormState
+import com.estexis.kyc.documentverification.ui.PassportVerificationUiEvent
 
 @Composable
 fun DocumentSubmissionStep(
-    formState: PassportVerificationFormState,
+    formState: DocumentVerificationFormState,
     event: (PassportVerificationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -28,7 +30,7 @@ fun DocumentSubmissionStep(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "Take a clear photo of the front of your Passport",
+            text = stringResource(R.string.passport_verification_take_clear_photo),
             style = AppTextStyles.BodyText2Regular,
             color = colors.tertiary,
             textAlign = TextAlign.Center,
@@ -38,17 +40,19 @@ fun DocumentSubmissionStep(
         VerticalSpacer(dimensions.spaces.x6)
 
         DocumentCaptureCard(
-            label = "Cover Page",
+            label = stringResource(R.string.passport_verification_screen_cover_page),
             captured = formState.coverPhotoCaptured,
-            onClick = { event(PassportVerificationUiEvent.StartCapture(PassportPhotoTarget.COVER)) },
+            placeholderImage = AppIcon.CoverPage.resId,
+            onClick = { event(PassportVerificationUiEvent.StartCapture(DocumentPhotoTarget.COVER)) },
         )
 
         VerticalSpacer(dimensions.spaces.x4)
 
         DocumentCaptureCard(
-            label = "Data Page",
+            label = stringResource(R.string.passport_verification_screen_data_page),
             captured = formState.dataPhotoCaptured,
-            onClick = { event(PassportVerificationUiEvent.StartCapture(PassportPhotoTarget.DATA)) },
+            placeholderImage = AppIcon.DataPage.resId,
+            onClick = { event(PassportVerificationUiEvent.StartCapture(DocumentPhotoTarget.DATA)) },
         )
     }
 }
@@ -57,9 +61,9 @@ fun DocumentSubmissionStep(
 @Composable
 private fun DocumentSubmissionStepEmptyPreview() {
     ExtexisAndroidTheme {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
             DocumentSubmissionStep(
-                formState = PassportVerificationFormState(),
+                formState = DocumentVerificationFormState(),
                 event = {},
             )
         }
@@ -70,9 +74,9 @@ private fun DocumentSubmissionStepEmptyPreview() {
 @Composable
 private fun DocumentSubmissionStepCoverCapturedPreview() {
     ExtexisAndroidTheme {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
             DocumentSubmissionStep(
-                formState = PassportVerificationFormState(coverPhotoCaptured = true),
+                formState = DocumentVerificationFormState(coverPhotoCaptured = true),
                 event = {},
             )
         }
@@ -83,9 +87,9 @@ private fun DocumentSubmissionStepCoverCapturedPreview() {
 @Composable
 private fun DocumentSubmissionStepBothCapturedPreview() {
     ExtexisAndroidTheme {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
             DocumentSubmissionStep(
-                formState = PassportVerificationFormState(
+                formState = DocumentVerificationFormState(
                     coverPhotoCaptured = true,
                     dataPhotoCaptured = true,
                 ),

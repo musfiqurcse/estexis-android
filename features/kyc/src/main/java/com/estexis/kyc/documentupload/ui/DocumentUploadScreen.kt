@@ -1,17 +1,17 @@
-package com.estexis.kyc.document.ui
+package com.estexis.kyc.documentupload.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.estexis.core.navigation.DocumentUploadType
@@ -23,6 +23,8 @@ import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
+import com.estexis.core.ui.util.addBackground
+import com.estexis.kyc.R
 
 @Composable
 fun DocumentUploadScreen(
@@ -34,18 +36,15 @@ fun DocumentUploadScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(colors.onPrimary)
-            .statusBarsPadding()
+            .addBackground()
+            .navigationBarsPadding()
             .imePadding(),
     ) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = dimensions.spaces.x4),
+                .verticalScroll(rememberScrollState()),
         ) {
-            VerticalSpacer(dimensions.spaces.x2)
 
             AppTitleBar(
                 onBackClick = { event(DocumentUploadUiEvent.BackClicked) },
@@ -55,17 +54,17 @@ fun DocumentUploadScreen(
             VerticalSpacer(dimensions.spaces.x6)
 
             Text(
-                text = "Upload Document",
-                style = AppTheme.typography.H3Bold,
-                color = colors.onBackground,
+                text = stringResource(R.string.document_upload_screen_upload_document),
+                style = AppTheme.typography.BodyText1SemiBold,
+                color = colors.tertiary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            VerticalSpacer(dimensions.spaces.x1)
+            VerticalSpacer(dimensions.spaces.x2)
 
             Text(
-                text = "Drop your file here to get stared",
+                text = stringResource(R.string.document_upload_screen_drop_your_file_here_to_get_stared),
                 style = AppTextStyles.BodyText2Regular,
                 color = colors.tertiary,
                 textAlign = TextAlign.Center,
@@ -95,7 +94,7 @@ fun DocumentUploadScreen(
                 .padding(horizontal = dimensions.spaces.x4, vertical = dimensions.spaces.x4),
         ) {
             AppButton(
-                text = "Submit",
+                text = stringResource(R.string.document_upload_screen_cta_submit),
                 onClick = { event(DocumentUploadUiEvent.SubmitClicked) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.uploadedFileName != null,

@@ -1,4 +1,4 @@
-package com.estexis.kyc.document.ui
+package com.estexis.kyc.documentupload.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

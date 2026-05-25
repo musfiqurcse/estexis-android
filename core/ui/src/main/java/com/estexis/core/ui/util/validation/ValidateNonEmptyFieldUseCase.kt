@@ -1,11 +1,12 @@
 package com.estexis.core.ui.util.validation
 
+import androidx.annotation.StringRes
 import com.estexis.core.ui.util.UiText
 import javax.inject.Inject
 
 interface ValidateNonEmptyFieldUseCase {
 
-    fun isEmpty(value: String, errorMessageId: Int): ValidationResult
+    fun isEmpty(value: String, @StringRes errorMessageId: Int): ValidationResult
 }
 
 class ValidateNonEmptyFieldUseCaseImpl @Inject constructor() : ValidateNonEmptyFieldUseCase {

@@ -163,6 +163,7 @@ fun AppTextField(
                 errorTextColor = colors.onBackground,
                 errorLeadingIconColor = colors.surfaceDim,
                 errorTrailingIconColor = colors.error,
+                errorContainerColor = colors.background
             ),
         )
 

@@ -8,10 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.estexis.core.navigation.DocumentUploadRoute
+import com.estexis.core.navigation.DocumentVerificationRoute
 import com.estexis.core.navigation.KycRoute
-import com.estexis.core.navigation.PassportVerificationRoute
-import com.estexis.kyc.document.ui.documentUploadNavGraph
-import com.estexis.kyc.passport.ui.passportVerificationNavGraph
+import com.estexis.kyc.documentupload.ui.documentUploadNavGraph
+import com.estexis.kyc.documentverification.ui.documentVerificationNavGraph
 import kotlinx.coroutines.flow.collectLatest
 
 fun NavGraphBuilder.kycNavGraph(navController: NavHostController) {
@@ -23,8 +23,8 @@ fun NavGraphBuilder.kycNavGraph(navController: NavHostController) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
                     KycNavigationEvent.Back -> navController.navigateUp()
-                    KycNavigationEvent.ToPassportVerification ->
-                        navController.navigate(PassportVerificationRoute)
+                    is KycNavigationEvent.ToDocumentVerification ->
+                        navController.navigate(DocumentVerificationRoute(event.type))
                     is KycNavigationEvent.ToDocumentUpload ->
                         navController.navigate(DocumentUploadRoute(event.type))
                 }
@@ -37,6 +37,6 @@ fun NavGraphBuilder.kycNavGraph(navController: NavHostController) {
         )
     }
 
-    passportVerificationNavGraph(navController)
+    documentVerificationNavGraph(navController)
     documentUploadNavGraph(navController)
 }

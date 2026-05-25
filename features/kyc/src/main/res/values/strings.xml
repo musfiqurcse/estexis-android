@@ -10,4 +10,33 @@
     <string name="kyc_screen_bank_account_statement">Bank Account Statement</string>
     <string name="kyc_screen_utility_bill">Utility Bill</string>
     <string name="passport_verification_title">Passport Verification</string>
+    <string name="driving_license_verification_title">Driving License Verification</string>
+    <string name="personal_identity_verification_title">Personal Identity Verification</string>
+    <string name="passport_verification_take_clear_photo">Take a clear photo of the front of your Passport</string>
+    <string name="passport_verification_screen_cover_page">Cover Page</string>
+    <string name="passport_verification_screen_data_page">Data Page</string>
+
+    <string name="passport_verification_screen_passport_number_needed">Passport number is required.</string>
+    <string name="passport_verification_screen_dob_needed">Date of birth is required.</string>
+    <string name="passport_verification_screen_exp_date_needed">Expiry date is required.</string>
+    <string name="passport_verification_screen_issue_date_needed">Issue date is required.</string>
+    <string name="passport_verification_screen_country_of_issue_needed">Country is required.</string>
+    <string name="document_verification_screen_passport_number">Passport Number</string>
+    <string name="document_verification_screen_driving_license_number">Driving License Number</string>
+    <string name="document_verification_screen_enter_passport_number">Enter Passport Number</string>
+    <string name="document_verification_screen_enter_driving_license_number">Enter Driving License Number</string>
+    <string name="document_verification_screen_date_of_birth">Date of Birth</string>
+    <string name="document_verification_screen_select_date">Select Date</string>
+    <string name="document_verification_screen_expiry_date">Expiry Date</string>
+    <string name="document_verification_screen_enter_expiry_date">Enter Expiry Date</string>
+    <string name="document_verification_screen_issue_date">Issue Date</string>
+    <string name="document_verification_screen_enter_issue_date">Enter Issue Date</string>
+    <string name="document_verification_screen_country_of_issue">Country of Issue</string>
+    <string name="document_verification_screen_select_country_name">Select Country Name</string>
+    <string name="document_verification_screen_document_number">Document Number</string>
+    <string name="document_verification_screen_enter_document_number">Enter Document Number</string>
+    <string name="document_upload_screen_upload_document">Upload Document</string>
+    <string name="document_upload_screen_drop_your_file_here_to_get_stared">Drop your file here to get stared</string>
+    <string name="document_upload_screen_cta_submit">Submit</string>
+
 </resources>

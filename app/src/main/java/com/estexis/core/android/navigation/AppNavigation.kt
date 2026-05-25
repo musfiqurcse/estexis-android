@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import com.estexis.core.android.OnBoardingState
 import com.estexis.core.navigation.HomeRoute
+import com.estexis.core.navigation.KycRoute
 import com.estexis.core.navigation.LoginRoute
-import com.estexis.core.navigation.PassportVerificationRoute
 import com.estexis.core.navigation.SplashScreenRoute
 import com.estexis.forgotpassword.ui.forgotPasswordNavGraph
 import com.estexis.home.ui.homeNavGraph
@@ -46,7 +46,7 @@ fun AppNavigation(
 
     val navController = appNavState.navHostController
 
-    NavHost(navController = navController, startDestination = PassportVerificationRoute) {
+    NavHost(navController = navController, startDestination = KycRoute) {
         welcomeScreenNavGraph(navController)
         loginNavGraph(navController)
         existingUserVerificationNavGraph(navController)

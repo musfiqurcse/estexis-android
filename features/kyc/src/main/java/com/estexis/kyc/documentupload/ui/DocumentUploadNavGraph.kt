@@ -1,4 +1,4 @@
-package com.estexis.kyc.document.ui
+package com.estexis.kyc.documentupload.ui
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState

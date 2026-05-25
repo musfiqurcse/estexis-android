@@ -27,4 +27,7 @@ sealed class AppIcon(val resId: Int) {
     data object License : AppIcon(R.drawable.ic_license)
     data object BankStatement : AppIcon(R.drawable.ic_bank)
     data object Invoice : AppIcon(R.drawable.ic_invoice)
+
+    data object CoverPage : AppIcon(R.drawable.ic_cover_page)
+    data object DataPage : AppIcon(R.drawable.ic_data_page)
 }

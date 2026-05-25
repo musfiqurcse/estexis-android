@@ -24,10 +24,10 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
+import com.estexis.core.ui.util.clipRounded
 
 @Composable
 fun BrowseFilesCard(
@@ -41,11 +41,12 @@ fun BrowseFilesCard(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .clipRounded(dimensions.radius.large)
             .height(dimensions.sizes.x36)
-            .clip(RoundedCornerShape(dimensions.radius.large))
+            .background(colors.white)
             .clickable(onClick = onBrowseClick)
             .dashedBorder(
-                color = colors.surfaceDim,
+                color = colors.secondary,
                 cornerRadius = dimensions.radius.large,
             )
             .padding(dimensions.spaces.x4),
@@ -61,20 +62,20 @@ fun BrowseFilesCard(
 
             Box(
                 modifier = Modifier
-                    .padding(top = dimensions.spaces.x3)
+                    .padding(top = dimensions.spaces.x4)
                     .clip(RoundedCornerShape(dimensions.radius.medium))
                     .background(colors.onPrimary),
             ) {
                 Text(
                     text = buttonLabel,
-                    style = AppTextStyles.BodyText3Bold,
+                    style = AppTextStyles.BodyText3SemiBold,
                     color = colors.action,
                     modifier = Modifier
                         .clip(RoundedCornerShape(dimensions.radius.medium))
                         .background(colors.onPrimary)
                         .padding(
-                            horizontal = dimensions.spaces.x4,
-                            vertical = dimensions.spaces.x2,
+                            horizontal = dimensions.spaces.x6,
+                            vertical = dimensions.spaces.x4,
                         ),
                 )
             }
@@ -103,7 +104,7 @@ private fun Modifier.dashedBorder(
 @Composable
 private fun BrowseFilesCardPreview() {
     ExtexisAndroidTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
             BrowseFilesCard(onBrowseClick = {})
         }
     }

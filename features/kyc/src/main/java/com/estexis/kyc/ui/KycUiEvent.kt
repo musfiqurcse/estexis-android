@@ -1,6 +1,7 @@
 package com.estexis.kyc.ui
 
 import com.estexis.core.navigation.DocumentUploadType
+import com.estexis.core.navigation.DocumentVerificationType
 
 sealed class KycUiEvent {
     object BackClicked : KycUiEvent()
@@ -12,6 +13,6 @@ sealed class KycUiEvent {
 
 sealed class KycNavigationEvent {
     object Back : KycNavigationEvent()
-    object ToPassportVerification : KycNavigationEvent()
+    data class ToDocumentVerification(val type: DocumentVerificationType) : KycNavigationEvent()
     data class ToDocumentUpload(val type: DocumentUploadType) : KycNavigationEvent()
 }

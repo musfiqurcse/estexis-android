@@ -1,4 +1,4 @@
-package com.estexis.kyc.passport.ui
+package com.estexis.kyc.documentverification.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -19,10 +19,9 @@ import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
 import com.estexis.core.ui.util.addBackground
-import com.estexis.kyc.R
-import com.estexis.kyc.passport.ui.steps.CameraCaptureStep
-import com.estexis.kyc.passport.ui.steps.DataCollectionStep
-import com.estexis.kyc.passport.ui.steps.DocumentSubmissionStep
+import com.estexis.kyc.documentverification.ui.steps.CameraCaptureStep
+import com.estexis.kyc.documentverification.ui.steps.DataCollectionStep
+import com.estexis.kyc.documentverification.ui.steps.DocumentSubmissionStep
 
 private val WIZARD_STEPS = listOf(
     Step(1, "Data\nCollection"),
@@ -30,9 +29,9 @@ private val WIZARD_STEPS = listOf(
 )
 
 @Composable
-fun PassportVerificationScreen(
-    uiState: PassportVerificationUiState,
-    formState: PassportVerificationFormState,
+fun DocumentVerificationScreen(
+    uiState: DocumentVerificationUiState,
+    formState: DocumentVerificationFormState,
     event: (PassportVerificationUiEvent) -> Unit,
 ) {
     val dimensions = AppTheme.dimensions
@@ -51,7 +50,7 @@ fun PassportVerificationScreen(
 
             AppTitleBar(
                 onBackClick = { event(PassportVerificationUiEvent.BackClicked) },
-                title = stringResource(R.string.passport_verification_title),
+                title = stringResource(uiState.title)
             )
 
             VerticalSpacer(dimensions.spaces.x4)
@@ -70,6 +69,7 @@ fun PassportVerificationScreen(
                     uiState = uiState,
                     event = event,
                 )
+
                 else -> DocumentSubmissionStep(formState = formState, event = event)
             }
 
@@ -82,8 +82,8 @@ fun PassportVerificationScreen(
 
 @Composable
 private fun BottomBar(
-    uiState: PassportVerificationUiState,
-    formState: PassportVerificationFormState,
+    uiState: DocumentVerificationUiState,
+    formState: DocumentVerificationFormState,
     event: (PassportVerificationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -99,11 +99,13 @@ private fun BottomBar(
             onClick = { event(PassportVerificationUiEvent.TakePhotoClicked) }
             enabled = true
         }
+
         uiState.currentStep == 1 -> {
             text = "Continue"
             onClick = { event(PassportVerificationUiEvent.ContinueClicked) }
             enabled = true
         }
+
         else -> {
             text = "Submit"
             onClick = { event(PassportVerificationUiEvent.SubmitClicked) }
@@ -131,9 +133,9 @@ private fun BottomBar(
 @Composable
 private fun DataCollectionPreview() {
     ExtexisAndroidTheme {
-        PassportVerificationScreen(
-            uiState = PassportVerificationUiState(currentStep = 1),
-            formState = PassportVerificationFormState(),
+        DocumentVerificationScreen(
+            uiState = DocumentVerificationUiState(currentStep = 1),
+            formState = DocumentVerificationFormState(),
             event = {},
         )
     }
@@ -143,9 +145,9 @@ private fun DataCollectionPreview() {
 @Composable
 private fun DocumentSubmissionEmptyPreview() {
     ExtexisAndroidTheme {
-        PassportVerificationScreen(
-            uiState = PassportVerificationUiState(currentStep = 2),
-            formState = PassportVerificationFormState(),
+        DocumentVerificationScreen(
+            uiState = DocumentVerificationUiState(currentStep = 2),
+            formState = DocumentVerificationFormState(),
             event = {},
         )
     }
@@ -155,9 +157,9 @@ private fun DocumentSubmissionEmptyPreview() {
 @Composable
 private fun DocumentSubmissionCapturedPreview() {
     ExtexisAndroidTheme {
-        PassportVerificationScreen(
-            uiState = PassportVerificationUiState(currentStep = 2),
-            formState = PassportVerificationFormState(
+        DocumentVerificationScreen(
+            uiState = DocumentVerificationUiState(currentStep = 2),
+            formState = DocumentVerificationFormState(
                 coverPhotoCaptured = true,
                 dataPhotoCaptured = true,
             ),
@@ -170,12 +172,12 @@ private fun DocumentSubmissionCapturedPreview() {
 @Composable
 private fun CameraCapturePreview() {
     ExtexisAndroidTheme {
-        PassportVerificationScreen(
-            uiState = PassportVerificationUiState(
+        DocumentVerificationScreen(
+            uiState = DocumentVerificationUiState(
                 currentStep = 2,
-                captureMode = PassportPhotoTarget.COVER,
+                captureMode = DocumentPhotoTarget.COVER,
             ),
-            formState = PassportVerificationFormState(),
+            formState = DocumentVerificationFormState(),
             event = {},
         )
     }

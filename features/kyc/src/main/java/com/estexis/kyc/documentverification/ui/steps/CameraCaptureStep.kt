@@ -1,4 +1,4 @@
-package com.estexis.kyc.passport.ui.steps
+package com.estexis.kyc.documentverification.ui.steps
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

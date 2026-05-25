@@ -2,6 +2,7 @@ package com.estexis.kyc.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.estexis.core.navigation.DocumentVerificationType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,22 +25,37 @@ class KycViewModel @Inject constructor() : ViewModel() {
         when (event) {
             KycUiEvent.BackClicked ->
                 viewModelScope.launch { _navigationEvent.send(KycNavigationEvent.Back) }
+
             KycUiEvent.ToggleIdentification ->
                 _state.update { it.copy(identificationExpanded = !it.identificationExpanded) }
+
             KycUiEvent.ToggleDocuments ->
                 _state.update { it.copy(documentsExpanded = !it.documentsExpanded) }
+
             is KycUiEvent.IdentificationClicked -> when (event.type) {
-                IdentificationType.PASSPORT ->
-                    viewModelScope.launch {
-                        _navigationEvent.send(KycNavigationEvent.ToPassportVerification)
-                    }
-                IdentificationType.NID,
-                IdentificationType.DRIVING_LICENSE -> Unit
+                IdentificationType.PASSPORT -> triggerVerificationNavEvent(
+                    DocumentVerificationType.PASSPORT
+                )
+                IdentificationType.NID -> triggerVerificationNavEvent(
+                    DocumentVerificationType.NID
+                )
+                IdentificationType.DRIVING_LICENSE -> triggerVerificationNavEvent(
+                    DocumentVerificationType.DRIVING_LICENSE
+                )
             }
+
             is KycUiEvent.DocumentClicked ->
                 viewModelScope.launch {
                     _navigationEvent.send(KycNavigationEvent.ToDocumentUpload(event.type))
                 }
+        }
+    }
+
+    private fun triggerVerificationNavEvent(type: DocumentVerificationType) {
+        viewModelScope.launch {
+            _navigationEvent.send(
+                KycNavigationEvent.ToDocumentVerification(type)
+            )
         }
     }
 }
