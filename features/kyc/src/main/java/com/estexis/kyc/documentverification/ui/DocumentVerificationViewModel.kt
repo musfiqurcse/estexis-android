@@ -75,12 +75,14 @@ class DocumentVerificationViewModel @Inject constructor(
             is PassportVerificationUiEvent.PhotoTaken -> handlePhotoTaken(event.uri)
             PassportVerificationUiEvent.CancelCapture ->
                 _uiState.update { it.copy(captureMode = null) }
+            PassportVerificationUiEvent.FaceVerified ->
+                formState = formState.copy(faceVerified = true)
         }
     }
 
     private fun handleContinue() {
         // if (!isStep1Valid()) return
-        _uiState.update { it.copy(currentStep = 2) }
+        _uiState.update { it.copy(currentStep = it.currentStep + 1) }
     }
 
     private fun handleBack() {

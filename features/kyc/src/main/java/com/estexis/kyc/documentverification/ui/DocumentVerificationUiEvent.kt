@@ -16,6 +16,7 @@ sealed class PassportVerificationUiEvent {
     data class StartCapture(val target: DocumentPhotoTarget) : PassportVerificationUiEvent()
     data class PhotoTaken(val uri: Uri) : PassportVerificationUiEvent()
     object CancelCapture : PassportVerificationUiEvent()
+    object FaceVerified : PassportVerificationUiEvent()
 }
 
 sealed class PassportVerificationNavigationEvent {

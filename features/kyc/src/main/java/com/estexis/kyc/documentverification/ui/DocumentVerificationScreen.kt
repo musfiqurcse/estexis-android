@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,12 +24,8 @@ import com.estexis.kyc.R
 import com.estexis.kyc.documentverification.ui.steps.CameraCaptureStep
 import com.estexis.kyc.documentverification.ui.steps.DataCollectionStep
 import com.estexis.kyc.documentverification.ui.steps.DocumentSubmissionStep
+import com.estexis.kyc.documentverification.ui.steps.FaceVerificationStep
 import com.estexis.kyc.documentverification.ui.steps.rememberCaptureController
-
-private val WIZARD_STEPS = listOf(
-    Step(1, "Data\nCollection"),
-    Step(2, "Document\nSubmission"),
-)
 
 @Composable
 fun DocumentVerificationScreen(
@@ -38,6 +35,13 @@ fun DocumentVerificationScreen(
 ) {
     val dimensions = AppTheme.dimensions
     val captureController = rememberCaptureController()
+    val wizardSteps = remember(uiState.totalSteps) {
+        buildList {
+            add(Step(1, "Data\nCollection"))
+            add(Step(2, "Document\nSubmission"))
+            if (uiState.totalSteps > 2) add(Step(3, "Face\nVerification"))
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -59,7 +63,7 @@ fun DocumentVerificationScreen(
             VerticalSpacer(dimensions.spaces.x4)
 
             StepIndicator(
-                steps = WIZARD_STEPS,
+                steps = wizardSteps,
                 currentStep = uiState.currentStep,
             )
 
@@ -75,11 +79,14 @@ fun DocumentVerificationScreen(
                     uiState = uiState,
                     event = event,
                 )
-
-                else -> DocumentSubmissionStep(
+                uiState.currentStep == 2 -> DocumentSubmissionStep(
                     uiState = uiState,
                     formState = formState,
                     event = event
+                )
+                uiState.currentStep == 3 -> FaceVerificationStep(
+                    uiState = uiState,
+                    event = event,
                 )
             }
 
@@ -109,6 +116,8 @@ private fun BottomBar(
     val onClick: () -> Unit
     val enabled: Boolean
 
+    val docPhotosCaptured = formState.coverPhotoUri != null && formState.dataPhotoUri != null
+
     when {
         uiState.isCaptureMode -> {
             text = stringResource(R.string.document_verification_screen_cta_take_photo)
@@ -116,16 +125,22 @@ private fun BottomBar(
             enabled = true
         }
 
-        uiState.currentStep == 1 -> {
+        uiState.isLastStep -> {
+            text = stringResource(R.string.document_verification_screen_cta_submit)
+            onClick = { event(PassportVerificationUiEvent.SubmitClicked) }
+            enabled = if (uiState.totalSteps == 3) formState.faceVerified else docPhotosCaptured
+        }
+
+        uiState.currentStep == 2 -> {
             text = stringResource(R.string.document_verification_screen_cta_continue)
             onClick = { event(PassportVerificationUiEvent.ContinueClicked) }
-            enabled = true
+            enabled = docPhotosCaptured
         }
 
         else -> {
-            text = stringResource(R.string.document_verification_screen_cta_submit)
-            onClick = { event(PassportVerificationUiEvent.SubmitClicked) }
-            enabled = formState.coverPhotoUri != null && formState.dataPhotoUri != null
+            text = stringResource(R.string.document_verification_screen_cta_continue)
+            onClick = { event(PassportVerificationUiEvent.ContinueClicked) }
+            enabled = true
         }
     }
 
