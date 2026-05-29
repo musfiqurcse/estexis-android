@@ -5,7 +5,7 @@ import com.estexis.core.ui.R
 sealed class AppIcon(val resId: Int) {
 
     data class Custom(val drawable: Int) : AppIcon(drawable)
-    data object SplashBG : AppIcon(R.drawable.ic_splash_bg)
+    data object SplashBG : AppIcon(R.drawable.splash_bg)
     data object LogoGreen : AppIcon(R.drawable.ic_grihoo_green)
     data object ArrowForward : AppIcon(R.drawable.ic_arrow_forward)
     data object ArrowBackward : AppIcon(R.drawable.ic_arrow_back)

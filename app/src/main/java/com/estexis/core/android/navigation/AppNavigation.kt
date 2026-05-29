@@ -46,7 +46,7 @@ fun AppNavigation(
 
     val navController = appNavState.navHostController
 
-    NavHost(navController = navController, startDestination = KycRoute) {
+    NavHost(navController = navController, startDestination = startDestination) {
         welcomeScreenNavGraph(navController)
         loginNavGraph(navController)
         existingUserVerificationNavGraph(navController)

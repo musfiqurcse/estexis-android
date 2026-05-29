@@ -22,6 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -54,20 +57,34 @@ fun WelcomeScreen(
             contentScale = ContentScale.Crop,
         )
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colorStops = arrayOf(
+                            0.0f to Color.Transparent,
+                            0.4f to Color.Black.copy(alpha = 0.5f),
+                            1.0f to Color.Black,
+                        )
+                    )
+                )
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
                 .navigationBarsPadding()
                 .padding(horizontal = AppTheme.dimensions.sizes.x6),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Text(
                 text = stringResource(R.string.welcome_to),
                 style = AppTheme.typography.H2SemiBold,
-                color = AppTheme.colors.primary,
+                color = AppTheme.colors.white,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
@@ -77,6 +94,7 @@ fun WelcomeScreen(
             Image(
                 painter = painterResource(AppIcon.LogoGreen.resId),
                 contentDescription = "Grihoo Logo",
+                colorFilter = ColorFilter.tint(colors.white),
                 modifier = Modifier.height(AppTheme.dimensions.sizes.x10),
             )
 
@@ -85,7 +103,7 @@ fun WelcomeScreen(
             Text(
                 text = stringResource(R.string.smart_way_to_find_your_dream_property),
                 style = AppTextStyles.BodyText1SemiBold,
-                color = AppTheme.colors.tertiary,
+                color = AppTheme.colors.white,
             )
 
             VerticalSpacer(AppTheme.dimensions.sizes.x8)
@@ -93,7 +111,7 @@ fun WelcomeScreen(
             GetStartedButton(
                 onClick = { event(WelcomeScreenUiEvent.GetStarted) }
             )
-            VerticalSpacer(AppTheme.dimensions.sizes.x41)
+            VerticalSpacer(AppTheme.dimensions.sizes.x20)
         }
     }
 }
@@ -106,7 +124,7 @@ private fun GetStartedButton(
         modifier = Modifier
             .height(AppTheme.dimensions.sizes.x15)
             .clip(RoundedCornerShape(AppRadius.pill))
-            .background(AppTheme.colors.secondary)
+            .background(AppTheme.colors.white)
             .clickable(onClick = onClick)
             .padding(
                 horizontal = AppTheme.dimensions.spaces.x5,
@@ -119,7 +137,7 @@ private fun GetStartedButton(
             Text(
                 text = stringResource(R.string.get_started),
                 style = AppTextStyles.BodyText1Bold,
-                color = AppTheme.colors.white,
+                color = AppTheme.colors.onBackground,
             )
         }
 
@@ -130,13 +148,13 @@ private fun GetStartedButton(
                 modifier = Modifier
                     .size(AppTheme.dimensions.sizes.x9)
                     .clip(CircleShape)
-                    .background(AppTheme.colors.white),
+                    .background(AppTheme.colors.primary),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     painter = painterResource(AppIcon.ArrowForward.resId),
                     contentDescription = null,
-                    tint = AppTheme.colors.primary,
+                    tint = AppTheme.colors.onPrimary,
                     modifier = Modifier.size(AppTheme.dimensions.sizes.x5),
                 )
             }
