@@ -4,11 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -24,6 +22,7 @@ import com.estexis.core.ui.gds.StepIndicator
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
+import com.estexis.core.ui.util.addBackground
 
 private val WIZARD_STEPS = listOf(
     Step(1, "Basic\ninfo"),
@@ -42,25 +41,23 @@ fun AddListingScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(colors.onPrimary)
-            .statusBarsPadding()
+            .addBackground(
+                hasVerticalScroll = false
+            )
             .imePadding(),
     ) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = dimensions.spaces.x4),
+                .verticalScroll(rememberScrollState()),
         ) {
-            VerticalSpacer(dimensions.spaces.x4)
 
             StepIndicator(
                 steps = WIZARD_STEPS,
                 currentStep = uiState.currentStep,
             )
 
-            VerticalSpacer(dimensions.spaces.x6)
+            VerticalSpacer(dimensions.spaces.x4)
 
             when (uiState.currentStep) {
                 1 -> BasicInfoStep(formState, event)
@@ -89,7 +86,8 @@ private fun BottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(colors.onPrimary)
-            .padding(horizontal = dimensions.spaces.x4, vertical = dimensions.spaces.x4),
+            .padding(bottom = dimensions.spaces.x2)
+        ,
         horizontalArrangement = Arrangement.spacedBy(dimensions.spaces.x3),
     ) {
         AppButton(

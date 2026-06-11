@@ -1,9 +1,11 @@
 package com.estexis.profile.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,12 +13,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,13 +57,6 @@ fun ProfileScreen(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = dimensions.spaces.x4),
     ) {
-        AppTitleBar(
-            onBackClick = {
-                event(ProfileUiEvent.BackClicked)
-            },
-            title = stringResource(R.string.profile_screen_title_profile)
-        )
-
         VerticalSpacer(dimensions.spaces.x4)
 
         AvatarWithBadge()
@@ -119,10 +119,103 @@ fun ProfileScreen(
                 label = stringResource(R.string.profile_screen_privacy_policy),
                 onClick = { event(ProfileUiEvent.PrivacyPolicyClicked) },
             )
+
+            LogoutRow(
+                isLoggingOut = state.isLoggingOut,
+                onClick = { event(ProfileUiEvent.LogoutClicked) },
+            )
         }
 
         VerticalSpacer(dimensions.spaces.x8)
     }
+
+    if (state.showLogoutDialog) {
+        LogoutConfirmDialog(
+            isLoggingOut = state.isLoggingOut,
+            error = state.logoutError,
+            onConfirm = { event(ProfileUiEvent.ConfirmLogout) },
+            onDismiss = { event(ProfileUiEvent.DismissLogoutDialog) },
+        )
+    }
+}
+
+@Composable
+private fun LogoutRow(
+    isLoggingOut: Boolean,
+    onClick: () -> Unit,
+) {
+    val colors = AppTheme.colors
+    val dimensions = AppTheme.dimensions
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(dimensions.sizes.x13)
+            .clip(RoundedCornerShape(dimensions.radius.pill))
+            .background(colors.white)
+            .clickable(enabled = !isLoggingOut, onClick = onClick)
+            .padding(horizontal = dimensions.spaces.x4),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.Logout,
+            contentDescription = null,
+            tint = colors.error,
+            modifier = Modifier.size(dimensions.sizes.x6),
+        )
+        Text(
+            text = "Logout",
+            style = AppTextStyles.BodyText2Regular,
+            color = colors.error,
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = dimensions.spaces.x3),
+        )
+        if (isLoggingOut) {
+            CircularProgressIndicator(
+                color = colors.error,
+                modifier = Modifier.size(dimensions.sizes.x5),
+                strokeWidth = dimensions.borders.low,
+            )
+        }
+    }
+}
+
+@Composable
+private fun LogoutConfirmDialog(
+    isLoggingOut: Boolean,
+    error: String?,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val colors = AppTheme.colors
+
+    AlertDialog(
+        onDismissRequest = { if (!isLoggingOut) onDismiss() },
+        title = { Text(text = "Logout") },
+        text = {
+            Text(
+                text = error ?: "Are you sure you want to logout?",
+                color = if (error != null) colors.error else colors.onBackground,
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onConfirm,
+                enabled = !isLoggingOut,
+            ) {
+                Text(text = "Logout", color = colors.error)
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+                enabled = !isLoggingOut,
+            ) {
+                Text(text = "Cancel")
+            }
+        },
+    )
 }
 
 @Composable

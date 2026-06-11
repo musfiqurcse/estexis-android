@@ -24,7 +24,7 @@ fun NavGraphBuilder.kycNavGraph(navController: NavHostController) {
                 when (event) {
                     KycNavigationEvent.Back -> navController.navigateUp()
                     is KycNavigationEvent.ToDocumentVerification ->
-                        navController.navigate(DocumentVerificationRoute(event.type))
+                        navController.navigate(DocumentVerificationRoute(event.type, event.submissionId))
                     is KycNavigationEvent.ToDocumentUpload ->
                         navController.navigate(DocumentUploadRoute(event.type))
                 }

@@ -23,6 +23,8 @@ data class DocumentVerificationUiState(
     val currentStep: Int = 1,
     val captureMode: DocumentPhotoTarget? = null,
     val isLoading: Boolean = false,
+    val isSubmitting: Boolean = false,
+    val submitError: String? = null,
     val documentNumberError: UiText? = null,
     val dateOfBirthError: UiText? = null,
     val expiryDateError: UiText? = null,

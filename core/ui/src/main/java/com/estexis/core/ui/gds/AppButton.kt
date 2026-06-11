@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.estexis.core.ui.theme.AppTheme
@@ -37,6 +38,7 @@ fun AppButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    textStyle: TextStyle = AppTheme.typography.BodyText1Bold,
     variant: AppButtonVariant = AppButtonVariant.PRIMARY,
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
@@ -72,6 +74,7 @@ fun AppButton(
             ) {
                 ButtonContent(
                     text = text,
+                    textStyle = textStyle,
                     contentColor = contentColor,
                     leadingIcon = leadingIcon,
                     trailingIcon = trailingIcon,
@@ -87,7 +90,7 @@ fun AppButton(
             }
             val contentColor = when (variant) {
                 AppButtonVariant.PRIMARY -> colors.white
-                AppButtonVariant.SECONDARY -> colors.onBackground
+                AppButtonVariant.SECONDARY -> colors.tertiary
             }
             Button(
                 onClick = onClick,
@@ -112,6 +115,7 @@ fun AppButton(
             ) {
                 ButtonContent(
                     text = text,
+                    textStyle = textStyle,
                     contentColor = contentColor,
                     leadingIcon = leadingIcon,
                     trailingIcon = trailingIcon,
@@ -125,6 +129,7 @@ fun AppButton(
 @Composable
 private fun ButtonContent(
     text: String,
+    textStyle: TextStyle,
     contentColor: Color,
     leadingIcon: ImageVector?,
     trailingIcon: ImageVector?,
@@ -153,7 +158,7 @@ private fun ButtonContent(
 
             Text(
                 text = text,
-                style = AppTheme.typography.BodyText1Bold,
+                style = textStyle,
                 color = contentColor,
             )
 

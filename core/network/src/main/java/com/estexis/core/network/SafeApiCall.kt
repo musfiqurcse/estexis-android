@@ -38,7 +38,20 @@ suspend fun <T> executeSafeApiCall(apiCall: suspend () -> Response<T>): ApiResul
     }
 }
 
-private fun parseErrorBody(statusCode: Int, errorBody: String?): ApiResult.Error {
+@Suppress("TooGenericExceptionCaught")
+suspend fun executeNoContentApiCall(apiCall: suspend () -> Response<Unit>): ApiResult<Unit> {
+    return try {
+        val response = apiCall()
+        if (response.isSuccessful) ApiResult.Success(Unit)
+        else parseErrorBody(statusCode = response.code(), errorBody = response.errorBody()?.string())
+    } catch (_: IOException) {
+        ApiResult.Error(code = "NO_INTERNET", message = "No internet connection.")
+    } catch (e: Exception) {
+        ApiResult.Error(code = "UNKNOWN", message = e.message ?: "")
+    }
+}
+
+internal fun parseErrorBody(statusCode: Int, errorBody: String?): ApiResult.Error {
     if (errorBody.isNullOrEmpty()) {
         return ApiResult.Error(
             statusCode = statusCode,

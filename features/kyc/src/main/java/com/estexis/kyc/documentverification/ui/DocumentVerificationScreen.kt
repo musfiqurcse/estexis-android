@@ -1,7 +1,9 @@
 package com.estexis.kyc.documentverification.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.estexis.core.ui.gds.AppButton
+import com.estexis.core.ui.gds.AppLoadingDialog
 import com.estexis.core.ui.gds.AppTitleBar
 import com.estexis.core.ui.gds.Step
 import com.estexis.core.ui.gds.StepIndicator
@@ -43,6 +46,7 @@ fun DocumentVerificationScreen(
         }
     }
 
+    Box(modifier = Modifier.fillMaxSize()) {
     Column(
         modifier = Modifier
             .addBackground()
@@ -100,6 +104,11 @@ fun DocumentVerificationScreen(
             onTakePhotoClick = { captureController.capture() },
         )
     }
+
+    if (uiState.isSubmitting) {
+        AppLoadingDialog()
+    }
+    } // end Box
 }
 
 @Composable

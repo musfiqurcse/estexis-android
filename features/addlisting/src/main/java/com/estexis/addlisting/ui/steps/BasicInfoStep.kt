@@ -32,8 +32,8 @@ fun BasicInfoStep(
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Let's start with the basics.",
-            style = AppTheme.typography.H1Bold,
-            color = colors.onBackground,
+            style = AppTheme.typography.H2Bold,
+            color = colors.tertiary,
         )
 
         VerticalSpacer(dimensions.spaces.x2)
@@ -44,7 +44,7 @@ fun BasicInfoStep(
             color = colors.tertiary,
         )
 
-        VerticalSpacer(dimensions.spaces.x6)
+        VerticalSpacer(dimensions.spaces.x4)
 
         AppTextField(
             value = formState.projectTitle,

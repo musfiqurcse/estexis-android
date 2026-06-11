@@ -16,4 +16,7 @@ object NetworkConfig {
 
     const val CHANGE_PASSWORD = "v1/auth/change-password"
     const val DELETE_ACCOUNT = "v1/users/me"
+
+    const val KYC_SUBMISSIONS = "v1/kyc/submissions"
+    const val KYC_SUBMIT = "api/v1/kyc/submit/{id}"
 }

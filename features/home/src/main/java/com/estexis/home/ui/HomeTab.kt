@@ -8,26 +8,27 @@ import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.estexis.core.navigation.AddListingRoute
-import com.estexis.core.navigation.DashboardRoute
 import com.estexis.core.navigation.ListingsRoute
 import com.estexis.core.navigation.MenuRoute
 import com.estexis.core.navigation.MessagesRoute
+import com.estexis.core.navigation.ProfileRoute
 
 enum class HomeTab(val icon: ImageVector, val label: String) {
-    DASHBOARD(Icons.Default.GridView, "Dashboard"),
+
     LISTINGS(Icons.Default.Home, "Listings"),
-    ADD(Icons.Default.Add, "Add"),
     MESSAGES(Icons.Default.ChatBubbleOutline, "Messages"),
-    MENU(Icons.Default.BarChart, "Menu");
+    ADD(Icons.Default.Add, "Add"),
+    MENU(Icons.Default.BarChart, "Menu"),
+    PROFILE(Icons.Default.GridView, "Profile");
 
     companion object {
         fun fromRoute(route: String?): HomeTab = when (route) {
-            DashboardRoute::class.qualifiedName -> DASHBOARD
+            ProfileRoute::class.qualifiedName -> PROFILE
             ListingsRoute::class.qualifiedName -> LISTINGS
             AddListingRoute::class.qualifiedName -> ADD
             MessagesRoute::class.qualifiedName -> MESSAGES
             MenuRoute::class.qualifiedName -> MENU
-            else -> DASHBOARD
+            else -> PROFILE
         }
     }
 }

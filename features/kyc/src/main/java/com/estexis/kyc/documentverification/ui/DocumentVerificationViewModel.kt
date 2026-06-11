@@ -7,9 +7,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.estexis.core.common.ApiResult
 import com.estexis.core.navigation.DocumentVerificationRoute
+import com.estexis.core.navigation.DocumentVerificationType
 import com.estexis.core.ui.util.validation.ValidateNonEmptyFieldUseCase
 import com.estexis.kyc.R
+import com.estexis.kyc.domain.SubmitKycParams
+import com.estexis.kyc.domain.SubmitKycUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DocumentVerificationViewModel @Inject constructor(
     private val nonEmptyFieldUseCase: ValidateNonEmptyFieldUseCase,
-    savedStateHandle: SavedStateHandle
+    private val submitKycUseCase: SubmitKycUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val route = savedStateHandle.toRoute<DocumentVerificationRoute>()
@@ -113,8 +118,35 @@ class DocumentVerificationViewModel @Inject constructor(
     private fun handleSubmit() {
         if (formState.coverPhotoUri == null || formState.dataPhotoUri == null) return
         viewModelScope.launch {
-            _navigationEvent.send(PassportVerificationNavigationEvent.Submitted)
+            _uiState.update { it.copy(isSubmitting = true, submitError = null) }
+            val params = SubmitKycParams(
+                id = route.submissionId,
+                documentType = route.type.toApiDocumentType(),
+                documentNumber = formState.documentNumber,
+                dateOfBirth = formState.dateOfBirth,
+                expiryDate = formState.expiryDate,
+                countryOfIssue = formState.countryOfIssue,
+                files = listOfNotNull(
+                    formState.coverPhotoUri?.toString(),
+                    formState.dataPhotoUri?.toString(),
+                ),
+            )
+            when (val result = submitKycUseCase.invoke(params)) {
+                is ApiResult.Success -> {
+                    _uiState.update { it.copy(isSubmitting = false) }
+                    _navigationEvent.send(PassportVerificationNavigationEvent.Submitted)
+                }
+                is ApiResult.Error -> {
+                    _uiState.update { it.copy(isSubmitting = false, submitError = result.message) }
+                }
+            }
         }
+    }
+
+    private fun DocumentVerificationType.toApiDocumentType(): String = when (this) {
+        DocumentVerificationType.PASSPORT -> "passport"
+        DocumentVerificationType.DRIVING_LICENSE -> "driving_license"
+        DocumentVerificationType.NID -> "nid"
     }
 
     private fun isStep1Valid(): Boolean {

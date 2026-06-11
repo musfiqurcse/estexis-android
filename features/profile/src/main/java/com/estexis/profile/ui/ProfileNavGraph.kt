@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.estexis.core.navigation.KycRoute
+import com.estexis.core.navigation.LoginRoute
 import com.estexis.core.navigation.ProfileRoute
 import kotlinx.coroutines.flow.collectLatest
 
@@ -19,8 +20,10 @@ fun NavGraphBuilder.profileNavGraph(navController: NavHostController) {
         LaunchedEffect(Unit) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
-                    ProfileNavigationEvent.Back -> navController.navigateUp()
                     ProfileNavigationEvent.ToKyc -> navController.navigate(KycRoute)
+                    ProfileNavigationEvent.ToLogin -> navController.navigate(LoginRoute) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             }
         }

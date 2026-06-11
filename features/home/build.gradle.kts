@@ -30,7 +30,8 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:presentation"))
 
-    implementation(project(":features:dashboard"))
+    implementation(project(":features:profile"))
+    implementation(project(":features:kyc"))
     implementation(project(":features:listings"))
     implementation(project(":features:addlisting"))
     implementation(project(":features:messages"))

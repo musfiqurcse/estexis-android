@@ -107,7 +107,7 @@ fun BottomNavItem(
 @Composable
 private fun AppBottomNavBarPreview() {
     ExtexisAndroidTheme {
-        var selectedTab by remember { mutableStateOf(HomeTab.DASHBOARD) }
+        var selectedTab by remember { mutableStateOf(HomeTab.PROFILE) }
         AppBottomNavBar(
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it },

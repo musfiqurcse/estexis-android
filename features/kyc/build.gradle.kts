@@ -28,8 +28,14 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:common"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:network"))
     implementation(project(":core:ui"))
     implementation(project(":core:presentation"))
+
+    implementation(libs.retrofit)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.moshi.adapters)
+    ksp(libs.moshi.codegen)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

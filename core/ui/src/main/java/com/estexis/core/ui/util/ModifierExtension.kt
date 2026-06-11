@@ -28,12 +28,14 @@ import com.estexis.core.ui.theme.AppTheme
 
 @Composable
 fun Modifier.addBackground(
+    hasVerticalScroll: Boolean = true,
     backgroundColor: Color = AppTheme.colors.onPrimary
 ) =
-    this.fillMaxSize()
+    this
+        .fillMaxSize()
         .background(backgroundColor)
         .statusBarsPadding()
-        .verticalScroll(rememberScrollState())
+        .then(if (hasVerticalScroll) Modifier.verticalScroll(rememberScrollState()) else Modifier)
         .padding(horizontal = AppTheme.dimensions.spaces.x4)
 
 @Composable
