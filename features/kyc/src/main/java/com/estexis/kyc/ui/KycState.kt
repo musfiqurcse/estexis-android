@@ -3,7 +3,7 @@ package com.estexis.kyc.ui
 import com.estexis.kyc.domain.KycMethod
 import com.estexis.kyc.domain.KycSubmission
 
-enum class KycStatus { VERIFIED, FAILED, NOT_VERIFIED, PENDING }
+enum class KycStatus { VERIFIED, FAILED, NOT_VERIFIED, PENDING, UNDER_REVIEW }
 
 enum class IdentificationType {
     NID, PASSPORT, DRIVING_LICENSE
@@ -16,10 +16,9 @@ data class KycState(
     val submissions: List<KycSubmission> = emptyList(),
     val error: String? = null,
 ) {
-    val identificationSubmissions get() = submissions.filter {
-        it.method in listOf(KycMethod.NID, KycMethod.PASSPORT, KycMethod.DRIVING_LICENSE)
-    }
-    val documentSubmissions get() = submissions.filter {
-        it.method in listOf(KycMethod.BANK_STATEMENT, KycMethod.UTILITY_BILL)
-    }
+    fun statusFor(method: KycMethod): KycStatus =
+        submissions.find { it.method == method }?.status ?: KycStatus.NOT_VERIFIED
+
+    fun submissionIdFor(method: KycMethod): String =
+        submissions.find { it.method == method }?.id ?: ""
 }

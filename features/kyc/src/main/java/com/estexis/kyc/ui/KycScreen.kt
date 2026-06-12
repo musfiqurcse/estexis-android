@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.estexis.core.navigation.DocumentUploadType
 import com.estexis.core.ui.gds.AppIcon
+import com.estexis.kyc.domain.KycMethod
 import com.estexis.core.ui.gds.AppTitleBar
 import com.estexis.core.ui.gds.CollapsibleSection
 import com.estexis.core.ui.gds.VerticalSpacer
@@ -89,29 +90,23 @@ fun KycScreen(
                 KycItemRow(
                     image = AppIcon.NidVerification.resId,
                     title = stringResource(R.string.kyc_screen_nid_verification),
-                    status = KycStatus.FAILED,
-                    onClick = { event(KycUiEvent.IdentificationClicked(
-                        IdentificationType.NID
-                    )) },
+                    status = state.statusFor(KycMethod.NID),
+                    onClick = { event(KycUiEvent.IdentificationClicked(IdentificationType.NID, state.submissionIdFor(KycMethod.NID))) },
                 )
 
                 KycItemRow(
                     image = AppIcon.Passport.resId,
                     title = stringResource(R.string.kyc_screen_passport_verification),
-                    status = KycStatus.NOT_VERIFIED,
-                    onClick = { event(KycUiEvent.IdentificationClicked(
-                        IdentificationType.PASSPORT
-                    )) },
+                    status = state.statusFor(KycMethod.PASSPORT),
+                    onClick = { event(KycUiEvent.IdentificationClicked(IdentificationType.PASSPORT, state.submissionIdFor(KycMethod.PASSPORT))) },
                 )
 
                 KycItemRow(
                     image = AppIcon.License.resId,
                     title = stringResource(R.string.kyc_screen_driving_license_verification),
-                    status = KycStatus.PENDING,
-                    onClick = { event(KycUiEvent.IdentificationClicked(
-                        IdentificationType.DRIVING_LICENSE
-                    )) },
-                    hasBorder = false
+                    status = state.statusFor(KycMethod.DRIVING_LICENSE),
+                    onClick = { event(KycUiEvent.IdentificationClicked(IdentificationType.DRIVING_LICENSE, state.submissionIdFor(KycMethod.DRIVING_LICENSE))) },
+                    hasBorder = false,
                 )
             }
         }
@@ -134,20 +129,16 @@ fun KycScreen(
                 KycItemRow(
                     image = AppIcon.BankStatement.resId,
                     title = stringResource(R.string.kyc_screen_bank_account_statement),
-                    status = KycStatus.VERIFIED,
-                    onClick = { event(KycUiEvent.DocumentClicked(
-                        DocumentUploadType.BANK_STATEMENT
-                    )) },
+                    status = state.statusFor(KycMethod.BANK_STATEMENT),
+                    onClick = { event(KycUiEvent.DocumentClicked(DocumentUploadType.BANK_STATEMENT)) },
                 )
 
                 KycItemRow(
                     image = AppIcon.Invoice.resId,
                     title = stringResource(R.string.kyc_screen_utility_bill),
-                    status = KycStatus.NOT_VERIFIED,
-                    onClick = { event(KycUiEvent.DocumentClicked(
-                        DocumentUploadType.UTILITY_BILL
-                    )) },
-                    hasBorder = false
+                    status = state.statusFor(KycMethod.UTILITY_BILL),
+                    onClick = { event(KycUiEvent.DocumentClicked(DocumentUploadType.UTILITY_BILL)) },
+                    hasBorder = false,
                 )
             }
         }

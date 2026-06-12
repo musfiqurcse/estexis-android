@@ -12,14 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.AssignmentInd
-import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ContactPage
 import androidx.compose.material.icons.filled.HourglassEmpty
-import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -29,12 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import com.estexis.core.navigation.DocumentUploadType
+import androidx.compose.ui.tooling.preview.Preview
+import com.estexis.core.ui.gds.AppIcon
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
+import com.estexis.core.ui.theme.ExtexisAndroidTheme
 
 @Composable
 fun KycItemRow(
@@ -60,7 +56,6 @@ fun KycItemRow(
             Image(
                 painter = painterResource(image),
                 contentDescription = null,
-                // tint = colors.tertiary,
                 modifier = Modifier.size(dimensions.sizes.x9),
             )
 
@@ -103,6 +98,7 @@ private fun StatusBadge(status: KycStatus) {
         KycStatus.FAILED -> Icons.Default.Cancel to colors.error
         KycStatus.NOT_VERIFIED -> Icons.Default.Warning to colors.primary
         KycStatus.PENDING -> Icons.Default.HourglassEmpty to colors.action
+        KycStatus.UNDER_REVIEW -> Icons.Default.HourglassEmpty to colors.action
     }
 
     Box(
@@ -127,6 +123,7 @@ private fun statusColor(status: KycStatus): Color = when (status) {
     KycStatus.FAILED -> AppTheme.colors.error
     KycStatus.NOT_VERIFIED -> AppTheme.colors.primary
     KycStatus.PENDING -> AppTheme.colors.action
+    KycStatus.UNDER_REVIEW -> AppTheme.colors.action
 }
 
 private fun statusLabel(status: KycStatus): String = when (status) {
@@ -134,15 +131,45 @@ private fun statusLabel(status: KycStatus): String = when (status) {
     KycStatus.FAILED -> "Verified Failed"
     KycStatus.NOT_VERIFIED -> "Not Verified"
     KycStatus.PENDING -> "Pending"
+    KycStatus.UNDER_REVIEW -> "Under Review"
 }
 
-fun iconFor(type: IdentificationType): ImageVector = when (type) {
-    IdentificationType.NID -> Icons.Default.Badge
-    IdentificationType.PASSPORT -> Icons.Default.ContactPage
-    IdentificationType.DRIVING_LICENSE -> Icons.Default.AssignmentInd
-}
-
-fun iconFor(type: DocumentUploadType): ImageVector = when (type) {
-    DocumentUploadType.BANK_STATEMENT -> Icons.Default.AccountBalance
-    DocumentUploadType.UTILITY_BILL -> Icons.Default.ReceiptLong
+@Preview(showBackground = true)
+@Composable
+private fun KycItemRowPreview() {
+    ExtexisAndroidTheme {
+        Column(modifier = Modifier.padding(AppTheme.dimensions.spaces.x4)) {
+            KycItemRow(
+                image = AppIcon.NidVerification.resId,
+                title = "NID Verification",
+                status = KycStatus.VERIFIED,
+                onClick = {},
+            )
+            KycItemRow(
+                image = AppIcon.Passport.resId,
+                title = "Passport",
+                status = KycStatus.PENDING,
+                onClick = {},
+            )
+            KycItemRow(
+                image = AppIcon.License.resId,
+                title = "Driving License",
+                status = KycStatus.UNDER_REVIEW,
+                onClick = {},
+            )
+            KycItemRow(
+                image = AppIcon.NidVerification.resId,
+                title = "NID Verification",
+                status = KycStatus.FAILED,
+                onClick = {},
+            )
+            KycItemRow(
+                image = AppIcon.Passport.resId,
+                title = "Passport",
+                status = KycStatus.NOT_VERIFIED,
+                onClick = {},
+                hasBorder = false,
+            )
+        }
+    }
 }

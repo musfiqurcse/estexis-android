@@ -32,10 +32,11 @@ private fun ApiKycSubmissionResponse.toDomain() = KycSubmission(
         else -> KycMethod.UNKNOWN
     },
     status = when (status) {
-        "verified" -> KycStatus.VERIFIED
-        "failed" -> KycStatus.FAILED
-        "pending" -> KycStatus.PENDING
-        else -> KycStatus.NOT_VERIFIED
+        "pending"      -> KycStatus.PENDING
+        "under_review" -> KycStatus.UNDER_REVIEW
+        "approved"     -> KycStatus.VERIFIED
+        "rejected"     -> KycStatus.FAILED
+        else           -> KycStatus.NOT_VERIFIED
     },
     attemptNumber = attemptNumber,
     submittedAt = submittedAt,
