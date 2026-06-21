@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="two_factor_auth_screen_title">Two-Factor Authentication</string>
+    <string name="two_factor_auth_screen_message">Add an extra layer of security to your account by enabling two-factor authentication.</string>
+    <string name="two_factor_auth_screen_label_enabled">Two-Factor Authentication</string>
+    <string name="two_factor_auth_screen_status_enabled">Enabled</string>
+    <string name="two_factor_auth_screen_status_disabled">Disabled</string>
+    <string name="two_factor_auth_screen_cta_enable">Enable 2FA</string>
+    <string name="two_factor_auth_screen_cta_disable">Disable 2FA</string>
+</resources>

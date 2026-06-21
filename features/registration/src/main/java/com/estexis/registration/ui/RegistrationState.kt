@@ -1,8 +1,8 @@
 package com.estexis.registration.ui
 
+import com.estexis.core.ui.gds.Country
 import com.estexis.core.ui.util.UiText
 import com.estexis.registration.domain.AccountRole
-import com.estexis.registration.domain.Country
 
 data class RegistrationState(
     val isLoading: Boolean = false,

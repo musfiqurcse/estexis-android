@@ -30,4 +30,5 @@ sealed class AppIcon(val resId: Int) {
 
     data object CoverPage : AppIcon(R.drawable.ic_cover_page)
     data object DataPage : AppIcon(R.drawable.ic_data_page)
+    data object DatePicker : AppIcon(R.drawable.ic_date_picker)
 }

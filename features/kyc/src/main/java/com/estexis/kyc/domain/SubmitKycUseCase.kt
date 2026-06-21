@@ -1,18 +1,18 @@
 package com.estexis.kyc.domain
 
+import android.net.Uri
 import com.estexis.core.common.ApiResult
 import com.estexis.kyc.data.repository.KycRepository
 import com.estexis.kyc.data.response.ApiKycSubmitResponse
 import javax.inject.Inject
 
 data class SubmitKycParams(
-    val id: String,
     val documentType: String,
     val documentNumber: String,
     val dateOfBirth: String,
     val expiryDate: String,
     val countryOfIssue: String,
-    val files: List<String>,
+    val files: List<Uri>,
 )
 
 interface SubmitKycUseCase {
@@ -24,7 +24,6 @@ class SubmitKycUseCaseImpl @Inject constructor(
 ) : SubmitKycUseCase {
     override suspend fun invoke(params: SubmitKycParams): ApiResult<ApiKycSubmitResponse> {
         return kycRepository.submitKyc(
-            id = params.id,
             documentType = params.documentType,
             documentNumber = params.documentNumber,
             dateOfBirth = params.dateOfBirth,

@@ -8,6 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.estexis.core.navigation.DocumentVerificationRoute
+import com.estexis.core.navigation.FaceVerificationRoute
+import com.estexis.core.navigation.KycRoute
 import kotlinx.coroutines.flow.collectLatest
 
 fun NavGraphBuilder.documentVerificationNavGraph(navController: NavHostController) {
@@ -19,7 +21,15 @@ fun NavGraphBuilder.documentVerificationNavGraph(navController: NavHostControlle
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
                     PassportVerificationNavigationEvent.Back -> navController.navigateUp()
-                    PassportVerificationNavigationEvent.Submitted -> navController.navigateUp()
+                    PassportVerificationNavigationEvent.SubmittedBack -> {
+                        navController.getBackStackEntry(KycRoute).savedStateHandle["kyc_needs_refresh"] = true
+                        navController.navigateUp()
+                    }
+                    is PassportVerificationNavigationEvent.ToFaceVerification -> {
+                        navController.navigate(FaceVerificationRoute(event.submissionId)) {
+                            popUpTo<DocumentVerificationRoute> { inclusive = true }
+                        }
+                    }
                 }
             }
         }

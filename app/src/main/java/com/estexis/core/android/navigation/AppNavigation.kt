@@ -6,7 +6,10 @@ import com.estexis.core.android.OnBoardingState
 import com.estexis.core.navigation.HomeRoute
 import com.estexis.core.navigation.LoginRoute
 import com.estexis.core.navigation.SplashScreenRoute
+import com.estexis.changepassword.ui.changePasswordNavGraph
+import com.estexis.faceverification.ui.faceVerificationNavGraph
 import com.estexis.forgotpassword.ui.forgotPasswordNavGraph
+import com.estexis.twofactorauth.ui.twoFactorAuthNavGraph
 import com.estexis.home.ui.homeNavGraph
 import com.estexis.kyc.ui.kycNavGraph
 import com.estexis.login.ui.loginNavGraph
@@ -38,5 +41,8 @@ fun AppNavigation(
         otpNavGraph(navController)
         homeNavGraph(navController)
         kycNavGraph(navController)
+        faceVerificationNavGraph(navController)
+        changePasswordNavGraph(navController)
+        twoFactorAuthNavGraph(navController)
     }
 }

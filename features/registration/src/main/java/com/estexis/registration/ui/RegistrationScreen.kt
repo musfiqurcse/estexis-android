@@ -29,12 +29,14 @@ import com.estexis.core.ui.gds.AppButton
 import com.estexis.core.ui.gds.AppIconButton
 import com.estexis.core.ui.gds.AppLoadingDialog
 import com.estexis.core.ui.gds.AppTextField
+import com.estexis.core.ui.gds.CountryPickerBottomSheet
+import com.estexis.core.ui.gds.CountryPickerFieldView
 import com.estexis.core.ui.gds.VerticalSpacer
+import com.estexis.core.ui.gds.availableCountries
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
 import com.estexis.registration.R
-import com.estexis.registration.domain.availableCountries
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -151,6 +153,8 @@ fun RegistrationScreen(
         VerticalSpacer(dimensions.spaces.x4)
 
         CountryPickerFieldView(
+            label = stringResource(R.string.registration_label_country),
+            placeholder = stringResource(R.string.registration_screen_placeholder_select_your_country),
             selected = formState.selectedCountry?.let { "${it.flag}  ${it.name}" },
             isError = state.countryError != null,
             errorMessage = state.countryError?.asString(),

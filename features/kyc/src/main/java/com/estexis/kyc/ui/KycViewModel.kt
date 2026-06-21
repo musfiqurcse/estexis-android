@@ -29,7 +29,7 @@ class KycViewModel @Inject constructor(
         fetchSubmissions()
     }
 
-    private fun fetchSubmissions() {
+    fun fetchSubmissions() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
             when (val result = getKycSubmissionsUseCase.invoke()) {

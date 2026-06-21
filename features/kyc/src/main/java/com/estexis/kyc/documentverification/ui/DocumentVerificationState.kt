@@ -15,7 +15,6 @@ data class DocumentVerificationFormState(
     val countryOfIssue: String = "",
     val coverPhotoUri: Uri? = null,
     val dataPhotoUri: Uri? = null,
-    val faceVerified: Boolean = false,
 )
 
 data class DocumentVerificationUiState(
@@ -32,10 +31,7 @@ data class DocumentVerificationUiState(
     val countryError: UiText? = null,
 ) {
     val isCaptureMode: Boolean get() = captureMode != null
-    val totalSteps: Int get() = when (type) {
-        DocumentVerificationType.NID -> 3
-        else -> 2
-    }
+    val totalSteps: Int get() = 2
     val isLastStep: Boolean get() = currentStep == totalSteps
 
     val title: Int get() = when (type) {

@@ -1,7 +1,7 @@
 package com.estexis.registration.ui
 
+import com.estexis.core.ui.gds.Country
 import com.estexis.registration.domain.AccountRole
-import com.estexis.registration.domain.Country
 
 sealed class RegistrationUiEvent {
     data class EmailChanged(val email: String) : RegistrationUiEvent()

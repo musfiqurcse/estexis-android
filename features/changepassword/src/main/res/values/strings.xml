@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="change_password_screen_title">Change Password</string>
+    <string name="change_password_screen_placeholder_old_password">Old password</string>
+    <string name="change_password_screen_placeholder_new_password">New password</string>
+    <string name="change_password_screen_placeholder_confirm_password">Confirm password</string>
+    <string name="change_password_screen_cta_change">Change Password</string>
+    <string name="change_password_screen_old_password_required">Old password is required</string>
+    <string name="change_password_screen_new_password_required">New password is required</string>
+    <string name="change_password_screen_confirm_password_required">Please confirm your new password</string>
+    <string name="change_password_screen_passwords_do_not_match">Passwords do not match</string>
+    <string name="change_password_success_title">Successful</string>
+    <string name="change_password_success_message">Congratulations! Your password has been changed. Click continue to login</string>
+    <string name="change_password_screen_cta_continue">Continue</string>
+</resources>

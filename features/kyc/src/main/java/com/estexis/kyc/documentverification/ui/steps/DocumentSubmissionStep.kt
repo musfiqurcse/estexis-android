@@ -19,13 +19,13 @@ import com.estexis.kyc.R
 import com.estexis.kyc.documentverification.ui.DocumentPhotoTarget
 import com.estexis.kyc.documentverification.ui.DocumentVerificationFormState
 import com.estexis.kyc.documentverification.ui.DocumentVerificationUiState
-import com.estexis.kyc.documentverification.ui.PassportVerificationUiEvent
+import com.estexis.kyc.documentverification.ui.DocumentVerificationUiEvent
 
 @Composable
 fun DocumentSubmissionStep(
     uiState: DocumentVerificationUiState,
     formState: DocumentVerificationFormState,
-    event: (PassportVerificationUiEvent) -> Unit,
+    event: (DocumentVerificationUiEvent) -> Unit,
 ) {
     val colors = AppTheme.colors
     val dimensions = AppTheme.dimensions
@@ -45,7 +45,7 @@ fun DocumentSubmissionStep(
             label = stringResource(uiState.documentFrontPageLabel),
             capturedImageUri = formState.coverPhotoUri,
             placeholderImage = AppIcon.CoverPage.resId,
-            onClick = { event(PassportVerificationUiEvent.StartCapture(DocumentPhotoTarget.COVER)) },
+            onClick = { event(DocumentVerificationUiEvent.StartCapture(DocumentPhotoTarget.COVER)) },
         )
 
         VerticalSpacer(dimensions.spaces.x4)
@@ -54,7 +54,7 @@ fun DocumentSubmissionStep(
             label = stringResource(uiState.documentBackPageLabel),
             capturedImageUri = formState.dataPhotoUri,
             placeholderImage = AppIcon.DataPage.resId,
-            onClick = { event(PassportVerificationUiEvent.StartCapture(DocumentPhotoTarget.DATA)) },
+            onClick = { event(DocumentVerificationUiEvent.StartCapture(DocumentPhotoTarget.DATA)) },
         )
     }
 }

@@ -18,5 +18,6 @@ object NetworkConfig {
     const val DELETE_ACCOUNT = "v1/users/me"
 
     const val KYC_SUBMISSIONS = "v1/kyc/submissions"
-    const val KYC_SUBMIT = "api/v1/kyc/submit/{id}"
+    const val KYC_SUBMIT = "v1/kyc/submit/id"
+    const val FACE_PHOTOS = "v1/kyc/submissions/{submission_id}/face-photos"
 }

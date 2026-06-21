@@ -1,5 +1,6 @@
 package com.estexis.kyc.data.repository
 
+import android.net.Uri
 import com.estexis.core.common.ApiResult
 import com.estexis.kyc.data.remote.KycRemoteSource
 import com.estexis.kyc.data.response.ApiKycSubmissionResponse
@@ -9,13 +10,12 @@ import javax.inject.Inject
 interface KycRepository {
     suspend fun getSubmissions(): ApiResult<List<ApiKycSubmissionResponse>>
     suspend fun submitKyc(
-        id: String,
         documentType: String,
         documentNumber: String,
         dateOfBirth: String,
         expiryDate: String,
         countryOfIssue: String,
-        files: List<String>,
+        files: List<Uri>,
     ): ApiResult<ApiKycSubmitResponse>
 }
 
@@ -27,16 +27,14 @@ class KycRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitKyc(
-        id: String,
         documentType: String,
         documentNumber: String,
         dateOfBirth: String,
         expiryDate: String,
         countryOfIssue: String,
-        files: List<String>,
+        files: List<Uri>,
     ): ApiResult<ApiKycSubmitResponse> {
         return kycRemoteSource.submitKyc(
-            id = id,
             documentType = documentType,
             documentNumber = documentNumber,
             dateOfBirth = dateOfBirth,

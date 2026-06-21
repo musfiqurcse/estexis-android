@@ -25,10 +25,11 @@ suspend fun <T> executeSafeApiCall(apiCall: suspend () -> Response<T>): ApiResul
                 errorBody = response.errorBody()?.string()
             )
         }
-    } catch (_: IOException) {
+    } catch (ex: IOException) {
+        val message = ex.localizedMessage
         ApiResult.Error(
             code = "NO_INTERNET",
-            message = "No internet connection."
+            message = message ?: ""
         )
     } catch (e: Exception) {
         ApiResult.Error(
@@ -59,18 +60,17 @@ internal fun parseErrorBody(statusCode: Int, errorBody: String?): ApiResult.Erro
             message = "Unknown error"
         )
     }
+
     return try {
         val json = JSONObject(errorBody)
-        // val detail = json.optJSONArray("detail")
         val code = json.keys().asSequence()
             .firstNotNullOfOrNull { key -> json.optJSONArray(key)?.optString(0) } ?: ""
-        // val code = detail?.optString(0) ?: ""
-        ApiResult.Error(statusCode = statusCode, code = code)
+        ApiResult.Error(statusCode = statusCode, code = code, message = errorBody)
     } catch (_: Exception) {
         ApiResult.Error(
             statusCode = statusCode,
             code = "JSON_PARSING_ERROR",
-            message = "Invalid error format"
+            message = errorBody,
         )
     }
 }

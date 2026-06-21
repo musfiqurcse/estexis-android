@@ -1,36 +1,112 @@
 package com.estexis.kyc.documentverification.ui.steps
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.estexis.core.ui.gds.AppIcon
 import com.estexis.core.ui.gds.AppTextField
+import com.estexis.core.ui.gds.CountryPickerBottomSheet
+import com.estexis.core.ui.gds.CountryPickerFieldView
 import com.estexis.core.ui.gds.VerticalSpacer
+import com.estexis.core.ui.gds.availableCountries
+import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
 import com.estexis.core.ui.theme.ExtexisAndroidTheme
 import com.estexis.core.ui.util.UiText
 import com.estexis.kyc.R
 import com.estexis.kyc.documentverification.ui.DocumentVerificationFormState
 import com.estexis.kyc.documentverification.ui.DocumentVerificationUiState
-import com.estexis.kyc.documentverification.ui.PassportVerificationUiEvent
+import com.estexis.kyc.documentverification.ui.DocumentVerificationUiEvent
+import java.util.Calendar
 
+private enum class DateField { DATE_OF_BIRTH, EXPIRY_DATE, ISSUE_DATE }
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DataCollectionStep(
     formState: DocumentVerificationFormState,
     uiState: DocumentVerificationUiState,
-    event: (PassportVerificationUiEvent) -> Unit,
+    event: (DocumentVerificationUiEvent) -> Unit,
 ) {
     val dimensions = AppTheme.dimensions
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    var showDatePickerFor by remember { mutableStateOf<DateField?>(null) }
+    var showCountryPicker by remember { mutableStateOf(false) }
 
+    val selectedCountry = availableCountries.find { it.code == formState.countryOfIssue }
+
+    showDatePickerFor?.let { dateField ->
+        val datePickerState = rememberDatePickerState()
+        DatePickerDialog(
+            onDismissRequest = { showDatePickerFor = null },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val formatted = formatDateMillis(millis)
+                        when (dateField) {
+                            DateField.DATE_OF_BIRTH -> event(DocumentVerificationUiEvent.DateOfBirthChanged(formatted))
+                            DateField.EXPIRY_DATE -> event(DocumentVerificationUiEvent.ExpiryDateChanged(formatted))
+                            DateField.ISSUE_DATE -> event(DocumentVerificationUiEvent.IssueDateChanged(formatted))
+                        }
+                    }
+                    showDatePickerFor = null
+                }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePickerFor = null }) { Text("Cancel") }
+            },
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
+
+    if (showCountryPicker) {
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+        CountryPickerBottomSheet(
+            countries = availableCountries,
+            selectedCountry = selectedCountry,
+            sheetState = sheetState,
+            onCountrySelected = { country ->
+                event(DocumentVerificationUiEvent.CountryChanged(country.code))
+                showCountryPicker = false
+            },
+            onDismiss = { showCountryPicker = false },
+        )
+    }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
         AppTextField(
             value = formState.documentNumber,
-            onValueChange = { event(PassportVerificationUiEvent.PassportNumberChanged(it)) },
+            onValueChange = { event(DocumentVerificationUiEvent.DocumentNumberChanged(it)) },
             label = stringResource(uiState.documentNumberLabel),
             placeholder = stringResource(uiState.documentNumberPlaceholder),
             isRequired = true,
@@ -40,52 +116,131 @@ fun DataCollectionStep(
 
         VerticalSpacer(dimensions.spaces.x4)
 
-        AppTextField(
+        DatePickerField(
             value = formState.dateOfBirth,
-            onValueChange = { event(PassportVerificationUiEvent.DateOfBirthChanged(it)) },
             label = stringResource(R.string.document_verification_screen_date_of_birth),
             placeholder = stringResource(R.string.document_verification_screen_select_date),
             isRequired = true,
             isError = uiState.dateOfBirthError != null,
             errorMessage = uiState.dateOfBirthError?.asString(),
+            onClick = { showDatePickerFor = DateField.DATE_OF_BIRTH },
         )
 
         VerticalSpacer(dimensions.spaces.x4)
 
-        AppTextField(
+        DatePickerField(
             value = formState.expiryDate,
-            onValueChange = { event(PassportVerificationUiEvent.ExpiryDateChanged(it)) },
             label = stringResource(R.string.document_verification_screen_expiry_date),
             placeholder = stringResource(R.string.document_verification_screen_enter_expiry_date),
             isRequired = true,
             isError = uiState.expiryDateError != null,
             errorMessage = uiState.expiryDateError?.asString(),
+            onClick = { showDatePickerFor = DateField.EXPIRY_DATE },
         )
 
         VerticalSpacer(dimensions.spaces.x4)
 
-        AppTextField(
+        DatePickerField(
             value = formState.issueDate,
-            onValueChange = { event(PassportVerificationUiEvent.IssueDateChanged(it)) },
             label = stringResource(R.string.document_verification_screen_issue_date),
             placeholder = stringResource(R.string.document_verification_screen_enter_issue_date),
             isRequired = true,
             isError = uiState.issueDateError != null,
             errorMessage = uiState.issueDateError?.asString(),
+            onClick = { showDatePickerFor = DateField.ISSUE_DATE },
         )
 
         VerticalSpacer(dimensions.spaces.x4)
 
-        AppTextField(
-            value = formState.countryOfIssue,
-            onValueChange = { event(PassportVerificationUiEvent.CountryChanged(it)) },
+        CountryPickerFieldView(
             label = stringResource(R.string.document_verification_screen_country_of_issue),
             placeholder = stringResource(R.string.document_verification_screen_select_country_name),
-            isRequired = true,
+            selected = selectedCountry?.let { "${it.flag}  ${it.name}" },
             isError = uiState.countryError != null,
             errorMessage = uiState.countryError?.asString(),
+            onClick = { showCountryPicker = true },
         )
     }
+}
+
+@Composable
+private fun DatePickerField(
+    value: String,
+    label: String,
+    placeholder: String,
+    isRequired: Boolean = false,
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    onClick: () -> Unit,
+) {
+    val colors = AppTheme.colors
+    val dimensions = AppTheme.dimensions
+
+    Column(modifier = Modifier.clickable(onClick = onClick)) {
+        Text(
+            text = buildAnnotatedString {
+                append(label)
+                if (isRequired) {
+                    append(" ")
+                    withStyle(SpanStyle(color = colors.error)) { append("*") }
+                }
+            },
+            style = AppTextStyles.BodyText3Bold,
+            color = colors.tertiary,
+        )
+
+        VerticalSpacer(dimensions.spaces.x1)
+
+        OutlinedTextField(
+            value = value,
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            enabled = false,
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = AppTextStyles.BodyText2Regular,
+                    color = colors.surfaceDim,
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(AppIcon.DatePicker.resId),
+                    contentDescription = null,
+                    modifier = Modifier.size(dimensions.sizes.x5),
+                    tint = colors.tertiary,
+                )
+            },
+            isError = isError,
+            shape = RoundedCornerShape(dimensions.radius.xlarge),
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledContainerColor = colors.background,
+                disabledBorderColor = if (isError) colors.error else Color.Transparent,
+                disabledTextColor = colors.onBackground,
+                disabledPlaceholderColor = colors.surfaceDim,
+                disabledTrailingIconColor = colors.tertiary,
+            ),
+        )
+
+        if (isError && errorMessage != null) {
+            Spacer(Modifier.height(dimensions.spaces.x1))
+            Text(
+                text = errorMessage,
+                style = AppTextStyles.BodyText2Regular,
+                color = colors.error,
+                modifier = Modifier.padding(horizontal = dimensions.spaces.x1),
+            )
+        }
+    }
+}
+
+private fun formatDateMillis(millis: Long): String {
+    val calendar = Calendar.getInstance().apply { timeInMillis = millis }
+    val day = calendar.get(Calendar.DAY_OF_MONTH).toString().padStart(2, '0')
+    val month = (calendar.get(Calendar.MONTH) + 1).toString().padStart(2, '0')
+    val year = calendar.get(Calendar.YEAR)
+    return "$year-$month-$day"
 }
 
 @Preview(showBackground = true)

@@ -43,50 +43,48 @@ class DocumentVerificationViewModel @Inject constructor(
     private val _navigationEvent = Channel<PassportVerificationNavigationEvent>()
     val navigationEvent = _navigationEvent.receiveAsFlow()
 
-    fun onEvent(event: PassportVerificationUiEvent) {
+    fun onEvent(event: DocumentVerificationUiEvent) {
         when (event) {
-            is PassportVerificationUiEvent.PassportNumberChanged -> {
+            is DocumentVerificationUiEvent.DocumentNumberChanged -> {
                 formState = formState.copy(documentNumber = event.value)
                 _uiState.update { it.copy(documentNumberError = null) }
             }
 
-            is PassportVerificationUiEvent.DateOfBirthChanged -> {
+            is DocumentVerificationUiEvent.DateOfBirthChanged -> {
                 formState = formState.copy(dateOfBirth = event.value)
                 _uiState.update { it.copy(dateOfBirthError = null) }
             }
 
-            is PassportVerificationUiEvent.ExpiryDateChanged -> {
+            is DocumentVerificationUiEvent.ExpiryDateChanged -> {
                 formState = formState.copy(expiryDate = event.value)
                 _uiState.update { it.copy(expiryDateError = null) }
             }
 
-            is PassportVerificationUiEvent.IssueDateChanged -> {
+            is DocumentVerificationUiEvent.IssueDateChanged -> {
                 formState = formState.copy(issueDate = event.value)
                 _uiState.update { it.copy(issueDateError = null) }
             }
 
-            is PassportVerificationUiEvent.CountryChanged -> {
+            is DocumentVerificationUiEvent.CountryChanged -> {
                 formState = formState.copy(countryOfIssue = event.value)
                 _uiState.update { it.copy(countryError = null) }
             }
 
-            PassportVerificationUiEvent.ContinueClicked -> handleContinue()
-            PassportVerificationUiEvent.BackClicked -> handleBack()
-            PassportVerificationUiEvent.SubmitClicked -> handleSubmit()
+            DocumentVerificationUiEvent.ContinueClicked -> handleContinue()
+            DocumentVerificationUiEvent.BackClicked -> handleBack()
+            DocumentVerificationUiEvent.SubmitClicked -> handleSubmit()
 
-            is PassportVerificationUiEvent.StartCapture ->
+            is DocumentVerificationUiEvent.StartCapture ->
                 _uiState.update { it.copy(captureMode = event.target) }
 
-            is PassportVerificationUiEvent.PhotoTaken -> handlePhotoTaken(event.uri)
-            PassportVerificationUiEvent.CancelCapture ->
+            is DocumentVerificationUiEvent.PhotoTaken -> handlePhotoTaken(event.uri)
+            DocumentVerificationUiEvent.CancelCapture ->
                 _uiState.update { it.copy(captureMode = null) }
-            PassportVerificationUiEvent.FaceVerified ->
-                formState = formState.copy(faceVerified = true)
         }
     }
 
     private fun handleContinue() {
-        // if (!isStep1Valid()) return
+         if (!isStep1Valid()) return
         _uiState.update { it.copy(currentStep = it.currentStep + 1) }
     }
 
@@ -120,21 +118,25 @@ class DocumentVerificationViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isSubmitting = true, submitError = null) }
             val params = SubmitKycParams(
-                id = route.submissionId,
                 documentType = route.type.toApiDocumentType(),
                 documentNumber = formState.documentNumber,
                 dateOfBirth = formState.dateOfBirth,
                 expiryDate = formState.expiryDate,
                 countryOfIssue = formState.countryOfIssue,
                 files = listOfNotNull(
-                    formState.coverPhotoUri?.toString(),
-                    formState.dataPhotoUri?.toString(),
+                    formState.coverPhotoUri,
+                    formState.dataPhotoUri,
                 ),
             )
             when (val result = submitKycUseCase.invoke(params)) {
                 is ApiResult.Success -> {
                     _uiState.update { it.copy(isSubmitting = false) }
-                    _navigationEvent.send(PassportVerificationNavigationEvent.Submitted)
+                    val event = if (route.type == DocumentVerificationType.NID) {
+                        PassportVerificationNavigationEvent.ToFaceVerification(result.data.id)
+                    } else {
+                        PassportVerificationNavigationEvent.SubmittedBack
+                    }
+                    _navigationEvent.send(event)
                 }
                 is ApiResult.Error -> {
                     _uiState.update { it.copy(isSubmitting = false, submitError = result.message) }
@@ -146,7 +148,7 @@ class DocumentVerificationViewModel @Inject constructor(
     private fun DocumentVerificationType.toApiDocumentType(): String = when (this) {
         DocumentVerificationType.PASSPORT -> "passport"
         DocumentVerificationType.DRIVING_LICENSE -> "driving_license"
-        DocumentVerificationType.NID -> "nid"
+        DocumentVerificationType.NID -> "national_id"
     }
 
     private fun isStep1Valid(): Boolean {

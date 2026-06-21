@@ -27,23 +27,21 @@ import com.estexis.kyc.R
 import com.estexis.kyc.documentverification.ui.steps.CameraCaptureStep
 import com.estexis.kyc.documentverification.ui.steps.DataCollectionStep
 import com.estexis.kyc.documentverification.ui.steps.DocumentSubmissionStep
-import com.estexis.kyc.documentverification.ui.steps.FaceVerificationStep
 import com.estexis.kyc.documentverification.ui.steps.rememberCaptureController
 
 @Composable
 fun DocumentVerificationScreen(
     uiState: DocumentVerificationUiState,
     formState: DocumentVerificationFormState,
-    event: (PassportVerificationUiEvent) -> Unit,
+    event: (DocumentVerificationUiEvent) -> Unit,
 ) {
     val dimensions = AppTheme.dimensions
     val captureController = rememberCaptureController()
-    val wizardSteps = remember(uiState.totalSteps) {
-        buildList {
-            add(Step(1, "Data\nCollection"))
-            add(Step(2, "Document\nSubmission"))
-            if (uiState.totalSteps > 2) add(Step(3, "Face\nVerification"))
-        }
+    val wizardSteps = remember {
+        listOf(
+            Step(1, "Data\nCollection"),
+            Step(2, "Document\nSubmission"),
+        )
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -60,7 +58,7 @@ fun DocumentVerificationScreen(
             VerticalSpacer(dimensions.spaces.x2)
 
             AppTitleBar(
-                onBackClick = { event(PassportVerificationUiEvent.BackClicked) },
+                onBackClick = { event(DocumentVerificationUiEvent.BackClicked) },
                 title = stringResource(uiState.title)
             )
 
@@ -76,7 +74,7 @@ fun DocumentVerificationScreen(
             when {
                 uiState.isCaptureMode -> CameraCaptureStep(
                     captureController = captureController,
-                    onPhotoTaken = { uri -> event(PassportVerificationUiEvent.PhotoTaken(uri)) },
+                    onPhotoTaken = { uri -> event(DocumentVerificationUiEvent.PhotoTaken(uri)) },
                 )
                 uiState.currentStep == 1 -> DataCollectionStep(
                     formState = formState,
@@ -87,10 +85,6 @@ fun DocumentVerificationScreen(
                     uiState = uiState,
                     formState = formState,
                     event = event
-                )
-                uiState.currentStep == 3 -> FaceVerificationStep(
-                    uiState = uiState,
-                    event = event,
                 )
             }
 
@@ -115,7 +109,7 @@ fun DocumentVerificationScreen(
 private fun BottomBar(
     uiState: DocumentVerificationUiState,
     formState: DocumentVerificationFormState,
-    event: (PassportVerificationUiEvent) -> Unit,
+    event: (DocumentVerificationUiEvent) -> Unit,
     onTakePhotoClick: () -> Unit,
 ) {
     val colors = AppTheme.colors
@@ -136,19 +130,19 @@ private fun BottomBar(
 
         uiState.isLastStep -> {
             text = stringResource(R.string.document_verification_screen_cta_submit)
-            onClick = { event(PassportVerificationUiEvent.SubmitClicked) }
-            enabled = if (uiState.totalSteps == 3) formState.faceVerified else docPhotosCaptured
+            onClick = { event(DocumentVerificationUiEvent.SubmitClicked) }
+            enabled = docPhotosCaptured
         }
 
         uiState.currentStep == 2 -> {
             text = stringResource(R.string.document_verification_screen_cta_continue)
-            onClick = { event(PassportVerificationUiEvent.ContinueClicked) }
+            onClick = { event(DocumentVerificationUiEvent.ContinueClicked) }
             enabled = docPhotosCaptured
         }
 
         else -> {
             text = stringResource(R.string.document_verification_screen_cta_continue)
-            onClick = { event(PassportVerificationUiEvent.ContinueClicked) }
+            onClick = { event(DocumentVerificationUiEvent.ContinueClicked) }
             enabled = true
         }
     }

@@ -82,6 +82,9 @@ dependencies {
     implementation(project(":features:home"))
     implementation(project(":features:profile"))
     implementation(project(":features:kyc"))
+    implementation(project(":features:faceverification"))
+    implementation(project(":features:changepassword"))
+    implementation(project(":features:twofactorauth"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

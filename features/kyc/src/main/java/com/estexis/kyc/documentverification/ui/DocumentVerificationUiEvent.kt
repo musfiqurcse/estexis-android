@@ -2,24 +2,24 @@ package com.estexis.kyc.documentverification.ui
 
 import android.net.Uri
 
-sealed class PassportVerificationUiEvent {
-    data class PassportNumberChanged(val value: String) : PassportVerificationUiEvent()
-    data class DateOfBirthChanged(val value: String) : PassportVerificationUiEvent()
-    data class ExpiryDateChanged(val value: String) : PassportVerificationUiEvent()
-    data class IssueDateChanged(val value: String) : PassportVerificationUiEvent()
-    data class CountryChanged(val value: String) : PassportVerificationUiEvent()
+sealed class DocumentVerificationUiEvent {
+    data class DocumentNumberChanged(val value: String) : DocumentVerificationUiEvent()
+    data class DateOfBirthChanged(val value: String) : DocumentVerificationUiEvent()
+    data class ExpiryDateChanged(val value: String) : DocumentVerificationUiEvent()
+    data class IssueDateChanged(val value: String) : DocumentVerificationUiEvent()
+    data class CountryChanged(val value: String) : DocumentVerificationUiEvent()
 
-    object ContinueClicked : PassportVerificationUiEvent()
-    object BackClicked : PassportVerificationUiEvent()
-    object SubmitClicked : PassportVerificationUiEvent()
+    object ContinueClicked : DocumentVerificationUiEvent()
+    object BackClicked : DocumentVerificationUiEvent()
+    object SubmitClicked : DocumentVerificationUiEvent()
 
-    data class StartCapture(val target: DocumentPhotoTarget) : PassportVerificationUiEvent()
-    data class PhotoTaken(val uri: Uri) : PassportVerificationUiEvent()
-    object CancelCapture : PassportVerificationUiEvent()
-    object FaceVerified : PassportVerificationUiEvent()
+    data class StartCapture(val target: DocumentPhotoTarget) : DocumentVerificationUiEvent()
+    data class PhotoTaken(val uri: Uri) : DocumentVerificationUiEvent()
+    object CancelCapture : DocumentVerificationUiEvent()
 }
 
 sealed class PassportVerificationNavigationEvent {
     object Back : PassportVerificationNavigationEvent()
-    object Submitted : PassportVerificationNavigationEvent()
+    object SubmittedBack : PassportVerificationNavigationEvent()
+    data class ToFaceVerification(val submissionId: String) : PassportVerificationNavigationEvent()
 }

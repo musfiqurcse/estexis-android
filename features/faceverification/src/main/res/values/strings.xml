@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="face_verification_title">Face Verification</string>
+    <string name="face_verification_turn_left">Turn your face to the left</string>
+    <string name="face_verification_turn_right">Turn your face to the right</string>
+    <string name="face_verification_look_straight">Look straight</string>
+    <string name="face_verification_captured">Face captured successfully!</string>
+    <string name="face_verification_cta_submit">Submit</string>
+</resources>

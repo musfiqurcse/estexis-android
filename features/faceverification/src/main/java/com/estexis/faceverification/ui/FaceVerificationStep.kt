@@ -1,4 +1,4 @@
-package com.estexis.kyc.documentverification.ui.steps
+package com.estexis.faceverification.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,6 +15,8 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Canvas
@@ -66,9 +68,7 @@ import com.estexis.core.ui.gds.HorizontalSpacer
 import com.estexis.core.ui.gds.VerticalSpacer
 import com.estexis.core.ui.theme.AppTextStyles
 import com.estexis.core.ui.theme.AppTheme
-import com.estexis.kyc.R
-import com.estexis.kyc.documentverification.ui.DocumentVerificationUiState
-import com.estexis.kyc.documentverification.ui.PassportVerificationUiEvent
+import com.estexis.faceverification.R
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
@@ -97,8 +97,8 @@ private fun isPoseDetected(eulerY: Float, eulerX: Float, pose: FacePose): Boolea
 
 @Composable
 fun FaceVerificationStep(
-    uiState: DocumentVerificationUiState,
-    event: (PassportVerificationUiEvent) -> Unit,
+    uiState: FaceVerificationUiState,
+    event: (FaceVerificationUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -123,25 +123,22 @@ fun FaceVerificationStep(
     }
 
     var currentPoseIndex by remember { mutableIntStateOf(0) }
-    var isOnCooldown by remember { mutableStateOf(false) }
-    val isCompleted = currentPoseIndex >= POSE_SEQUENCE.size
+    var isCapturing by remember { mutableStateOf(false) }
+    val isCompleted = uiState.isCompleted
 
     LaunchedEffect(currentPoseIndex) {
-        if (isOnCooldown && currentPoseIndex < POSE_SEQUENCE.size) {
-            delay(700)
-            isOnCooldown = false
-        }
+        isCapturing = false
     }
 
-    val arcFraction by androidx.compose.animation.core.animateFloatAsState(
-        targetValue = currentPoseIndex / POSE_SEQUENCE.size.toFloat(),
-        animationSpec = androidx.compose.animation.core.tween(500),
+    val arcFraction by animateFloatAsState(
+        targetValue = uiState.capturedPhotos.size / POSE_SEQUENCE.size.toFloat(),
+        animationSpec = tween(500),
         label = "arc_progress",
     )
 
     val currentPose = POSE_SEQUENCE.getOrNull(currentPoseIndex)
 
-    var capturedFaceUri by remember { mutableStateOf<Uri?>(null) }
+    val capturedFaceUri = uiState.latestPhotoUri
 
     val smallPreviewView = remember {
         PreviewView(context).apply { scaleType = PreviewView.ScaleType.FILL_CENTER }
@@ -182,30 +179,28 @@ fun FaceVerificationStep(
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
             faceDetector.process(image)
                 .addOnSuccessListener { faces ->
-                    if (!isOnCooldown && !isCompleted) {
+                    if (!isCapturing && !isCompleted) {
                         val pose = POSE_SEQUENCE.getOrNull(currentPoseIndex) ?: return@addOnSuccessListener
                         val face = faces.firstOrNull() ?: return@addOnSuccessListener
                         if (isPoseDetected(face.headEulerAngleY, face.headEulerAngleX, pose)) {
-                            currentPoseIndex++
-                            isOnCooldown = true
-                            if (currentPoseIndex >= POSE_SEQUENCE.size) {
-                                val fileName = "face_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(System.currentTimeMillis())}.jpg"
-                                val file = File(context.cacheDir, fileName)
-                                val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-                                imageCapture.takePicture(
-                                    outputOptions,
-                                    ContextCompat.getMainExecutor(context),
-                                    object : ImageCapture.OnImageSavedCallback {
-                                        override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                                            capturedFaceUri = output.savedUri ?: Uri.fromFile(file)
-                                            event(PassportVerificationUiEvent.FaceVerified)
-                                        }
-                                        override fun onError(exc: ImageCaptureException) {
-                                            event(PassportVerificationUiEvent.FaceVerified)
-                                        }
+                            isCapturing = true
+                            val fileName = "face_${pose.name.lowercase()}_${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(System.currentTimeMillis())}.jpg"
+                            val file = File(context.cacheDir, fileName)
+                            val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
+                            imageCapture.takePicture(
+                                outputOptions,
+                                ContextCompat.getMainExecutor(context),
+                                object : ImageCapture.OnImageSavedCallback {
+                                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                                        val uri = output.savedUri ?: Uri.fromFile(file)
+                                        event(FaceVerificationUiEvent.PhotoCaptured(uri))
+                                        currentPoseIndex++
                                     }
-                                )
-                            }
+                                    override fun onError(exc: ImageCaptureException) {
+                                        currentPoseIndex++
+                                    }
+                                }
+                            )
                         }
                     }
                 }
@@ -261,15 +256,35 @@ fun FaceVerificationStep(
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.fillMaxSize(),
                         )
-                    } else {
-                        Image(
-                            painter = painterResource(
-                                currentPose?.drawableRes ?: R.drawable.ic_face_straight
-                            ),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier.fillMaxSize(0.85f),
+                    } else if (hasCameraPermission) {
+                        AndroidView(
+                            factory = { smallPreviewView },
+                            modifier = Modifier.fillMaxSize(),
                         )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color(0xFF2A1F18)),
+                        )
+                    }
+
+                    if (!isCompleted && currentPose != null && capturedFaceUri == null) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(bottom = 12.dp)
+                                .clip(CircleShape)
+                                .background(Color.Black.copy(alpha = 0.35f))
+                                .padding(6.dp),
+                        ) {
+                            Image(
+                                painter = painterResource(currentPose.drawableRes),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier.size(32.dp),
+                            )
+                        }
                     }
                 }
 
@@ -302,25 +317,6 @@ fun FaceVerificationStep(
                     }
                 }
             }
-
-            if (hasCameraPermission && !isCompleted) {
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .size(width = 80.dp, height = 110.dp)
-                        .clip(RoundedCornerShape(dimensions.radius.medium))
-                        .border(
-                            width = 2.dp,
-                            color = colors.secondary,
-                            shape = RoundedCornerShape(dimensions.radius.medium),
-                        ),
-                ) {
-                    AndroidView(
-                        factory = { smallPreviewView },
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
-            }
         }
 
         VerticalSpacer(dimensions.spaces.x4)
@@ -338,7 +334,7 @@ fun FaceVerificationStep(
                         .height(5.dp)
                         .clip(RoundedCornerShape(3.dp))
                         .background(
-                            if (index < currentPoseIndex) colors.secondary
+                            if (index < uiState.capturedPhotos.size) colors.secondary
                             else colors.secondary.copy(alpha = 0.2f)
                         ),
                 )
